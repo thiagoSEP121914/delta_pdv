@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="905.0" prefWidth="1405.0" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.MainController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <AnchorPane prefHeight="1027.0" prefWidth="264.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="40.0" layoutY="36.0" prefHeight="25.0" prefWidth="98.0" text="Delta pdv">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <VBox alignment="TOP_RIGHT" layoutX="12.0" layoutY="93.0" prefHeight="700.0" prefWidth="252.0" spacing="15.0">
+                     <children>
+                        <HBox onMouseClicked="#onDashBoardMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/dashboard.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Dashboard" />
+                           </children>
+                        </HBox>
+                        <HBox onMouseClicked="#onPdvMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/shopping-cart.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="PDV" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/inventory-management.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Estoque" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/people.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Cliente" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/job-search.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Usuarios" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/loan.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Vendas" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/accounts.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Finanças" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/settings.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Configurações" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox layoutX="21.0" layoutY="872.0" prefHeight="32.0" prefWidth="222.0" spacing="12.0" styleClass="icon">
+                     <children>
+                        <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/logout.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="30.0" prefWidth="172.0" text="SAIR" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <StackPane fx:id="contentArea" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

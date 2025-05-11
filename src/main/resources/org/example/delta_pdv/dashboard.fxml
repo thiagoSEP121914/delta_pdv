@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="905.0" prefWidth="900.0" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.DashboardController">
+   <children>
+      <TextField alignment="CENTER" layoutX="79.0" layoutY="70.0" prefHeight="25.0" prefWidth="399.0" promptText="Buscar" styleClass="input" />
+      <ImageView fitHeight="25.0" fitWidth="18.0" layoutX="94.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons/search-interface-symbol.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="71.0" layoutY="173.0" prefHeight="177.0" prefWidth="1085.0" spacing="90.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="144.0" prefWidth="212.0" spacing="30.0" style="-fx-background-color: #FFF;" styleClass="card">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="132.0" text="Faturamento" />
+                  <Label prefHeight="17.0" prefWidth="132.0" styleClass="faturamento" text="R$ 45,678.90" />
+                  <Label prefHeight="17.0" prefWidth="172.0" styleClass="messi" text="   +20% no ultimo mês" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="213.0" prefWidth="215.0" spacing="30.0" style="-fx-background-color: FFF;" styleClass="card">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="132.0" text="Vendas hoje" />
+                  <Label prefHeight="30.0" prefWidth="68.0" styleClass="faturamento" text="2,405" />
+                  <Label styleClass="messi" text="-15% no dia de hoje" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="162.0" prefWidth="257.0" spacing="30.0" style="-fx-background-color: #FFF;" styleClass="card">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="132.0" text="Faturamento" />
+                  <Label styleClass="faturamento" text="10,432" />
+                  <Label styleClass="messi" text="+30% no mes" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label id="title" layoutX="79.0" layoutY="131.0" text="Dashboard" />
+      <StackedBarChart fx:id="barChatVendas" layoutX="53.0" layoutY="373.0" prefHeight="284.0" prefWidth="512.0" styleClass="caht-bar">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </StackedBarChart>
+      <PieChart fx:id="pieChartProdutos" layoutX="582.0" layoutY="373.0" prefHeight="268.0" prefWidth="512.0" />
+      <TableView id="tbLivro" layoutX="71.0" layoutY="657.0" prefHeight="256.0" prefWidth="1031.0">
+         <columns>
+            <TableColumn id="idColumn" fx:id="idColumn" prefWidth="98.0" styleClass="column" text="Id" />
+            <TableColumn id="tituloColumn" fx:id="tituloColumn" prefWidth="120.0" styleClass="column" text="TItulo" />
+            <TableColumn id="anoLancamentoColumn" fx:id="anoLancamentoColumn" prefWidth="228.0" styleClass="column" text="Ano Lançamento" />
+            <TableColumn id="autorColumn" fx:id="autorColumn" prefWidth="165.0" styleClass="column" text="Autor" />
+            <TableColumn id="generoColumn" fx:id="generoColumn" prefWidth="202.0" styleClass="column" text="Genero" />
+            <TableColumn id="statusColumn" fx:id="statusColumn" prefWidth="265.0" styleClass="column" text="Status" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

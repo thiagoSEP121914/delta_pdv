@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <ImageView fx:id="produtoImage" fitHeight="159.0" fitWidth="272.0" opacity="0.84" pickOnBounds="true" preserveRatio="true">
+      <Image url="@image/Shrek(personagem).jpg" />
+   </ImageView>
+</HBox>

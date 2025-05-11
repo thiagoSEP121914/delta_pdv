@@ -1,0 +1,87 @@
+
+.anchorPane {
+    -fx-background-color:#FFF;
+}
+
+.input {
+    -fx-background-radius:15px;
+    -fx-border-radius:15px;
+}
+
+#title {
+    -fx-font-size:22px;
+    -fx-text-fill: #2f3542;
+}
+
+.sidebar {
+    -fx-background-color: #2ED573;
+    -fx-color: #FFF;
+}
+
+.sidebar .label {
+    -fx-font-size: 20px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight:bold;
+}
+.icon:hover {
+    -fx-scale-x: 1.1; /* Aumenta o tamanho na direção X */
+    -fx-scale-y: 1.1; /* Aumenta o tamanho na direção Y */
+    -fx-transition: transform 0.6s ease; /* Transição suave */
+    -fx-cursor: hand; /* Muda o cursor para uma mão quando passar sobre o ícone */
+}
+
+.card {
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.3, 0, 5); /* Adicionar sombra */
+}
+
+.card .label {
+    -fx-font-size:15px;
+    -fx-font-weight:bold;
+}
+
+.card .faturamento {
+    -fx-font-size:20px;
+    -fx-font-weight:bold;
+}
+
+.card .messi {
+    -fx-text-fill: #a4b0be;
+    -fx-background-color:#FFF;
+}
+
+.column {
+    -fx-text-fill:#2f3542;
+    -fx-background-color:#ffffff;
+}
+
+/* grafico  */
+.chart-bar {
+    -fx-bar-fill: #2f3542; /* Cor das barras */
+}
+
+.chart-plot-background {
+    -fx-background-color: #FFFFFF; /* Cor de fundo do gráfico (branco gelo) */
+}
+
+.chart-background {
+    -fx-background-color: #FFFFFF; /* Cor de fundo de todo o gráfico */
+}
+
+.chart-title {
+    -fx-text-fill: #2f3542; /* Cor do título do gráfico, se necessário */
+}
+
+.axis {
+    -fx-tick-label-fill: #2f3542; /* Cor dos rótulos dos eixos */
+    -fx-font-size: 12px; /* Tamanho da fonte dos eixos */
+}
+
+.category-axis .axis-label, .number-axis .axis-label {
+    -fx-text-fill: #2f3542; /* Cor do texto das legendas */
+}
+
+.gridCard {
+    -fx-background-color:F5FEFF;
+}
