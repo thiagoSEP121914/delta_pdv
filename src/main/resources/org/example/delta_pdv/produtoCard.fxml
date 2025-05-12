@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="400.0" spacing="15.0" styleClass="shadow" stylesheets="@style/card.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <ImageView fx:id="produtoImage" fitHeight="159.0" fitWidth="272.0" opacity="0.84" pickOnBounds="true" preserveRatio="true">
       <Image url="@image/Shrek(personagem).jpg" />
    </ImageView>
+   <VBox alignment="CENTER" prefHeight="185.0" prefWidth="195.0" spacing="15.0">
+      <children>
+         <Label fx:id="produtoNome" prefHeight="40.0" prefWidth="194.0" text="Sherek">
+            <font>
+               <Font name="Berlin Sans FB" size="24.0" />
+            </font>
+         </Label>
+         <Label fx:id="produtoPreco" prefHeight="40.0" prefWidth="194.0" text="R$: 2,50">
+            <font>
+               <Font name="Arial Black" size="18.0" />
+            </font>
+         </Label>
+      </children>
+   </VBox>
 </HBox>
