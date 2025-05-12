@@ -10,6 +10,7 @@ module org.example.delta_pdv {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
 
     opens org.example.delta_pdv to javafx.fxml;
     exports org.example.delta_pdv;
