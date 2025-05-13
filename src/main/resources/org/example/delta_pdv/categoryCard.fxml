@@ -7,7 +7,7 @@
 
 <HBox fx:id="box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="144.0" spacing="15.0" styleClass="shadow" stylesheets="@style/card.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.CategoriaCardController">
    <children>
-      <VBox alignment="CENTER" prefHeight="33.0" prefWidth="151.0" spacing="15.0">
+      <VBox alignment="CENTER" prefHeight="25.0" prefWidth="151.0" spacing="15.0">
          <children>
             <Label fx:id="categoryName" alignment="CENTER" prefHeight="21.0" prefWidth="125.0" text="Refrigerantes">
                <font>

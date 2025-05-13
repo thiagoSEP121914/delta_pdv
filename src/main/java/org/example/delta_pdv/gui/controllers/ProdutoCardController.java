@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.example.delta_pdv.entities.Produto;
 
+import java.io.InputStream;
+
 public class ProdutoCardController {
     @FXML
     private HBox box;
@@ -21,7 +23,13 @@ public class ProdutoCardController {
     private Label produtoPreco;
 
     public void setData(Produto produto) {
-        Image image = new Image(getClass().getResourceAsStream(produto.getCaminhoImagem()));
+        System.out.println("Imagem: " + produto.getCaminhoImagem());
+        InputStream imageStream = getClass().getResourceAsStream(produto.getCaminhoImagem());
+
+        if (imageStream == null) {
+            System.out.println("ERRO CAMINHO INVALIDO!!!");
+        }
+        Image image = new Image(imageStream);
         produtoImage.setImage(image);
         produtoNome.setText(produto.getNome());
         produtoPreco.setText(produto.getPreco());

@@ -1,0 +1,129 @@
+anchorPane {
+    -fx-background-color:#FFF;
+}
+
+.input {
+    -fx-background-radius:15px;
+    -fx-border-radius:15px;
+}
+
+vbox {
+    -fx-background-color:#FFF;
+    -fx-background-color: #F5FEFF;
+}
+
+.tableScroll{
+    -fx-background-color: #F5FEFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
+    -fx-background-insets: 0;
+    -fx-padding: 10;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+
+.gridCard {
+    -fx-background-color:F5FEFF;
+}
+.categoryHbox {
+     -fx-background-color: #F5FEFF;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
+}
+
+.categoryScrollPane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.categoryScrollPane .viewport {
+    -fx-background-color: transparent;
+}
+
+.categoryScrollPane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-opacity: 0; /* esconde visualmente */
+    -fx-pref-height: 0px; /* reduz a altura para sumir */
+}
+
+.tableVendas {
+  -fx-background-color: #F5FEFF;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
+  -fx-background-insets: 0;
+  -fx-padding: 10;
+  -fx-border-radius: 12;
+  -fx-background-radius: 12;
+}
+
+.btnVenda {
+   -fx-background-color:#a4b0be;
+   -fx-background-radius: 12px;
+   -fx-border-radius: 12px;
+   -fx-cursor:hand;
+}
+
+.VendaScroll {
+    -fx-background-color:#F5FEFF;
+}
+.
+.header {
+    -fx-background-color:#1E90FF;
+}
+
+.column {
+    -fx-text-fill:#2f3542;
+    -fx-background-color:#ffffff;
+}
+
+#containerPagamento {
+    -fx-background-color:#FFF;
+
+}
+
+#subTotal {
+    -fx-background-color:#DFE4EA;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
+}
+
+.formaPagamento {
+    -fx-background-color: #FFF;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
+    -fx-padding: 15;
+    -fx-cursor:hand;
+}
+
+.formaPagamento:hover {
+    -fx-background-color: #7bed9f;
+}
+
+
+#btnEsperar {
+    -fx-background-color: #eccc68;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-cursor: hand;
+}
+
+#btnEsperar:hover {
+    -fx-background-color: #f1d18a;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+#btnPagamento {
+    -fx-background-color: #7bed9f;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-cursor: hand;
+}
+
+#btnPagamento:hover {
+    -fx-background-color: #a4f7bc;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}

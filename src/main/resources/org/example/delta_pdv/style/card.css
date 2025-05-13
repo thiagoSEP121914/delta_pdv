@@ -1,4 +1,8 @@
 .shadow {
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
-    -fx-background-color:#FFF;
+    -fx-background-color: #FFF;
+    -fx-background-radius: 22px;
+    -fx-border-radius: 22px;
+    -fx-border-color: transparent;  /* Remove qualquer borda visível */
+    -fx-cursor:hand;
 }

@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="400.0" spacing="15.0" styleClass="shadow" stylesheets="@style/card.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <ImageView fx:id="produtoImage" fitHeight="159.0" fitWidth="272.0" opacity="0.84" pickOnBounds="true" preserveRatio="true">
-      <Image url="@image/Shrek(personagem).jpg" />
-   </ImageView>
+<HBox fx:id="box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="164.0" spacing="15.0" styleClass="shadow" stylesheets="@style/card.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.ProdutoCardController">
    <VBox alignment="CENTER" prefHeight="185.0" prefWidth="195.0" spacing="15.0">
       <children>
-         <Label fx:id="produtoNome" prefHeight="40.0" prefWidth="194.0" text="Sherek">
+         <ImageView fx:id="produtoImage" fitHeight="66.0" fitWidth="75.0" opacity="0.84" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/shureki.jpg" />
+         </ImageView>
+         <Label fx:id="produtoNome" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="194.0" text="Sherek">
             <font>
                <Font name="Berlin Sans FB" size="24.0" />
             </font>
          </Label>
-         <Label fx:id="produtoPreco" prefHeight="40.0" prefWidth="194.0" text="R$: 2,50">
+         <Label fx:id="produtoPreco" alignment="CENTER" prefHeight="40.0" prefWidth="162.0" text="R$: 2,50">
             <font>
                <Font name="Arial Black" size="18.0" />
             </font>

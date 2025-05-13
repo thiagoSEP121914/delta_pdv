@@ -39,6 +39,6 @@ public class MainController implements Initializable {
 
     @FXML
    public void onPdvMouseClicked(){
-        loadPage("/org/example/delta_pdv/produtoCard.fxml");
+        loadPage("/org/example/delta_pdv/pdv.fxml");
     }
 }

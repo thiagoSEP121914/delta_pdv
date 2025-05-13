@@ -1,4 +1,4 @@
-package org.example.delta_pdv.gui;
+package org.example.delta_pdv.gui.utils;
 
 import com.almasb.fxgl.logging.Logger;
 import javafx.fxml.FXMLLoader;
