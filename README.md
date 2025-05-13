@@ -75,4 +75,4 @@ Relatórios de vendas
 Geração de recibos
 
 🧑‍💻 Autor
-Desenvolvido com 💚 por Thiago
+Desenvolvido com  por Thiago
