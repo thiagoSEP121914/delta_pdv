@@ -152,7 +152,7 @@
                                     <Image url="@icons/money.png" />
                                  </image>
                               </ImageView>
-                              <Label text="Cartao" />
+                              <Label text="Dinheiro" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="88.0" prefWidth="141.0" spacing="5.0" styleClass="formaPagamento">
@@ -162,7 +162,7 @@
                                     <Image url="@icons/qr-code.png" />
                                  </image>
                               </ImageView>
-                              <Label text="Cartao" />
+                              <Label text="Pix" />
                            </children>
                         </VBox>
                      </children>
