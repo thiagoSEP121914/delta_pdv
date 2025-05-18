@@ -5,50 +5,18 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="905.0" prefWidth="900.0" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.DashboardController">
+<AnchorPane prefHeight="935.0" prefWidth="1143.0" styleClass="anchorPane" stylesheets="@style/dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.DashboardController">
    <children>
-      <TextField alignment="CENTER" layoutX="79.0" layoutY="70.0" prefHeight="25.0" prefWidth="399.0" promptText="Buscar" styleClass="input" />
-      <ImageView fitHeight="25.0" fitWidth="18.0" layoutX="94.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons/search-interface-symbol.png" />
-         </image>
-      </ImageView>
-      <HBox layoutX="71.0" layoutY="173.0" prefHeight="177.0" prefWidth="1085.0" spacing="90.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="144.0" prefWidth="212.0" spacing="30.0" style="-fx-background-color: #FFF;" styleClass="card">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="132.0" text="Faturamento" />
-                  <Label prefHeight="17.0" prefWidth="132.0" styleClass="faturamento" text="R$ 45,678.90" />
-                  <Label prefHeight="17.0" prefWidth="172.0" styleClass="messi" text="   +20% no ultimo mês" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="213.0" prefWidth="215.0" spacing="30.0" style="-fx-background-color: FFF;" styleClass="card">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="132.0" text="Vendas hoje" />
-                  <Label prefHeight="30.0" prefWidth="68.0" styleClass="faturamento" text="2,405" />
-                  <Label styleClass="messi" text="-15% no dia de hoje" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="162.0" prefWidth="257.0" spacing="30.0" style="-fx-background-color: #FFF;" styleClass="card">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="132.0" text="Faturamento" />
-                  <Label styleClass="faturamento" text="10,432" />
-                  <Label styleClass="messi" text="+30% no mes" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Label id="title" layoutX="79.0" layoutY="131.0" text="Dashboard" />
-      <StackedBarChart fx:id="barChatVendas" layoutX="53.0" layoutY="373.0" prefHeight="284.0" prefWidth="512.0" styleClass="caht-bar">
+      <Label id="dashboadtitle" layoutX="60.0" layoutY="23.0" prefHeight="32.0" prefWidth="166.0" text="Dashboard" />
+      <StackedBarChart fx:id="barChatVendas" layoutX="53.0" layoutY="279.0" prefHeight="284.0" prefWidth="512.0" styleClass="caht-bar">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>
@@ -56,16 +24,135 @@
             <NumberAxis side="LEFT" />
          </yAxis>
       </StackedBarChart>
-      <PieChart fx:id="pieChartProdutos" layoutX="582.0" layoutY="373.0" prefHeight="268.0" prefWidth="512.0" />
-      <TableView id="tbLivro" layoutX="71.0" layoutY="657.0" prefHeight="256.0" prefWidth="1031.0">
-         <columns>
-            <TableColumn id="idColumn" fx:id="idColumn" prefWidth="98.0" styleClass="column" text="Id" />
-            <TableColumn id="tituloColumn" fx:id="tituloColumn" prefWidth="120.0" styleClass="column" text="TItulo" />
-            <TableColumn id="anoLancamentoColumn" fx:id="anoLancamentoColumn" prefWidth="228.0" styleClass="column" text="Ano Lançamento" />
-            <TableColumn id="autorColumn" fx:id="autorColumn" prefWidth="165.0" styleClass="column" text="Autor" />
-            <TableColumn id="generoColumn" fx:id="generoColumn" prefWidth="202.0" styleClass="column" text="Genero" />
-            <TableColumn id="statusColumn" fx:id="statusColumn" prefWidth="265.0" styleClass="column" text="Status" />
-         </columns>
-      </TableView>
+      <PieChart fx:id="pieChartProdutos" layoutX="583.0" layoutY="295.0" prefHeight="268.0" prefWidth="512.0" />
+      <HBox layoutX="53.0" layoutY="81.0" prefHeight="173.0" prefWidth="1078.0" spacing="90.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="177.0" prefWidth="310.0" spacing="19.0" style="-fx-background-color: #FFF;" styleClass="card">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="284.0" styleClass="faturamento" text="Faturamento">
+                     <font>
+                        <Font name="Bookshelf Symbol 7" size="12.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="58.0" prefWidth="270.0">
+                     <children>
+                        <Label id="valor" prefHeight="60.0" prefWidth="120.0" text="R$" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="Vladimir Script" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label id="valor" prefHeight="58.0" prefWidth="250.0" text=" 42,405" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="Vladimir Script" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="52.0" styleClass="faturamento" text="+30">
+                           <font>
+                              <Font name="Dubai Light" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0" styleClass="faturamento" text="No mês atual">
+                           <font>
+                              <Font name="Dubai Light" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="177.0" prefWidth="310.0" spacing="19.0" style="-fx-background-color: #FFF;" styleClass="card">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="284.0" styleClass="faturamento" text="Vendas hoje">
+                     <font>
+                        <Font name="Bookshelf Symbol 7" size="12.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="58.0" prefWidth="270.0">
+                     <children>
+                        <Label id="valor" prefHeight="60.0" prefWidth="120.0" text="R$" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="Vladimir Script" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label id="valor" prefHeight="58.0" prefWidth="250.0" text=" 2,405" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="Vladimir Script" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="52.0" styleClass="faturamento" text="+30">
+                           <font>
+                              <Font name="Dubai Light" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="207.0" styleClass="faturamento" text="Em relação ao dia anterior">
+                           <font>
+                              <Font name="Dubai Light" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="177.0" prefWidth="310.0" spacing="19.0" style="-fx-background-color: #FFF;" styleClass="card">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="284.0" styleClass="faturamento" text="Estoque">
+                     <font>
+                        <Font name="Bookshelf Symbol 7" size="12.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="58.0" prefWidth="270.0">
+                     <children>
+                        <Label id="valor" prefHeight="58.0" prefWidth="120.0" text="R$" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="Vladimir Script" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label id="valor" prefHeight="58.0" prefWidth="250.0" text=" 2,405" textAlignment="JUSTIFY">
+                           <font>
+                              <Font name="Vladimir Script" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="52.0" styleClass="faturamento" text="+30">
+                           <font>
+                              <Font name="Dubai Light" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="208.0" styleClass="faturamento" text="Em relação ao último mês">
+                           <font>
+                              <Font name="Dubai Light" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <ScrollPane layoutX="76.0" layoutY="570.0" prefHeight="262.0" prefWidth="1033.0">
+         <content>
+            <TableView id="tbLivro" prefHeight="254.0" prefWidth="1022.0">
+               <columns>
+                  <TableColumn id="idColumn" fx:id="idColumn" prefWidth="98.0" styleClass="column" text="Id" />
+                  <TableColumn id="tituloColumn" fx:id="tituloColumn" prefWidth="120.0" styleClass="column" text="TItulo" />
+                  <TableColumn id="anoLancamentoColumn" fx:id="anoLancamentoColumn" prefWidth="228.0" styleClass="column" text="Ano Lançamento" />
+                  <TableColumn id="autorColumn" fx:id="autorColumn" prefWidth="165.0" styleClass="column" text="Autor" />
+                  <TableColumn id="generoColumn" fx:id="generoColumn" prefWidth="202.0" styleClass="column" text="Genero" />
+                  <TableColumn id="statusColumn" fx:id="statusColumn" prefWidth="265.0" styleClass="column" text="Status" />
+               </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

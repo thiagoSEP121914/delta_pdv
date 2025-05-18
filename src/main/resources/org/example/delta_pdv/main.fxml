@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="905.0" prefWidth="1405.0" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.MainController">
@@ -16,12 +18,7 @@
          <left>
             <AnchorPane prefHeight="1027.0" prefWidth="264.0" styleClass="sidebar" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="40.0" layoutY="36.0" prefHeight="25.0" prefWidth="98.0" text="Delta pdv">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <VBox alignment="TOP_RIGHT" layoutX="12.0" layoutY="93.0" prefHeight="700.0" prefWidth="252.0" spacing="15.0">
+                  <VBox alignment="TOP_RIGHT" layoutX="12.0" layoutY="7.0" prefHeight="786.0" prefWidth="252.0" spacing="15.0">
                      <children>
                         <HBox onMouseClicked="#onDashBoardMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
@@ -43,7 +40,7 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="PDV" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                        <HBox onMouseClicked="#onEstoqueMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -60,7 +57,7 @@
                                     <Image url="@icons/people.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="30.0" prefWidth="172.0" text="Cliente" />
+                              <Label prefHeight="30.0" prefWidth="172.0" text="Clientes" />
                            </children>
                         </HBox>
                         <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
@@ -73,7 +70,7 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="Usuarios" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                        <HBox onMouseClicked="#onVendasClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -83,7 +80,7 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="Vendas" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                        <HBox onMouseClicked="#onFinancasMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -119,8 +116,43 @@
             </AnchorPane>
          </left>
          <center>
-            <StackPane fx:id="contentArea" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <StackPane fx:id="contentArea" prefHeight="912.0" prefWidth="1141.0" BorderPane.alignment="CENTER" />
          </center>
+         <top>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="header" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox id="title" alignment="CENTER" prefHeight="100.0" prefWidth="264.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="25.0" prefWidth="98.0" text="Delta pdv" textFill="WHITE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <AnchorPane prefHeight="75.0" prefWidth="1142.0">
+                     <children>
+                        <VBox alignment="CENTER" layoutX="965.0" layoutY="4.0" prefHeight="77.0" prefWidth="76.0">
+                           <children>
+                              <Circle fill="#57606f" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="87.0" text="Usuario" textFill="#a4b0be">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <TextField alignment="CENTER" layoutX="122.0" layoutY="38.0" prefHeight="25.0" prefWidth="399.0" promptText="Buscar" styleClass="input" />
+                        <ImageView fitHeight="25.0" fitWidth="18.0" layoutX="134.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/search-interface-symbol.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>

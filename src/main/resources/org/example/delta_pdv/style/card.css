@@ -3,6 +3,15 @@
     -fx-background-color: #FFF;
     -fx-background-radius: 22px;
     -fx-border-radius: 22px;
-    -fx-border-color: transparent;  /* Remove qualquer borda visível */
-    -fx-cursor:hand;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.shadow:hover {
+    -fx-background-color: #a4f7bc;
+}
+
+.shadow:pressed {
+    -fx-background-color: #7bed9f;
 }

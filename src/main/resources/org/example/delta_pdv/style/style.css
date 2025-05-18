@@ -8,7 +8,21 @@
     -fx-border-radius:15px;
 }
 
+.header {
+    -fx-background-color:#FFF;
+}
+
+.avatar {
+    -fx-background-size: cover;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+}
+
+
 #title {
+    -fx-background-color: #2ED573;
     -fx-font-size:22px;
     -fx-text-fill: #2f3542;
 }

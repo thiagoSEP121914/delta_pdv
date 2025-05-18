@@ -1,4 +1,4 @@
-anchorPane {
+.anchorPane {
     -fx-background-color:#FFF;
 }
 
@@ -54,6 +54,7 @@ vbox {
   -fx-padding: 10;
   -fx-border-radius: 12;
   -fx-background-radius: 12;
+  -fx-cursor:hand;
 }
 
 .btnVenda {
@@ -63,10 +64,14 @@ vbox {
    -fx-cursor:hand;
 }
 
+.btnVenda:hover {
+    -fx-background-color:#747d8c;
+}
+
 .VendaScroll {
     -fx-background-color:#F5FEFF;
 }
-.
+
 .header {
     -fx-background-color:#1E90FF;
 }
@@ -94,14 +99,18 @@ vbox {
     -fx-border-radius: 15px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
     -fx-padding: 15;
-    -fx-cursor:hand;
+    -fx-cursor: hand;
 }
 
 .formaPagamento:hover {
     -fx-background-color: #7bed9f;
 }
 
+.formaPagamento:pressed {
+    -fx-background-color: #2ed573;
+}
 
+/* Botão Esperar */
 #btnEsperar {
     -fx-background-color: #eccc68;
     -fx-background-radius: 12px;
@@ -115,6 +124,13 @@ vbox {
     -fx-scale-y: 1.03;
 }
 
+#btnEsperar:pressed {
+    -fx-background-color: #d4b454;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* Botão Pagamento */
 #btnPagamento {
     -fx-background-color: #7bed9f;
     -fx-background-radius: 12px;
@@ -127,3 +143,10 @@ vbox {
     -fx-scale-x: 1.03;
     -fx-scale-y: 1.03;
 }
+
+#btnPagamento:pressed {
+    -fx-background-color: #2ed573;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+

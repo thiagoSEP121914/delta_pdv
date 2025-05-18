@@ -1,8 +1,9 @@
 package org.example.delta_pdv.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Produto {
+public class Produto implements Serializable {
 
     private Long id;
     private String nome;
@@ -62,7 +63,6 @@ public class Produto {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 
     @Override
     public String toString() {

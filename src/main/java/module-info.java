@@ -14,6 +14,8 @@ module org.example.delta_pdv {
 
     opens org.example.delta_pdv to javafx.fxml;
     exports org.example.delta_pdv;
+    opens org.example.delta_pdv.entities to javafx.base;
+    exports org.example.delta_pdv.entities;
     exports org.example.delta_pdv.gui.controllers;
     opens org.example.delta_pdv.gui.controllers to javafx.fxml;
     exports org.example.delta_pdv.gui.utils;

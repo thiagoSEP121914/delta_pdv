@@ -41,4 +41,21 @@ public class MainController implements Initializable {
    public void onPdvMouseClicked(){
         loadPage("/org/example/delta_pdv/pdv.fxml");
     }
+
+    @FXML
+    public void onFinancasMouseClicked(){
+        loadPage("/org/example/delta_pdv/financas.fxml");
+    }
+
+    @FXML
+    public void onEstoqueMouseClicked () {
+        loadPage("/org/example/delta_pdv/estoque.fxml");
+    }
+
+
+    @FXML
+    public void onVendasClicked () {
+        loadPage("/org/example/delta_pdv/vendas.fxml");
+    }
+
 }

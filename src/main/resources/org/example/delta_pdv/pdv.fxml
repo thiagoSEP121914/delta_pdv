@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,17 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1600.0" stylesheets="@style/pdv.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.PdvController">
+<AnchorPane prefHeight="1000.0" prefWidth="1600.0" styleClass="anchorPane" stylesheets="@style/pdv.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.PdvController">
    <children>
-      <TextField alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="25.0" prefWidth="431.0" promptText="Buscar" styleClass="input" />
-      <ImageView fitHeight="25.0" fitWidth="18.0" layoutX="21.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons/search-interface-symbol.png" />
-         </image>
-      </ImageView>
-      <ScrollPane layoutX="10.0" layoutY="162.0" prefHeight="820.0" prefWidth="673.0" styleClass="tableScroll">
+      <ScrollPane layoutX="14.0" layoutY="110.0" prefHeight="714.0" prefWidth="659.0" styleClass="tableScroll">
          <content>
-            <FlowPane fx:id="cardLayout" hgap="20.0" prefHeight="791.0" prefWidth="649.0" styleClass="gridCard" vgap="20.0">
+            <FlowPane fx:id="cardLayout" hgap="20.0" prefHeight="690.0" prefWidth="639.0" styleClass="gridCard" vgap="20.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
@@ -35,19 +28,19 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </ScrollPane>
-      <ScrollPane layoutX="9.0" layoutY="45.0" prefHeight="109.0" prefWidth="673.0" styleClass="categoryScrollPane" vbarPolicy="NEVER">
+      <ScrollPane layoutY="14.0" prefHeight="109.0" prefWidth="673.0" styleClass="categoryScrollPane" vbarPolicy="NEVER">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" />
          </padding>
          <content>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="107.0" prefWidth="670.0">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="78.0" prefWidth="670.0">
                <children>
-                  <HBox fx:id="categoriaHbox" alignment="CENTER" prefHeight="49.0" prefWidth="641.0" spacing="20.0" styleClass="categoryHbox" />
+                  <HBox fx:id="categoriaHbox" alignment="CENTER" prefHeight="64.0" prefWidth="670.0" spacing="20.0" styleClass="categoryHbox" />
                </children>
             </VBox>
          </content>
       </ScrollPane>
-      <VBox layoutX="704.0" layoutY="168.0" prefHeight="813.0" prefWidth="691.0" styleClass="tableVendas">
+      <VBox layoutX="713.0" layoutY="114.0" prefHeight="705.0" prefWidth="673.0" styleClass="tableVendas">
          <children>
             <AnchorPane prefHeight="120.0" prefWidth="653.0">
                <children>
@@ -56,25 +49,31 @@
                         <Font name="Arial Black" size="12.0" />
                      </font>
                   </Button>
-                  <Button layoutX="402.0" layoutY="29.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" styleClass="btnVenda" />
-                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="364.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView layoutX="419.0" layoutY="41.0">
-                     <image>
-                        <Image url="@icons/sinal-de-adicao.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="465.0" layoutY="29.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" styleClass="btnVenda" />
-                  <Button layoutX="531.0" layoutY="29.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" styleClass="btnVenda" />
-                  <ImageView fitHeight="34.0" fitWidth="43.0" layoutX="473.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@icons/qr-code.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView layoutX="544.0" layoutY="37.0">
-                     <image>
-                        <Image url="@icons/reload.png" />
-                     </image>
-                  </ImageView>
+                  <Button layoutX="402.0" layoutY="29.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" styleClass="btnVenda">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/sinal-de-adicao.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="465.0" layoutY="29.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" styleClass="btnVenda">
+                     <graphic>
+                        <ImageView fitHeight="31.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="btnVenda">
+                           <image>
+                              <Image url="@icons/qr-code.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button layoutX="531.0" layoutY="29.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" styleClass="btnVenda">
+                     <graphic>
+                        <ImageView styleClass="btnVenda">
+                           <image>
+                              <Image url="@icons/reload.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                </children>
             </AnchorPane>
             <VBox id="containerPagamento" prefHeight="714.0" prefWidth="671.0" spacing="20.0">
@@ -82,9 +81,9 @@
                   <Insets top="100.0" />
                </VBox.margin>
                <children>
-                  <ScrollPane prefHeight="211.0" prefWidth="653.0" styleClass="VendaScroll">
+                  <ScrollPane prefHeight="191.0" prefWidth="643.0" styleClass="VendaScroll">
                      <content>
-                        <TableView prefHeight="196.0" prefWidth="658.0">
+                        <TableView prefHeight="154.0" prefWidth="648.0">
                           <columns>
                             <TableColumn prefWidth="164.0" styleClass="column" text="Quantidade" />
                             <TableColumn prefWidth="333.0" styleClass="column" text="Produto" />

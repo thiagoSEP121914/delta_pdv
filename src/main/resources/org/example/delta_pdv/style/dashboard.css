@@ -1,0 +1,149 @@
+.anchorPane {
+    -fx-background-color:#FFF;
+}
+
+#dashboadtitle {
+     -fx-font-size: 26px;
+      -fx-text-fill: #2f3542;
+      -fx-font-weight: bold;
+      -fx-font-family: "Segoe UI Semibold", "Roboto", "Arial", sans-serif;
+      -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.1, 0, 1);
+       -fx-padding: 10 0 10 0; /* Espaço acima e abaixo */
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0.3, 0, 4);
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-spacing: 10px;
+}
+
+.card .faturamento {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f3542;
+    -fx-font-family: "Segoe UI Semibold", "Roboto", "Arial", sans-serif;
+}
+
+#valor {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #57606f;
+    -fx-font-family: "Segoe UI Black", "Roboto Black", "Arial Black", sans-serif;
+}
+
+#messi {
+    -fx-font-size: 15px;
+    -fx-text-fill: #a4b0be;
+    -fx-font-style: italic;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-background-color: transparent;
+}
+
+
+
+.column {
+    -fx-text-fill:#2f3542;
+    -fx-background-color:#ffffff;
+}
+
+/* grafico  */
+.chart-bar {
+    -fx-bar-fill: #2f3542; /* Cor das barras */
+}
+
+.chart-plot-background {
+    -fx-background-color: #FFFFFF; /* Cor de fundo do gráfico (branco gelo) */
+}
+
+.chart-background {
+    -fx-background-color: #FFFFFF; /* Cor de fundo de todo o gráfico */
+}
+
+.chart-title {
+    -fx-text-fill: #2f3542; /* Cor do título do gráfico, se necessário */
+}
+
+.axis {
+    -fx-tick-label-fill: #2f3542; /* Cor dos rótulos dos eixos */
+    -fx-font-size: 12px; /* Tamanho da fonte dos eixos */
+}
+
+.category-axis .axis-label, .number-axis .axis-label {
+    -fx-text-fill: #2f3542; /* Cor do texto das legendas */
+}
+
+.gridCard {
+    -fx-background-color:F5FEFF;
+}
+
+
+
+/* Estilo da tabela */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.2, 0, 4);
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 10px;
+    -fx-cursor:hand;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f1f2f6;
+    -fx-background-radius: 15px 15px 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #dfe4ea;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #2f3542;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 8px;
+}
+
+.table-view .cell {
+    -fx-text-fill: #57606f;
+    -fx-font-size: 13px;
+    -fx-padding: 8px;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 4px;
+}
+
+.table-row-cell:filled:hover {
+    -fx-background-color: #f1f2f6;
+}
+
+.table-row-cell:focused {
+    -fx-background-color: #dcdde1;
+}
