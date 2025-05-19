@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/estoque.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.UsuariosController">
+   <children>
+      <ScrollPane layoutX="36.0" layoutY="74.0" prefHeight="572.0" prefWidth="542.0">
+         <content>
+            <TableView id="tbLivro" fx:id="tabelaProdutos" prefHeight="557.0" prefWidth="537.0">
+               <columns>
+                  <TableColumn id="idColumn" fx:id="idColumn" prefWidth="98.0" styleClass="column" text="Id" />
+                  <TableColumn id="anoLancamentoColumn" fx:id="nomeColumn" prefWidth="228.0" style="-fx-alignment: center;" styleClass="column" text="Nome" />
+                  <TableColumn id="statusColumn" fx:id="acoesColumn" prefWidth="190.0" styleClass="column" text="Ações" />
+               </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <HBox layoutX="36.0" layoutY="657.0" prefHeight="39.0" prefWidth="660.0" spacing="30.0">
+         <children>
+            <Button id="btnRelatorio" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" styleClass="btnRelatorio" text="Exportar" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Button>
+            <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" text="Adicionar" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <Label id="estoqueTitle" layoutX="55.0" layoutY="27.0" prefHeight="58.0" prefWidth="130.0" text="Usuarios" />
+   </children>
+</AnchorPane>

@@ -50,7 +50,7 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="Estoque" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                        <HBox onMouseClicked="#OnClienteMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -60,7 +60,7 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="Clientes" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                        <HBox onMouseClicked="#OnMouseClickedUsuarios" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -90,7 +90,7 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="Finanças" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
+                        <HBox onMouseClicked="#OnMouseClickedConfiguracoes" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -132,10 +132,10 @@
                   </VBox>
                   <AnchorPane prefHeight="75.0" prefWidth="1142.0">
                      <children>
-                        <VBox alignment="CENTER" layoutX="965.0" layoutY="4.0" prefHeight="77.0" prefWidth="76.0">
+                        <VBox alignment="CENTER" layoutX="965.0" layoutY="4.0" onMouseClicked="#OnMouseClickedLogin" prefHeight="77.0" prefWidth="76.0">
                            <children>
                               <Circle fill="#57606f" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="87.0" text="Usuario" textFill="#a4b0be">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="87.0" text="Login" textFill="#a4b0be">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
