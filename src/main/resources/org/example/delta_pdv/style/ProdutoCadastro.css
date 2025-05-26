@@ -1,0 +1,37 @@
+.anchorPane {
+    -fx-background-color: #FFF; /* fundo branco geral */
+}
+
+.header {
+    -fx-background-color: #2ed573;
+    -fx-padding: 10px;
+}
+
+#titulo {
+    -fx-font-size: 24px;
+    -fx-text-fill: #FFF;
+    -fx-font-weight: bold;
+}
+
+.input {
+    -fx-background-color: #f1f2f6;
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-color: #ced6e0;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2f3542;
+}
+
+.botao {
+    -fx-background-color: #2ed573 ;
+    -fx-text-fill:#FFF;
+    -f-font-weight:bold;
+}
+
+#botaoCancelar {
+    -fx-background-color: #ff4757;
+    -fx-text-fill:#FFF;
+    -f-font-weight:bold;
+}
