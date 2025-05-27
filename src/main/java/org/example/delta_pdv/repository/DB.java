@@ -9,7 +9,7 @@ public class DB {
 
     private static Connection conn;
 
-    private static Connection getConn() {
+    public static Connection getConn() {
         if (conn != null) {
             return conn;
         }
@@ -18,7 +18,9 @@ public class DB {
             String URL = props.getProperty("url");
             String USER = props.getProperty("user");
             String PASSWORD = props.getProperty("password");
-            return conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Banco conectado com sucesso!");
+            return conn;
         } catch (SQLException exception) {
             throw new RuntimeException("Não foi possivel conectar ao banco de dados" + exception);
         }

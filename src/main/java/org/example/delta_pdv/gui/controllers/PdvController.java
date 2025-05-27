@@ -73,17 +73,17 @@ public class PdvController implements Initializable {
         Produto produto = new Produto();
         produto.setNome("Sherek");
         produto.setCaminhoImagem("/org/example/delta_pdv/image/shureki.jpg");
-        produto.setPreco("5,99");
+        produto.setPrecoUnitario(4.50);
 
         Produto coca = new Produto();
         coca.setNome("cokinha");
         coca.setCaminhoImagem("/org/example/delta_pdv/image/coca.jpg");
-        coca.setPreco("20.99");
+        coca.setPrecoUnitario(4.20);
 
         Produto arroz = new Produto();
         arroz.setNome("Arroz");
         arroz.setCaminhoImagem("/org/example/delta_pdv/image/coca.jpg");
-        arroz.setPreco("35,97");
+        arroz.setPrecoUnitario(35.97);
 
         Produto cachimbo = new Produto();
         cachimbo.setNome("Cachimbo de crack");

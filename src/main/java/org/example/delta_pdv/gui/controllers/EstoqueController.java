@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import org.example.delta_pdv.entities.ProdutoExemplo;
+import org.example.delta_pdv.gui.utils.ScreenLoader;
 
 import java.net.URL;
 import java.util.List;
@@ -90,7 +92,16 @@ public class EstoqueController implements Initializable {
         };
     }
 
-    private void editarProduto(ProdutoExemplo produto) {
+    @FXML
+    void btnAdcionarOnAction() {
+        System.out.println("BOTAO DE ADICONAR CLICADO!!!");
+        ScreenLoader.loadForm("/org/example/delta_pdv/produtoCadastro.fxml", null);
+
+    }
+
+
+
+        private void editarProduto(ProdutoExemplo produto) {
         System.out.println("Editar produto: " + produto.getNome());
     }
 

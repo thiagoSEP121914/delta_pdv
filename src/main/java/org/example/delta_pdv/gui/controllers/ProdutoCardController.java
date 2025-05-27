@@ -32,6 +32,6 @@ public class ProdutoCardController {
         Image image = new Image(imageStream);
         produtoImage.setImage(image);
         produtoNome.setText(produto.getNome());
-        produtoPreco.setText(produto.getPreco());
+        produtoPreco.setText(String.valueOf(produto.getPrecoUnitario()));
     }
 }

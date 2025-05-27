@@ -24,14 +24,27 @@
     -fx-text-fill: #2f3542;
 }
 
+#picturePane {
+    -fx-border-color: #4CAF50; /* Verde elegante */
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-background-color: #ffffff; /* Fundo branco */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.3, 0, 4);
+}
+
 .botao {
     -fx-background-color: #2ed573 ;
     -fx-text-fill:#FFF;
-    -f-font-weight:bold;
+    -fx-font-weight:bold;
+    -fx-cursor:hand;
 }
 
 #botaoCancelar {
     -fx-background-color: #ff4757;
     -fx-text-fill:#FFF;
     -f-font-weight:bold;
+    -fx-cursor:hand;
 }
+
