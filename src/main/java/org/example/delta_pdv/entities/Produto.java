@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Produto implements Serializable {
 
-    private Long id_Produto;
+    private Long idProduto;
     private String nome;
     private String caminhoImagem;
     private String descricao;
@@ -19,8 +19,8 @@ public class Produto implements Serializable {
 
     }
 
-    public Produto(Long id_Produto, String nome, String caminhoImagem, String descricao, Double precoUnitario, Double custo, Double lucro, Integer quantidadeEstoque, Categoria categoria) {
-        this.id_Produto = id_Produto;
+    public Produto(Long idProduto, String nome, String caminhoImagem, String descricao, Double precoUnitario, Double custo, Double lucro, Integer quantidadeEstoque, Categoria categoria) {
+        this.idProduto = idProduto;
         this.nome = nome;
         this.caminhoImagem = caminhoImagem;
         this.descricao = descricao;
@@ -45,12 +45,12 @@ public class Produto implements Serializable {
         this.precoUnitario = precoUnitario;
         this.custo = custo;
     }
-    public Long getId_Produto() {
-        return id_Produto;
+    public Long getIdProduto() {
+        return idProduto;
     }
 
-    public void setId_Produto(Long id_Produto) {
-        this.id_Produto = id_Produto;
+    public void setIdProduto(Long idProduto) {
+        this.idProduto = idProduto;
     }
 
     public String getNome() {
@@ -125,18 +125,18 @@ public class Produto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Produto produto = (Produto) o;
-        return Objects.equals(id_Produto, produto.id_Produto);
+        return Objects.equals(idProduto, produto.idProduto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_Produto);
+        return Objects.hash(idProduto);
     }
 
     @Override
     public String toString() {
         return "Produto{" +
-                "id_Produto=" + id_Produto +
+                "idProduto=" + idProduto +
                 ", nome='" + nome + '\'' +
                 ", caminhoImagem='" + caminhoImagem + '\'' +
                 ", descricao='" + descricao + '\'' +

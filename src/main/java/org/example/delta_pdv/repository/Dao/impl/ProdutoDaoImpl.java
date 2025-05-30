@@ -79,7 +79,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     public void update(Produto produto) {
         String sql = "UPDATE produtos "+
                       "SET nome = ?, caminho_imagem = ?,  Descricao = ?,  Preco_Unitario = ?, custo = ?,  Quantidade_Estoque = ?, id_categoria = ? " +
-                      "WHERE ID_produto = ?;";
+                      "WHERE ID_Produto = ?;";
 
         PreparedStatement pst;
 
@@ -89,10 +89,10 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
             pst.setString(2, produto.getCaminhoImagem());
             pst.setString(3, produto.getDescricao());
             pst.setDouble(4, produto.getPrecoUnitario());
-            pst.setDouble(5, produto.getCusto()); // <- Corrigido
-            pst.setInt(6, produto.getQuantidadeEstoque()); // <- Corrigido
-            pst.setLong(7, produto.getCategoria().getIdCategoria()); // <- Corrigido
-            pst.setLong(8, produto.getId_Produto());
+            pst.setDouble(5, produto.getCusto());
+            pst.setInt(6, produto.getQuantidadeEstoque());
+            pst.setLong(7, produto.getCategoria().getIdCategoria());
+            pst.setLong(8, produto.getIdProduto());
             int rows = pst.executeUpdate();
         }catch (SQLException exception) {
             throw new RuntimeException("Erro ao execultar consulta", exception);
@@ -103,7 +103,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     @Override
     public void delete(Long id) {
         String sql = "DELETE  FROM produtos "+
-                      "WHERE ID_produto = ?";
+                      "WHERE ID_Produto = ?";
         PreparedStatement pst;
         try {
             pst = conn.prepareStatement(sql);
@@ -125,7 +125,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
 
     private Produto instantiateProduto(ResultSet rs) throws SQLException {
         Produto produto = new Produto();
-        produto.setId_Produto(rs.getLong("ID_Produto"));
+        produto.setIdProduto(rs.getLong("ID_Produto"));
         produto.setNome(rs.getString("Nome"));
         produto.setCaminhoImagem(rs.getString("caminho_imagem"));
         produto.setDescricao(rs.getString("Descricao"));

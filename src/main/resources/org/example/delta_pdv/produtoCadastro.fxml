@@ -24,13 +24,13 @@
       <TextField fx:id="txtDescricao" layoutX="399.0" layoutY="164.0" styleClass="input" />
       <Label layoutX="399.0" layoutY="147.0" prefHeight="17.0" prefWidth="102.0" text="Descricao" />
       <Label layoutX="461.0" layoutY="211.0" prefHeight="17.0" prefWidth="102.0" text="Categoria" />
-      <TextField fx:id="txtPrecoUnitario" layoutX="24.0" layoutY="228.0" prefHeight="38.0" prefWidth="102.0" styleClass="input" />
-      <Label layoutX="24.0" layoutY="211.0" prefHeight="17.0" prefWidth="124.0" text="Preco Unitario" />
-      <TextField fx:id="txtCusto" layoutX="135.0" layoutY="228.0" prefHeight="38.0" prefWidth="96.0" styleClass="input" />
-      <Label layoutX="135.0" layoutY="211.0" prefHeight="17.0" prefWidth="116.0" text="Custo" />
+      <TextField fx:id="txtPrecoUnitario" layoutX="126.0" layoutY="229.0" prefHeight="38.0" prefWidth="102.0" styleClass="input" />
+      <Label layoutX="126.0" layoutY="212.0" prefHeight="17.0" prefWidth="124.0" text="Preco Unitario" />
+      <TextField fx:id="txtCusto" layoutX="24.0" layoutY="229.0" prefHeight="38.0" prefWidth="96.0" styleClass="input" />
+      <Label layoutX="24.0" layoutY="212.0" prefHeight="17.0" prefWidth="116.0" text="Custo" />
       <HBox alignment="CENTER" layoutX="24.0" layoutY="308.0" prefHeight="25.0" prefWidth="601.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#btnSalvarOnAction" styleClass="botao" text="Salvar" />
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#btnSalvarOnAction" styleClass="botao" text="Salvar" />
             <Button id="botaoCancelar" mnemonicParsing="false" onAction="#btnLimparOnAction" text="Limpar" />
          </children>
       </HBox>

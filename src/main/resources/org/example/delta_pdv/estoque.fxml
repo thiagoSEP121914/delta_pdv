@@ -11,13 +11,19 @@
 
 <AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/estoque.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.EstoqueController">
    <children>
-      <ScrollPane layoutX="36.0" layoutY="74.0" prefHeight="572.0" prefWidth="542.0">
+      <ScrollPane layoutX="36.0" layoutY="74.0" prefHeight="572.0" prefWidth="1292.0">
          <content>
-            <TableView id="tbLivro" fx:id="tabelaProdutos" prefHeight="557.0" prefWidth="537.0">
+            <TableView fx:id="tabelaProdutos" prefHeight="557.0" prefWidth="1279.0">
                <columns>
-                  <TableColumn id="idColumn" fx:id="idColumn" prefWidth="98.0" styleClass="column" text="Id" />
-                  <TableColumn id="anoLancamentoColumn" fx:id="nomeColumn" prefWidth="228.0" style="-fx-alignment: center;" styleClass="column" text="Nome" />
-                  <TableColumn id="statusColumn" fx:id="acoesColumn" prefWidth="190.0" styleClass="column" text="Ações" />
+                  <TableColumn id="idColumn" fx:id="idColumn" prefWidth="70.0" style="-alignment: center;" styleClass="column" text="código" />
+                  <TableColumn id="anoLancamentoColumn" fx:id="nomeColumn" prefWidth="90.0" style="-fx-alignment: center;" styleClass="column" text="Nome" />
+                  <TableColumn id="statusColumn" fx:id="imagemColumn" prefWidth="112.0" styleClass="column" text="Imagem" />
+                  <TableColumn id="statusColumn" fx:id="DescricaoColumn" minWidth="0.0" prefWidth="132.0" styleClass="column" text="Descrição" />
+                  <TableColumn id="statusColumn" fx:id="PrecoVendaColumn" minWidth="0.0" prefWidth="130.0" styleClass="column" text="Preco de venda" />
+                  <TableColumn id="statusColumn" fx:id="custoColumn" minWidth="0.0" prefWidth="107.0" styleClass="column" text="Custo" />
+                  <TableColumn id="statusColumn" fx:id="lucroColumn" minWidth="0.0" prefWidth="151.0" styleClass="column" text="Lucro" />
+                  <TableColumn id="statusColumn" fx:id="qtdEstoque" minWidth="0.0" prefWidth="177.0" styleClass="column" text="Qtd Estoque" />
+                  <TableColumn id="statusColumn" fx:id="categoriaColumn" minWidth="0.0" prefWidth="150.0" styleClass="column" text="Categoria" />
                </columns>
             </TableView>
          </content>

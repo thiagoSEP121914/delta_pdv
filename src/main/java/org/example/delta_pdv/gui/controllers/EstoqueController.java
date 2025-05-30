@@ -1,7 +1,9 @@
 package org.example.delta_pdv.gui.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -11,41 +13,205 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import org.example.delta_pdv.entities.ProdutoExemplo;
+import org.example.delta_pdv.entities.Categoria;
+import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.gui.utils.Alerts;
 import org.example.delta_pdv.gui.utils.ScreenLoader;
+import org.example.delta_pdv.gui.utils.UpdateTableListener;
+import org.example.delta_pdv.service.CategoriaService;
+import org.example.delta_pdv.service.ProdutoService;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class EstoqueController implements Initializable {
+public class EstoqueController implements Initializable, UpdateTableListener {
+    @FXML
+    private TableColumn<Produto, Long> idColumn;
 
     @FXML
-    private TableColumn<ProdutoExemplo, Integer> idColumn;
+    private TableColumn<Produto, String> nomeColumn;
 
     @FXML
-    private TableColumn<ProdutoExemplo, String> nomeColumn;
+    private TableColumn<Produto, String> imagemColumn;
 
     @FXML
-    private TableColumn<ProdutoExemplo, Void> acoesColumn;
+    private TableColumn<Produto, String> DescricaoColumn;
 
     @FXML
-    private TableView<ProdutoExemplo> tabelaProdutos;
+    private TableColumn<Produto, Double> PrecoVendaColumn;
 
+    @FXML
+    private TableColumn<Produto, Double> custoColumn;
+
+    @FXML
+    private TableColumn<Produto, Double> lucroColumn;
+
+    @FXML
+    private TableColumn<Produto, Integer> qtdEstoque;
+
+    @FXML
+    private TableColumn<Produto, String> categoriaColumn;
+
+
+    @FXML
+    private TableView<Produto> tabelaProdutos;
+    private final CategoriaService categoriaService = new CategoriaService();
+    private final ProdutoService produtoService = new ProdutoService();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadCelulaAcoes();
         loadTableView();
     }
 
-    private void loadTableView() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        acoesColumn.setCellFactory(coluna -> criarCelulaDeAcoes());
-        List<ProdutoExemplo> produtoExemplos = List.of(new ProdutoExemplo(1, "Coca-cola"), new ProdutoExemplo(2, "Cocaina"));
-        tabelaProdutos.setItems(FXCollections.observableArrayList(produtoExemplos));
+
+    @FXML
+    void btnAdcionarOnAction() {
+        System.out.println("BOTAO DE ADICONAR CLICADO!!!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/produtoCadastro.fxml"));
+            Parent root = loader.load();
+            ProdutoCadastroController  produtoCadastroController = loader.getController();
+            produtoCadastroController.setUpdateTableListener(this);
+            ScreenLoader.loadForm(root);
+        }catch (Exception exception) {
+            Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
+            throw new RuntimeException("Erro ao carregar a tela" + exception.getMessage());
+        }
     }
 
-    private TableCell<ProdutoExemplo, Void> criarCelulaDeAcoes() {
+    private void editarProduto(Produto produto) {
+        System.out.println("Editar produto: " + produto.getNome());
+        Produto produtoSelecionado = tabelaProdutos.getSelectionModel().getSelectedItem();
+
+        if (produtoSelecionado != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/produtoCadastro.fxml"));
+                Parent root = loader.load();
+                ProdutoCadastroController produtoCadastroController = loader.getController();
+                produtoCadastroController.setUpdateProduto(produto);
+                produtoCadastroController.setUpdateTableListener(this);
+                ScreenLoader.loadForm(root);
+            }catch (IOException exception) {
+                throw new RuntimeException("Erro ao carregar a tela de cadastro!!: ", exception);
+            }
+        }
+
+    }
+
+    private void removerProduto(Produto produto) {
+        try {
+            produtoService.delete(produto.getIdProduto());
+            Optional<ButtonType> choice = Alerts.showAlertYesNo("AVISO!", " ", "Deseja Realmente deletar produto ?", Alert.AlertType.WARNING);
+            if (choice.isPresent() && choice.get() == ButtonType.YES) {
+                produtoService.delete(produto.getIdProduto());
+                Alerts.showAlert("Sucesso!!", " ", "Produto deletado com sucesso!", Alert.AlertType.CONFIRMATION);
+            }
+        } catch (Exception exception) {
+            Alerts.showAlert("Erro", " ", "Erro ao deletar o produto!", Alert.AlertType.ERROR);
+        }
+    }
+
+    private ImageView carregarIcone(String caminho) {
+        try {
+            Image img = new Image(getClass().getResourceAsStream(caminho));
+            ImageView view = new ImageView(img);
+            view.setFitWidth(16);
+            view.setFitHeight(16);
+            return view;
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar imagem: " + caminho + " - " + e.getMessage());
+            return new ImageView(); // retorna vazio para não quebrar layout
+        }
+    }
+
+
+
+    private void loadTableView() {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("idProduto"));
+        nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        imagemColumn.setCellValueFactory(new PropertyValueFactory<>("caminhoImagem"));
+        imagemColumn.setCellFactory(col -> carregandoImagemProduto());
+        DescricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        PrecoVendaColumn.setCellValueFactory(new PropertyValueFactory<>("precoUnitario"));
+        custoColumn.setCellValueFactory(new PropertyValueFactory<>("custo"));
+
+        lucroColumn.setCellValueFactory(new PropertyValueFactory<>("lucro"));
+        lucroColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double lucro, boolean empty) {
+                super.updateItem(lucro, empty);
+                if (empty || lucro == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%.2f", lucro));
+                }
+            }
+        });
+
+        qtdEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidadeEstoque"));
+
+        categoriaColumn.setCellValueFactory(cellData -> {
+            Categoria categoria = cellData.getValue().getCategoria();
+            return new SimpleStringProperty(categoria != null ? categoria.getNome() : "");
+        });
+
+        List<Produto> listaDeprodutos = produtoService.findAll();
+        tabelaProdutos.setItems(FXCollections.observableArrayList(listaDeprodutos));
+    }
+
+    private TableCell<Produto, String> carregandoImagemProduto() {
+        return new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+
+            {
+                imageView.setFitWidth(50);
+                imageView.setFitHeight(50);
+                imageView.setPreserveRatio(true);
+            }
+
+            @Override
+            protected void updateItem(String caminhoImagem, boolean empty) {
+                super.updateItem(caminhoImagem, empty);
+
+                if (empty || caminhoImagem == null || caminhoImagem.isEmpty()) {
+                    setGraphic(null);
+                } else {
+                    try {
+                        // Cria o caminho completo do arquivo da imagem
+                        File arquivoImagem = new File( caminhoImagem);
+
+                        if (!arquivoImagem.exists()) {
+                            System.err.println("Arquivo de imagem não encontrado: " + arquivoImagem.getAbsolutePath());
+                            setGraphic(null);
+                            return;
+                        }
+
+                        Image imagem = new Image(arquivoImagem.toURI().toString());
+                        imageView.setImage(imagem);
+                        setGraphic(imageView);
+
+                    } catch (Exception e) {
+                        System.err.println("Erro ao carregar imagem: " + caminhoImagem);
+                        e.printStackTrace();
+                        setGraphic(null);
+                    }
+                }
+            }
+        };
+    }
+
+    public void loadCelulaAcoes() {
+        TableColumn<Produto, Void> colunaAcoes = new TableColumn<>("Ações");
+        colunaAcoes.setCellFactory(coluna -> criarCelulaDeAcoes());
+        tabelaProdutos.getColumns().add(colunaAcoes);
+    }
+
+    private TableCell<Produto, Void> criarCelulaDeAcoes() {
         return new TableCell<>() {
             private final Button btnEditar = new Button();
             private final Button btnRemover = new Button();
@@ -74,12 +240,12 @@ public class EstoqueController implements Initializable {
                 btnRemover.setText("");
 
                 btnEditar.setOnAction(event -> {
-                    ProdutoExemplo produto = getTableView().getItems().get(getIndex());
+                    Produto produto = getTableView().getItems().get(getIndex());
                     editarProduto(produto);
                 });
 
                 btnRemover.setOnAction(event -> {
-                    ProdutoExemplo produto = getTableView().getItems().get(getIndex());
+                    Produto produto = getTableView().getItems().get(getIndex());
                     removerProduto(produto);
                 });
             }
@@ -92,34 +258,8 @@ public class EstoqueController implements Initializable {
         };
     }
 
-    @FXML
-    void btnAdcionarOnAction() {
-        System.out.println("BOTAO DE ADICONAR CLICADO!!!");
-        ScreenLoader.loadForm("/org/example/delta_pdv/produtoCadastro.fxml", null);
 
-    }
-
-
-
-        private void editarProduto(ProdutoExemplo produto) {
-        System.out.println("Editar produto: " + produto.getNome());
-    }
-
-    private void removerProduto(ProdutoExemplo produto) {
-        tabelaProdutos.getItems().remove(produto);
-        System.out.println("Removido: " + produto.getNome());
-    }
-
-    private ImageView carregarIcone(String caminho) {
-        try {
-            Image img = new Image(getClass().getResourceAsStream(caminho));
-            ImageView view = new ImageView(img);
-            view.setFitWidth(16);
-            view.setFitHeight(16);
-            return view;
-        } catch (Exception e) {
-            System.err.println("Erro ao carregar imagem: " + caminho + " - " + e.getMessage());
-            return new ImageView(); // retorna vazio para não quebrar layout
-        }
+    public void reloadTable() {
+        loadTableView();
     }
 }

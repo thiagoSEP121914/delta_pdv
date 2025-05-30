@@ -2,32 +2,31 @@ package org.example.delta_pdv.service;
 
 import org.example.delta_pdv.entities.Produto;
 import org.example.delta_pdv.repository.Dao.GenericDao;
+import org.example.delta_pdv.repository.Dao.factory.DaoFactory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProdutoService {
 
-    private GenericDao<Produto> repository;
+    private final GenericDao<Produto> produtoRepository = DaoFactory.createProdutoDao();
 
-    public ProdutoService(GenericDao GenericDao) {
-        this.repository = GenericDao;
-    }
     public List<Produto> findAll() {
-       return repository.findAll();
+       return produtoRepository.findAll();
     }
-    public Produto findById(Long id) {
+    public Object findById(Long id) {
         if (id <= 0) {
             throw new RuntimeException("O id informado não existe!!");
         }
-        return repository.findById(id);
+        return produtoRepository.findById(id);
     }
-    public void insert(Produto produto) {
-        repository.insert(produto);
+    public void insert(Produto produto) throws SQLException {
+        produtoRepository.insert(produto);
     }
     public void update(Produto novoProduto) {
-        repository.update(novoProduto);
+        produtoRepository.update(novoProduto);
     }
     public void delete(Long id) {
-        repository.delete(id);
+        produtoRepository.delete(id);
     }
 }
