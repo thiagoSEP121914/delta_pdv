@@ -8,10 +8,25 @@
     -fx-transition: all 0.2s ease-in-out;
 }
 
-.shadow:hover {
-    -fx-background-color: #a4f7bc;
+
+
+/* Botão Pagamento */
+#btnAdicionar {
+    -fx-background-color: #7bed9f;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-text-fill:#FFF;
+    -fx-cursor: hand;
 }
 
-.shadow:pressed {
-    -fx-background-color: #7bed9f;
+#btnAdicionar:hover {
+    -fx-background-color: #a4f7bc;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+#btnAdicionar:pressed {
+    -fx-background-color: #2ed573;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
 }

@@ -71,6 +71,8 @@ public class ProdutoCadastroController implements Initializable {
 
     private UpdateTableListener updateTableListener;
 
+    private String caminhoImagemAtual;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadCategoriaComboBox();
@@ -83,6 +85,7 @@ public class ProdutoCadastroController implements Initializable {
 
     public void setUpdateTableListener(UpdateTableListener updateTableListener) {
         this.updateTableListener = updateTableListener;
+        fillFormWithProduto();
     }
 
     public void setUpdateProduto (Produto produto) {
@@ -93,8 +96,8 @@ public class ProdutoCadastroController implements Initializable {
     private void btnSalvarOnAction(ActionEvent event) {
         btnSalvar.setDisable(true);
         try {
-            produtoService.insert(instantiateProduto());
-            Alerts.showAlertYesNo("Sucesso!"," " , "DADOS FORAM SALVOS COM SUCESSO!", Alert.AlertType.INFORMATION);
+            produtoService.saveProducts(instantiateProduto());
+            Alerts.showAlert("Sucesso!"," " , "DADOS FORAM SALVOS COM SUCESSO!", Alert.AlertType.INFORMATION);
             updateTableListener.reloadTable();
         }catch (Exception exception) {
             Alerts.showAlert("ERRO!", "ERRO AO SALVAR DADOS NO BANCO", "Erro: " + exception.getMessage(), Alert.AlertType.ERROR);
@@ -189,26 +192,43 @@ public class ProdutoCadastroController implements Initializable {
             }
         });
     }
-
     private Produto instantiateProduto() {
+        if (
+                txtNome.getText().isEmpty() ||
+                        txtPrecoUnitario.getText().isEmpty() ||
+                        txtCusto.getText().isEmpty() ||
+                        txtQuantidadeEstoque.getText().isEmpty() ||
+                        categoriaComboBox.getSelectionModel().getSelectedItem() == null) {
 
-        String caminhoImagem = imagemSelecionada != null ? ImageUtils.salvarImagem(imagemSelecionada): "";
-
-        Categoria categoriaSelecionada = categoriaComboBox.getSelectionModel().getSelectedItem();
-        if (categoriaSelecionada == null) {
-            throw new IllegalArgumentException("Categoria não selecionada.");
+            throw new IllegalArgumentException("Preencha todos os campos obrigatórios.");
         }
 
+        Long idProduto = null;
+        if (!txtCodProduto.getText().isEmpty()) {
+            idProduto = Long.parseLong(txtCodProduto.getText());
+        }
+
+        String caminhoImagem = imagemSelecionada != null ? ImageUtils.salvarImagem(imagemSelecionada) : caminhoImagemAtual;
+
+        Categoria categoriaSelecionada = categoriaComboBox.getSelectionModel().getSelectedItem();
+
+        double precoUnitario = Double.parseDouble(txtPrecoUnitario.getText().replace(",", "."));
+        double custo = Double.parseDouble(txtCusto.getText().replace(",", "."));
+        double lucro = precoUnitario - custo;
+
         return new Produto(
+                idProduto,
                 txtNome.getText(),
                 caminhoImagem,
                 txtDescricao.getText(),
-                Double.parseDouble(txtPrecoUnitario.getText().replace(",", ".")),
-                Double.parseDouble(txtCusto.getText().replace(",", ".")),
+                precoUnitario,
+                custo,
+                lucro,
                 Integer.parseInt(txtQuantidadeEstoque.getText()),
                 categoriaSelecionada
         );
     }
+
 
     private void configurarCampoNumerico(TextField campo) {
         campo.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -265,10 +285,42 @@ public class ProdutoCadastroController implements Initializable {
         imageView.setImage(imagem);
     }
 
-   private void fillFormWithProduto() {
-        if (produto != null) {
-            txtCodProduto.setText(produto.getIdProduto().toString());
+    private void fillFormWithProduto() {
+        if (produto == null) return;
 
+        DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
+
+        // Preenche os campos do formulário
+        txtCodProduto.setText(String.valueOf(produto.getIdProduto()));
+        txtNome.setText(produto.getNome());
+        txtDescricao.setText(produto.getDescricao());
+        txtPrecoUnitario.setText(df.format(produto.getPrecoUnitario()));
+        txtCusto.setText(df.format(produto.getCusto()));
+        txtQuantidadeEstoque.setText(String.valueOf(produto.getQuantidadeEstoque()));
+
+        // Preenche o campo de lucro, se existir no formulário
+        if (txtLucro != null && produto.getLucro() != null) {
+            txtLucro.setText(df.format(produto.getLucro()));
         }
-   }
+
+        // Seleciona a categoria no ComboBox
+        if (categoriaComboBox != null && produto.getCategoria() != null) {
+            categoriaComboBox.getSelectionModel().select(produto.getCategoria());
+        }
+
+        // Carrega a imagem do produto
+        String caminhoImagem = produto.getCaminhoImagem();
+        if (caminhoImagem != null && !caminhoImagem.isEmpty()) {
+            File file = new File(caminhoImagem);
+            if (file.exists()) {
+                Image imagem = new Image(file.toURI().toString());
+                imageView.setImage(imagem);
+                caminhoImagemAtual = caminhoImagem;
+            } else {
+                setImagemPadrao();
+            }
+        } else {
+            setImagemPadrao();
+        }
+    }
 }

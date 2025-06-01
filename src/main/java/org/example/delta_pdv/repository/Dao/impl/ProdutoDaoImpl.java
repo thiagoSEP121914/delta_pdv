@@ -56,6 +56,25 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     }
 
     @Override
+    public List<Produto> findByName(String name) {
+        String sql = "SELECT produtos.*, C.id_categoria, C.nome as Categoria " +
+                "FROM produtos " +
+                "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria " +
+                "WHERE LOWER (produtos.nome) LIKE ?";
+        List<Produto> produtos = new ArrayList<>();
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, "%" + name + "%");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                produtos.add(instantiateProduto(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar produtos pelo nome: " + e.getMessage(), e);
+        }
+        return produtos;
+    }
+
+    @Override
     public void insert(Produto produto) {
         String sql = "INSERT INTO produtos (Nome, caminho_imagem, Descricao ,Preco_Unitario, custo, Quantidade_Estoque, id_categoria) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";

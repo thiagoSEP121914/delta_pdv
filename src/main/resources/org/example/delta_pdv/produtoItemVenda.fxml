@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="669.0" style="-fx-background-color: #FFF;" stylesheets="@style/produtoItemVenda.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.ProdutoItemVendaController">
+   <children>
+      <HBox fx:id="box" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="648.0" spacing="45.0" stylesheets="@style/card.css">
+         <children>
+            <ImageView fx:id="image" fitHeight="71.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/shureki.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="nomeLabel" prefHeight="17.0" prefWidth="98.0" text="Banana">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="79.0" prefWidth="414.0" spacing="10.0">
+               <children>
+                  <Button fx:id="btnMienor" mnemonicParsing="false" onAction="#onBtnMenorOnACtion" prefHeight="25.0" prefWidth="38.0" styleClass="botao" text="-">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Label fx:id="qtdLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="28.0" text="1" textAlignment="CENTER">
+                     <font>
+                        <Font name="Bookman Old Style Italic" size="14.0" />
+                     </font></Label>
+                  <Button fx:id="btnMais" mnemonicParsing="false" onAction="#onBtnMaisOnAction" prefHeight="25.0" prefWidth="31.0" styleClass="botao" text="+">
+                     <HBox.margin>
+                        <Insets left="-10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnDeletar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnDeletarOnAction" prefHeight="28.0" prefWidth="11.0">
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/trash.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="358.0" spacing="200.0">
+         <children>
+            <HBox prefHeight="38.0" prefWidth="177.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="39.0" text="R$">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="precoUni" alignment="CENTER" prefHeight="20.0" prefWidth="134.0" text="0,00">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="246.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="31.0" text="R$">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="precoTotal" alignment="CENTER" prefHeight="20.0" prefWidth="72.0" text="0,00">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

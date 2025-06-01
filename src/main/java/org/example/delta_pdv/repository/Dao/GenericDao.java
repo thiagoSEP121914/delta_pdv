@@ -8,6 +8,9 @@ public interface GenericDao<T> {
 
     List<T> findAll();
     T findById(Long id);
+
+    List<Produto> findByName(String name);
+
     void insert(T object);
     void update(T object);
     void delete(Long id);

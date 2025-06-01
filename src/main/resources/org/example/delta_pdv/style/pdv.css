@@ -102,13 +102,6 @@ vbox {
     -fx-cursor: hand;
 }
 
-.formaPagamento:hover {
-    -fx-background-color: #7bed9f;
-}
-
-.formaPagamento:pressed {
-    -fx-background-color: #2ed573;
-}
 
 /* Botão Esperar */
 #btnEsperar {

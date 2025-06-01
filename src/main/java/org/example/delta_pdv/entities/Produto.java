@@ -26,7 +26,6 @@ public class Produto implements Serializable {
         this.descricao = descricao;
         this.precoUnitario = precoUnitario;
         this.custo = custo;
-        this.lucro = lucro;
         this.quantidadeEstoque = quantidadeEstoque;
         this.categoria = categoria;
     }
@@ -45,6 +44,8 @@ public class Produto implements Serializable {
         this.precoUnitario = precoUnitario;
         this.custo = custo;
     }
+
+
     public Long getIdProduto() {
         return idProduto;
     }

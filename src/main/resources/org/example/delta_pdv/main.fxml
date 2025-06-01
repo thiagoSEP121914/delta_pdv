@@ -142,7 +142,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <TextField alignment="CENTER" layoutX="122.0" layoutY="38.0" prefHeight="25.0" prefWidth="399.0" promptText="Buscar" styleClass="input" />
+                        <TextField fx:id="searchBar" alignment="CENTER" layoutX="122.0" layoutY="38.0" onKeyTyped="#onSearchKeyTyped" onMouseReleased="#onBuscarButtonMouseReleased" prefHeight="25.0" prefWidth="399.0" promptText="Buscar" styleClass="input" />
                         <ImageView fitHeight="25.0" fitWidth="18.0" layoutX="134.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@icons/search-interface-symbol.png" />

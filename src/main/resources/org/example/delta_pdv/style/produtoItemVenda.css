@@ -1,0 +1,59 @@
+/* Define o fundo do componente e bordas arredondadas */
+.anchor-pane {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-padding: 10px;
+}
+
+/* Estilo para o nome do produto */
+.nomeProduto {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Preço unitário */
+.precoUnitario {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+}
+
+/* Total do produto (preço * quantidade) */
+.totalProduto {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7bed9f;
+}
+
+/* Botões de adicionar e remover */
+.botao {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 2, 0, 0, 1);
+}
+
+.botao:hover {
+    -fx-background-color: #e8f0fe;
+}
+
+/* Botão de deletar (ícone de lixeira) */
+#btnDeletar {
+    -fx-background-color: #ff4757;
+    -fx-cursor: hand;
+}
+
+#btnDeletar:hover {
+    -fx-background-color: #ffeeee;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}

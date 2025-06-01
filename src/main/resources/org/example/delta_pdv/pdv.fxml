@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -40,7 +38,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <VBox layoutX="713.0" layoutY="114.0" prefHeight="705.0" prefWidth="673.0" styleClass="tableVendas">
+      <VBox layoutX="690.0" layoutY="109.0" prefHeight="714.0" prefWidth="713.0" styleClass="tableVendas">
          <children>
             <AnchorPane prefHeight="120.0" prefWidth="653.0">
                <children>
@@ -76,99 +74,49 @@
                      </graphic></Button>
                </children>
             </AnchorPane>
-            <VBox id="containerPagamento" prefHeight="714.0" prefWidth="671.0" spacing="20.0">
+            <VBox id="containerPagamento" prefHeight="714.0" prefWidth="664.0" spacing="20.0">
                <VBox.margin>
                   <Insets top="100.0" />
                </VBox.margin>
                <children>
-                  <ScrollPane prefHeight="191.0" prefWidth="643.0" styleClass="VendaScroll">
+                  <ScrollPane prefHeight="300.0" prefWidth="689.0" styleClass="VendaScroll">
                      <content>
-                        <TableView prefHeight="154.0" prefWidth="648.0">
-                          <columns>
-                            <TableColumn prefWidth="164.0" styleClass="column" text="Quantidade" />
-                            <TableColumn prefWidth="333.0" styleClass="column" text="Produto" />
-                              <TableColumn prefWidth="168.0" styleClass="column" text="Preço(Uni)" />
-                          </columns>
-                        </TableView>
+                        <VBox fx:id="itensVendaBox" prefHeight="294.0" prefWidth="655.0" spacing="5.0" />
                      </content>
                   </ScrollPane>
-                  <AnchorPane id="#subTotal" prefHeight="193.0" prefWidth="653.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="51.0" prefWidth="625.0" styleClass="totalCard">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </VBox.margin>
                      <children>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="364.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView layoutX="544.0" layoutY="37.0">
-                           <image>
-                              <Image url="@icons/reload.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="40.0" layoutY="32.0" prefHeight="37.0" prefWidth="234.0" text="SubTotal R$:">
-                           <font>
-                              <Font name="Arial Black" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="310.0" layoutY="31.0" prefHeight="37.0" prefWidth="234.0" text="900,000">
-                           <font>
-                              <Font name="Arial Black" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="40.0" layoutY="86.0" prefHeight="37.0" prefWidth="234.0" text="Desconto %:">
-                           <font>
-                              <Font name="Arial Black" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="40.0" layoutY="136.0" prefHeight="37.0" prefWidth="234.0" text="Total a pagar">
-                           <font>
-                              <Font name="Arial Black" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="310.0" layoutY="136.0" prefHeight="37.0" prefWidth="234.0" text="900,00">
-                           <font>
-                              <Font name="Arial Black" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="310.0" layoutY="78.0" prefHeight="37.0" prefWidth="234.0" text="0">
-                           <font>
-                              <Font name="Arial Black" size="24.0" />
-                           </font>
-                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="625.0" spacing="400.0" styleClass="formaPagamento">
+                           <children>
+                              <Label id="totalVendasLabel" prefHeight="17.0" prefWidth="159.0" text="Total">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="35.0" text="R$">
+                                       <font>
+                                          <Font name="System Bold Italic" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="labelSubTotal" prefHeight="27.0" prefWidth="92.0" text="0,00">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
                      </children>
-                  </AnchorPane>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="671.0" spacing="30.0">
-                     <children>
-                        <VBox alignment="CENTER" prefHeight="88.0" prefWidth="141.0" spacing="5.0" styleClass="formaPagamento">
-                           <children>
-                              <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@icons/credit-card.png" />
-                                 </image>
-                              </ImageView>
-                              <Label text="Cartao" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="88.0" prefWidth="141.0" spacing="5.0" styleClass="formaPagamento">
-                           <children>
-                              <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@icons/money.png" />
-                                 </image>
-                              </ImageView>
-                              <Label text="Dinheiro" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="88.0" prefWidth="141.0" spacing="5.0" styleClass="formaPagamento">
-                           <children>
-                              <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@icons/qr-code.png" />
-                                 </image>
-                              </ImageView>
-                              <Label text="Pix" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
+                  </VBox>
                   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="671.0" spacing="30.0">
                      <children>
-                        <Button id="btnEsperar" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" styleClass="btnVenda" text="Esperar">
+                        <Button id="btnEsperar" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" styleClass="btnVenda" text="Cancelar">
                            <font>
                               <Font name="Arial Black" size="12.0" />
                            </font>

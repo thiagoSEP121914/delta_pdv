@@ -87,20 +87,20 @@ public class EstoqueController implements Initializable, UpdateTableListener {
     private void editarProduto(Produto produto) {
         System.out.println("Editar produto: " + produto.getNome());
         Produto produtoSelecionado = tabelaProdutos.getSelectionModel().getSelectedItem();
-
-        if (produtoSelecionado != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/produtoCadastro.fxml"));
-                Parent root = loader.load();
-                ProdutoCadastroController produtoCadastroController = loader.getController();
-                produtoCadastroController.setUpdateProduto(produto);
-                produtoCadastroController.setUpdateTableListener(this);
-                ScreenLoader.loadForm(root);
-            }catch (IOException exception) {
-                throw new RuntimeException("Erro ao carregar a tela de cadastro!!: ", exception);
-            }
+        if (produtoSelecionado == null) {
+            Alerts.showAlert("ERRO!", " ", "Selecione o produto antes de editar", Alert.AlertType.INFORMATION);
+            return;
         }
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/produtoCadastro.fxml"));
+            Parent root = loader.load();
+            ProdutoCadastroController produtoCadastroController = loader.getController();
+            produtoCadastroController.setUpdateProduto(produto);
+            produtoCadastroController.setUpdateTableListener(this);
+            ScreenLoader.loadForm(root);
+        }catch (IOException exception) {
+                throw new RuntimeException("Erro ao carregar a tela de cadastro!!: ", exception);
+        }
     }
 
     private void removerProduto(Produto produto) {
@@ -110,6 +110,7 @@ public class EstoqueController implements Initializable, UpdateTableListener {
             if (choice.isPresent() && choice.get() == ButtonType.YES) {
                 produtoService.delete(produto.getIdProduto());
                 Alerts.showAlert("Sucesso!!", " ", "Produto deletado com sucesso!", Alert.AlertType.CONFIRMATION);
+                reloadTable();
             }
         } catch (Exception exception) {
             Alerts.showAlert("Erro", " ", "Erro ao deletar o produto!", Alert.AlertType.ERROR);
@@ -247,6 +248,7 @@ public class EstoqueController implements Initializable, UpdateTableListener {
                 btnRemover.setOnAction(event -> {
                     Produto produto = getTableView().getItems().get(getIndex());
                     removerProduto(produto);
+                    reloadTable();
                 });
             }
 
