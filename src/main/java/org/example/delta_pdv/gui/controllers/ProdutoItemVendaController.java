@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.entities.ItemVenda;
 
 import java.io.File;
 import java.text.Format;
@@ -32,53 +32,64 @@ public class ProdutoItemVendaController {
 
     @FXML
     private Label qtdLabel;
-    private Produto produtoAtual;
+    private ItemVenda itemVendasAtual;
     private Integer qtd = 1;
-
-
-    public Integer getQtd() {
-        return qtd;
-    }
 
     public void setPdvController(PdvController pdvController) {
         this.pdvController = pdvController;
     }
 
+    public Integer getQtd() {
+        return qtd;
+    }
+
+
     @FXML
    private void btnDeletarOnAction(ActionEvent event) {
-        pdvController.deleteProdutosSelecionados(produtoAtual);
+        pdvController.deleteItensVendas(itemVendasAtual);
     }
     @FXML
      private void onBtnMaisOnAction(ActionEvent event) {
         qtd++;
         qtdLabel.setText(String.valueOf(qtd));
         atualizarPreco();
+
+        if (pdvController != null) {
+            itemVendasAtual.setQtd(qtd);
+            pdvController.atualizarSubTotal();
+        }
     }
 
     @FXML
      private void onBtnMenorOnACtion(ActionEvent event) {
-        if (qtd > 1) {
-            qtd--;
-            qtdLabel.setText(String.valueOf(qtd));
-            atualizarPreco();
+        if (qtd <= 1) {
+            return;
+        }
+        qtd--;
+        qtdLabel.setText(String.valueOf(qtd));
+        atualizarPreco();
+
+        if (pdvController != null) {
+            itemVendasAtual.setQtd(qtd);
+            pdvController.atualizarSubTotal();
         }
     }
 
-    public void setData(Produto produto) {
-        if (produto == null) return;
+    public void setData(ItemVenda itemVendas) {
+        if (itemVendas == null) return;
 
-        this.produtoAtual = produto;
+        this.itemVendasAtual = itemVendas;
 
-        nomeLabel.setText(produto.getNome());
+        nomeLabel.setText(itemVendas.getProduto().getNome());
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        qtd = 1;
+        qtd = itemVendas.getQtd();
         qtdLabel.setText(String.valueOf(qtd));
 
-        Double precoUnitario = produto.getPrecoUnitario();
+        Double precoUnitario = itemVendas.getPrecoUnitario();
         loadPrecos(precoUnitario);
 
         try {
-            String caminhoImagem = produto.getCaminhoImagem();
+            String caminhoImagem = itemVendas.getProduto().getCaminhoImagem();
 
             if (caminhoImagem != null && !caminhoImagem.isBlank()) {
                 File imagemArquivo = new File(caminhoImagem);
@@ -114,6 +125,6 @@ public class ProdutoItemVendaController {
     }
 
     private void atualizarPreco() {
-        loadPrecos(produtoAtual.getPrecoUnitario());
+        loadPrecos(itemVendasAtual.getPrecoUnitario());
     }
 }

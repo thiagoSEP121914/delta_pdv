@@ -11,6 +11,8 @@ module org.example.delta_pdv {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires layout;
+    requires kernel;
 
     opens org.example.delta_pdv to javafx.fxml;
     exports org.example.delta_pdv;

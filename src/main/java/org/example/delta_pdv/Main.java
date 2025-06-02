@@ -1,10 +1,13 @@
 package org.example.delta_pdv;
 
-import org.example.delta_pdv.entities.Categoria;
-import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.entities.*;
 import org.example.delta_pdv.repository.Dao.GenericDao;
+import org.example.delta_pdv.repository.Dao.ItemVendaDao;
+import org.example.delta_pdv.repository.Dao.VendaDao;
 import org.example.delta_pdv.repository.Dao.factory.DaoFactory;
+import org.example.delta_pdv.service.ItemVendaService;
 
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -57,7 +60,7 @@ public class Main {
         produtoRepository.delete(idParaDeletar);
         System.out.println("Produto com ID " + idParaDeletar + " deletado com sucesso!");
     }
-*/
+
         GenericDao<Categoria> categoriaService = DaoFactory.createCategoriaDao();
 
         List<Categoria> listOfCategorias = categoriaService.findAll();
@@ -67,4 +70,37 @@ public class Main {
         }
     }
 
+         */
+        ItemVendaService itemVendaService = new ItemVendaService();
+
+        // Cria o objeto Venda com ID existente no banco
+        Venda venda = new Venda();
+        venda.setIdVenda(2L); // ajuste para um ID válido no seu banco
+
+        // Cria o objeto Produto com ID existente no banco
+        Produto produto = new Produto();
+        produto.setIdProduto(36L); // ajuste para um ID válido no seu banco
+
+        // Cria o ItemVenda para inserir
+        ItemVenda itemVenda = new ItemVenda();
+        itemVenda.setVenda(venda);
+        itemVenda.setProduto(produto);
+        itemVenda.setQtd(5);
+        itemVenda.setPrecoUnitario(150.0);
+
+        try {
+            // Insere o ItemVenda
+            itemVendaService.insert(itemVenda);
+            System.out.println("ItemVenda inserido com sucesso!");
+            // Opcional: buscar o último inserido (se implementar busca por último ID)
+            // Ou buscar por algum critério específico (aqui só um exemplo fictício)
+            // Por simplicidade, vamos buscar o item pelo ID 1
+            ItemVenda itemBuscado = itemVendaService.findById(2L);
+            System.out.println("ItemVenda buscado: " + itemBuscado);
+
+        } catch (Exception e) {
+            System.err.println("Erro ao inserir ItemVenda: " + e.getMessage());
+        }
+
+    }
 }

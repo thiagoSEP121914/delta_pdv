@@ -36,7 +36,7 @@ public class DB {
         }
     }
 
-    private void closeStatement(PreparedStatement ps) {
+    public static void closeStatement(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
@@ -46,7 +46,7 @@ public class DB {
         }
     }
 
-    private void closeResultSet(ResultSet rs) {
+    public static void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();
@@ -55,6 +55,7 @@ public class DB {
             }
         }
     }
+
 
     public static void main(String[] args) {
         Connection conn = getConn();

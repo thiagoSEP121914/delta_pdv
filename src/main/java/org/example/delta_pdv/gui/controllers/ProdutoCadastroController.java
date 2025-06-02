@@ -209,9 +209,7 @@ public class ProdutoCadastroController implements Initializable {
         }
 
         String caminhoImagem = imagemSelecionada != null ? ImageUtils.salvarImagem(imagemSelecionada) : caminhoImagemAtual;
-
         Categoria categoriaSelecionada = categoriaComboBox.getSelectionModel().getSelectedItem();
-
         double precoUnitario = Double.parseDouble(txtPrecoUnitario.getText().replace(",", "."));
         double custo = Double.parseDouble(txtCusto.getText().replace(",", "."));
         double lucro = precoUnitario - custo;

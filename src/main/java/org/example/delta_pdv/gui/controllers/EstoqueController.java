@@ -68,7 +68,6 @@ public class EstoqueController implements Initializable, UpdateTableListener {
         loadTableView();
     }
 
-
     @FXML
     void btnAdcionarOnAction() {
         System.out.println("BOTAO DE ADICONAR CLICADO!!!");

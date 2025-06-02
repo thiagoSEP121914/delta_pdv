@@ -2,6 +2,7 @@ package org.example.delta_pdv.repository.Dao.impl;
 
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.GenericDao;
 
 import java.sql.Connection;
@@ -24,14 +25,18 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
         String sql = "SELECT produtos.*, C.nome AS Categoria, C.id_categoria " +
                      "FROM produtos " +
                      "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria";
-        PreparedStatement pst;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
         try {
             pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
+            rs = pst.executeQuery();
             List<Produto> listOfprodutos = instantiateListOfProduto(rs);
             return listOfprodutos;
         }catch (SQLException exception) {
             throw new RuntimeException("Erro ao executar consulta: ", exception);
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
         }
     }
 
@@ -41,17 +46,21 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
                      "FROM produtos " +
                      "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria "+
                      "WHERE ID_Produto = ?;";
-        PreparedStatement pst;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
         try {
             pst = conn.prepareStatement(sql);
             pst.setLong(1,id);
-            ResultSet rs = pst.executeQuery();
+            rs = pst.executeQuery();
             if (!rs.next()) {
                 return null;
             }
             return instantiateProduto(rs);
         }catch (SQLException exception) {
             throw new RuntimeException("Erro ao executar consulta sql: ",exception);
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
         }
     }
 
@@ -78,7 +87,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     public void insert(Produto produto) {
         String sql = "INSERT INTO produtos (Nome, caminho_imagem, Descricao ,Preco_Unitario, custo, Quantidade_Estoque, id_categoria) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pst;
+        PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(sql);
             pst.setString(1, produto.getNome());
@@ -91,6 +100,8 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
             pst.executeUpdate();
         } catch (SQLException exception) {
             throw new RuntimeException("Erro ao executar a consulta sql: ", exception);
+        } finally {
+            DB.closeStatement(pst);
         }
     }
 
@@ -100,8 +111,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
                       "SET nome = ?, caminho_imagem = ?,  Descricao = ?,  Preco_Unitario = ?, custo = ?,  Quantidade_Estoque = ?, id_categoria = ? " +
                       "WHERE ID_Produto = ?;";
 
-        PreparedStatement pst;
-
+        PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(sql);
             pst.setString(1, produto.getNome());
@@ -115,6 +125,8 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
             int rows = pst.executeUpdate();
         }catch (SQLException exception) {
             throw new RuntimeException("Erro ao execultar consulta", exception);
+        } finally {
+            DB.closeStatement(pst);
         }
     }
 
@@ -123,13 +135,15 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     public void delete(Long id) {
         String sql = "DELETE  FROM produtos "+
                       "WHERE ID_Produto = ?";
-        PreparedStatement pst;
+        PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(sql);
             pst.setLong(1, id);
             int rows = pst.executeUpdate();
         }catch (SQLException exception) {
             throw new RuntimeException("Erro ao execultar consulta sql: ", exception);
+        } finally {
+            DB.closeStatement(pst);
         }
     }
 

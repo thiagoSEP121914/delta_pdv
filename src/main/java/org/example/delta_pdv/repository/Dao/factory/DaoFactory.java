@@ -2,10 +2,15 @@ package org.example.delta_pdv.repository.Dao.factory;
 
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.entities.Venda;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.GenericDao;
+import org.example.delta_pdv.repository.Dao.ItemVendaDao;
+import org.example.delta_pdv.repository.Dao.VendaDao;
 import org.example.delta_pdv.repository.Dao.impl.CategoriaDaoImpl;
+import org.example.delta_pdv.repository.Dao.impl.ItemVendaDaoImpl;
 import org.example.delta_pdv.repository.Dao.impl.ProdutoDaoImpl;
+import org.example.delta_pdv.repository.Dao.impl.VendaDaoImpl;
 
 public class DaoFactory {
 
@@ -15,5 +20,13 @@ public class DaoFactory {
 
     public static GenericDao<Categoria> createCategoriaDao() {
         return new CategoriaDaoImpl(DB.getConn());
+    }
+
+    public static VendaDao createVendaDao() {
+        return new VendaDaoImpl(DB.getConn());
+    }
+
+    public static ItemVendaDao createItemvendaDao() {
+        return new ItemVendaDaoImpl(DB.getConn());
     }
 }

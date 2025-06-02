@@ -1,21 +1,31 @@
 package org.example.delta_pdv.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.example.delta_pdv.entities.Produto;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import org.example.delta_pdv.entities.*;
+import org.example.delta_pdv.gui.utils.Alerts;
+import org.example.delta_pdv.gui.utils.PaymentPdf;
 import org.example.delta_pdv.gui.utils.ProdutoSearchListener;
+import org.example.delta_pdv.service.ItemVendaService;
 import org.example.delta_pdv.service.ProdutoService;
+import org.example.delta_pdv.service.VendaService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.text.Format;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class PdvController implements Initializable, ProdutoSearchListener {
@@ -26,10 +36,6 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     @FXML
     private HBox categoriaHbox;
 
-    @FXML
-    private TableView<Produto> TabelaVenda;
-
-    private List<Produto> recentlyAdded;
 
     @FXML
     private VBox itensVendaBox;
@@ -37,57 +43,149 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     @FXML
     private Label labelSubTotal;
 
-    private List<Produto> produtosSelecionados = new ArrayList<>();
+    @FXML
+    private ToggleGroup pagamentoGroup;
 
+    @FXML
+    private RadioButton radioCartao;
+
+    @FXML
+    private RadioButton radioDinheiro;
+
+    @FXML
+    private RadioButton radioPix;
+
+    @FXML
+    private Button btnPagamento;
+
+    private List<ItemVenda> itensVendas = new ArrayList<>();
+
+    private VendaService vendaService = new VendaService();
     private ProdutoService produtoService = new ProdutoService();
+    private ItemVendaService itemVendaService = new ItemVendaService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         carregarCategorias();
-        carregarProdutosSelecionados();
+        carregarItensVendas();
+        setRadioButtons();
     }
+
+    @FXML
+    private void onBtnPagamentoOnAction() {
+        if (itensVendas.isEmpty()) {
+            Alerts.showAlert("Aviso!", "", "Nenhum item selecionado", Alert.AlertType.INFORMATION);
+            return;
+        }
+
+        Optional<ButtonType> result = Alerts.showAlertYesNo("Confirmação", "", "Deseja confirmar o pagamento?", Alert.AlertType.CONFIRMATION);
+        if (result.isEmpty() || result.get().getButtonData() != ButtonBar.ButtonData.YES) return;
+
+        try {
+            File arquivoSelecionado = abrirDialogoSalvarArquivo();
+
+            if (arquivoSelecionado == null) {
+                Alerts.showAlert("Aviso", "", "Operação cancelada pelo usuário.", Alert.AlertType.INFORMATION);
+                return;
+            }
+
+            String caminhoArquivo = corrigirExtensaoPdf(arquivoSelecionado.getAbsolutePath());
+
+            salvarItemVenda(); // Salvar no banco
+            System.out.println("Venda salva no banco");
+
+            new PaymentPdf().gerarPDF(itensVendas, caminhoArquivo); // Gerar PDF
+            System.out.println("PDF salvo em: " + caminhoArquivo);
+
+            itensVendas.clear();
+            carregarItensVendas();
+            atualizarSubTotal();
+            Alerts.showAlert("Sucesso", null, "Venda finalizada e PDF salvo em:\n" + caminhoArquivo, Alert.AlertType.INFORMATION);
+        } catch (Exception e) {
+            Alerts.showAlert("Erro", null, "Erro ao finalizar venda:\n" + e.getMessage(), Alert.AlertType.ERROR);
+            throw new RuntimeException("Erro ao salvar no banco: " + e.getMessage());
+        } finally {
+            clearAll();
+        }
+    }
+
+    @FXML
+    private void onBtnCancelarOnAction() {
+        clearAll();
+    }
+
+
+    private Venda salvarVenda () {
+        if (itensVendas == null || itensVendas.isEmpty()) {
+            Alerts.showAlert("Erro", " ", "A venda não possue itens", Alert.AlertType.INFORMATION);
+            return null;
+        }
+
+        Venda venda = new Venda();
+        Cliente cliente = new Cliente();
+        cliente.setIdCliente(2L); // seria o cliente padrao generico do banco caso o usuario nao escolha cliente
+        venda.setCliente(cliente);
+        LocalDate localDate = LocalDate.now();
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        venda.setDataVenda(date);
+        Toggle selectedToggle = pagamentoGroup.getSelectedToggle();
+
+        if (selectedToggle == null) {
+            Alerts.showAlert("Aviso", " ", "Selecione uma forma de pagamento", Alert.AlertType.INFORMATION);
+            return null;
+        }
+
+        FormaPagamento formaPagamento = (FormaPagamento) selectedToggle.getUserData();
+        venda.setFormaPagamento(formaPagamento);
+        venda.setTotal(getTotal());
+        long idGerado =  vendaService.insert(venda);
+        venda.setIdVenda(idGerado);
+        return venda;
+    }
+
+    private void salvarItemVenda() {
+        Venda venda = salvarVenda();
+        if (venda == null) {
+            return;
+        }
+
+        for (ItemVenda item : itensVendas) {
+            Produto produto = item.getProduto();
+
+            item.setVenda(venda); // ID_Venda
+            item.setProduto(produto); // ID_Produto
+            item.setQtd(item.getQtd()); // ← garante que Quantidade será salva
+            item.setPrecoUnitario(produto.getPrecoUnitario()); // Preco_Unitario
+            itemVendaService.insert(item);
+            int novaQuantidade = produto.getQuantidadeEstoque() - item.getQtd();
+            produto.setQuantidadeEstoque(novaQuantidade);
+            produtoService.saveProducts(produto);
+        }
+    }
+
 
     public void carregarProdutoNaTela() {
         itensVendaBox.getChildren().clear();
-        carregarProdutosSelecionados();
+        carregarItensVendas();
     }
 
-    private void carregarProdutosSelecionados() {
+    private void carregarItensVendas() {
         try {
-            for (Produto produto : produtosSelecionados) {
+            for (ItemVenda itemVenda : itensVendas) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/org/example/delta_pdv/produtoItemVenda.fxml"));
                 VBox itemBox = fxmlLoader.load();
                 ProdutoItemVendaController itemController = fxmlLoader.getController();
-                itemController.setData(produto);
+                itemController.setData(itemVenda);
                 itemController.setPdvController(this);
                 itensVendaBox.getChildren().add(itemBox);
             }
+            atualizarSubTotal();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void carregarProdutos() {
-        cardLayout.getChildren().clear();
-
-        recentlyAdded = recentlyAdded();
-        try {
-
-
-            for (int i = 0; i < recentlyAdded.size(); i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/org/example/delta_pdv/produtoCard.fxml"));
-                HBox cardBox = fxmlLoader.load();
-                ProdutoCardController cardController = fxmlLoader.getController();
-                cardController.setData(recentlyAdded.get(i));
-                cardController.setPdvController(this);
-                cardLayout.getChildren().add(cardBox);
-            }
-        }catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
 
     private void carregarCategorias() {
         List<String> categorias = List.of("Bebidas", "Comidas", "Higiene");
@@ -105,61 +203,53 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         }
     }
 
-    private List<Produto> recentlyAdded() {
-        List<Produto> list = new ArrayList<>();
-        Produto produto = new Produto();
-        produto.setNome("Sherek");
-        produto.setCaminhoImagem("/org/example/delta_pdv/image/shureki.jpg");
-        produto.setPrecoUnitario(4.50);
 
-        Produto coca = new Produto();
-        coca.setNome("cokinha");
-        coca.setCaminhoImagem("/org/example/delta_pdv/image/coca.jpg");
-        coca.setPrecoUnitario(4.20);
+    public void addItemVenda(ItemVenda itemVenda) {
+        Optional<ItemVenda> itemExistente = itensVendas.stream()
+                        .filter(iv ->  iv.getProduto().getIdProduto() == itemVenda.getProduto().getIdProduto()).findFirst();
 
-        Produto arroz = new Produto();
-        arroz.setNome("Arroz");
-        arroz.setCaminhoImagem("/org/example/delta_pdv/image/coca.jpg");
-        arroz.setPrecoUnitario(35.97);
-
-        Produto cachimbo = new Produto();
-        cachimbo.setNome("Cachimbo de crack");
-        cachimbo.setCaminhoImagem("/org/example/delta_pdv/image/cachimbo.jpg");
-
-        list.add(produto);
-        list.add(coca);
-        list.add(arroz);
-        list.add(cachimbo);
-        return list;
+        if (itemExistente.isPresent()) {
+            ItemVenda item = itemExistente.get();
+            item.setQtd(item.getQtd() + itemVenda.getQtd());
+            item.getTotal();
+        } else {
+            itensVendas.add(itemVenda);
+        }
+        carregarProdutoNaTela();
+        atualizarSubTotal();
     }
 
-    public void addProdutosSelecionado (Produto produto) {
-            produtosSelecionados.add(produto);
-            carregarProdutoNaTela();
-    }
-
-    public void deleteProdutosSelecionados (Produto produto) {
-        produtosSelecionados.remove(produto);
+    public void deleteItensVendas(ItemVenda itemVenda) {
+        itensVendas.removeIf(iv -> iv.getProduto().getIdProduto() == itemVenda.getProduto().getIdProduto());
         carregarProdutoNaTela();
     }
 
-    private void atualizarSubTotal() {
+    public Double getTotal() {
+        String texto = labelSubTotal.getText();
+        String valorNumerico = texto.replaceAll("[^\\d,\\.]", "").replace(",", ".");
+        return Double.parseDouble(valorNumerico);
+    }
+
+
+    private void setRadioButtons() {
+        radioCartao.setUserData(FormaPagamento.CARTAO);
+        radioDinheiro.setUserData(FormaPagamento.DINHEIRO);
+        radioPix.setUserData(FormaPagamento.PIX);
+    }
+
+
+    public void atualizarSubTotal() {
         double subTotal = 0;
-        int qtd = 0;
-        for (Produto produto: produtosSelecionados) {
-            qtd++;
-            subTotal += produto.getPrecoUnitario() * qtd;
+        for (ItemVenda itemVenda : itensVendas) {
+            subTotal += itemVenda.getTotal();
         }
-
-        NumberFormat formater = NumberFormat.getCurrencyInstance(new Locale("pt-br", "BR"));
-        labelSubTotal.setText(String.valueOf(formater.format(subTotal)));
-
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        labelSubTotal.setText(formatter.format(subTotal));
     }
 
     @Override
     public Optional<Produto> onBuscarProduto(String nomeBusca) {
         cardLayout.getChildren().clear();
-
         List<Produto> produtosFiltrados = produtoService.findByName(nomeBusca);
 
         try {
@@ -176,7 +266,28 @@ public class PdvController implements Initializable, ProdutoSearchListener {
             e.printStackTrace();
         }
 
-        // Retorna o primeiro produto encontrado (ou vazio se nenhum)
         return produtosFiltrados.stream().findFirst();
+    }
+
+    private File abrirDialogoSalvarArquivo() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar Comprovante");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF (*.pdf)", "*.pdf"));
+        fileChooser.setInitialFileName("comprovante_" + System.currentTimeMillis() + ".pdf");
+
+        return fileChooser.showSaveDialog(null); // null = janela principal
+    }
+
+    private String corrigirExtensaoPdf(String caminho) {
+        return caminho.toLowerCase().endsWith(".pdf") ? caminho : caminho + ".pdf";
+    }
+
+
+    private void clearAll() {
+        itensVendas.clear();
+        itensVendaBox.getChildren().clear();
+        cardLayout.getChildren().clear();
+        labelSubTotal.setText("0, 00");
+        carregarCategorias();
     }
 }
