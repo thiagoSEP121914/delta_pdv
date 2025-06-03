@@ -3,16 +3,18 @@ package org.example.delta_pdv.repository.Dao.impl;
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
 import org.example.delta_pdv.repository.DB;
-import org.example.delta_pdv.repository.Dao.GenericDao;
+import org.example.delta_pdv.repository.Dao.ProdutoDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ProdutoDaoImpl implements GenericDao<Produto> {
+public class ProdutoDaoImpl implements ProdutoDao {
 
     private final Connection conn;
 
@@ -23,8 +25,9 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     @Override
     public List<Produto> findAll() {
         String sql = "SELECT produtos.*, C.nome AS Categoria, C.id_categoria " +
-                     "FROM produtos " +
-                     "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria";
+                "FROM produtos " +
+                "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria " +
+                "WHERE produtos.ativo = true";
         PreparedStatement pst = null;
         ResultSet rs = null;
         try {
@@ -43,9 +46,9 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     @Override
     public Produto findById(Long id) {
         String sql = "SELECT produtos.*, C.id_categoria, C.nome AS Categoria " +
-                     "FROM produtos " +
-                     "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria "+
-                     "WHERE ID_Produto = ?;";
+                "FROM produtos " +
+                "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria " +
+                "WHERE ID_Produto = ? AND produtos.ativo = true";
         PreparedStatement pst = null;
         ResultSet rs = null;
         try {
@@ -66,10 +69,10 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
 
     @Override
     public List<Produto> findByName(String name) {
-        String sql = "SELECT produtos.*, C.id_categoria, C.nome as Categoria " +
+        String sql =  "SELECT produtos.*, C.id_categoria, C.nome as Categoria " +
                 "FROM produtos " +
                 "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria " +
-                "WHERE LOWER (produtos.nome) LIKE ?";
+                "WHERE LOWER(produtos.nome) LIKE ? AND produtos.ativo = true";
         List<Produto> produtos = new ArrayList<>();
         try (PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, "%" + name + "%");
@@ -82,6 +85,82 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
         }
         return produtos;
     }
+
+    public List<Produto> findByCategoria(String nomeCategoria) {
+        List<Produto> produtos = new ArrayList<>();
+
+        String sql = "SELECT p.*, c.nome AS Categoria, c.id_categoria " +
+                "FROM produtos p " +
+                "JOIN categorias c ON p.id_categoria = c.id_categoria " +
+                "WHERE LOWER(c.nome) = LOWER(?) AND p.Quantidade_Estoque > 0";
+
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, nomeCategoria);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Produto produto = instantiateProduto(rs);
+                produtos.add(produto);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar produtos por categoria: ", e);
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
+        }
+
+        return produtos;
+    }
+
+    @Override
+    public Map<String, Integer> getProdutosMaisVendidos() {
+        String sql = "SELECT p.Nome, SUM(iv.Quantidade) AS Total " +
+                "FROM itemVenda iv " +
+                "JOIN produtos p ON iv.ID_Produto = p.ID_Produto " +
+                "GROUP BY p.Nome " +
+                "ORDER BY Total DESC " +
+                "LIMIT 5";
+
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
+        Map<String, Integer> produtosMaisVendidos = new HashMap<>();
+        try {
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nome = rs.getString("Nome");
+                int quantidade = rs.getInt("Total");
+                produtosMaisVendidos.put(nome, quantidade);
+            }
+            return produtosMaisVendidos;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro na tabela de Produtos: Não foi possível buscar produtos mais vendidos: " + exception.getMessage());
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
+        }
+    }
+
+
+    @Override
+    public int getTotaoEstoque() {
+        String sql = "SELECT SUM(Quantidade_Estoque) FROM produtos WHERE ativo = TRUE"; //nossas tabelas são plurais
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro na tabela produtos: Não foi possivel buscar a quantidade total de produtos em estoque"+ exception.getMessage());
+        }
+    }
+
 
     @Override
     public void insert(Produto produto) {
@@ -133,19 +212,19 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
 
     @Override
     public void delete(Long id) {
-        String sql = "DELETE  FROM produtos "+
-                      "WHERE ID_Produto = ?";
+        String sql = "UPDATE produtos SET ativo = false WHERE ID_Produto = ?";
         PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(sql);
             pst.setLong(1, id);
             int rows = pst.executeUpdate();
-        }catch (SQLException exception) {
-            throw new RuntimeException("Erro ao execultar consulta sql: ", exception);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao executar consulta SQL: " + exception.getMessage());
         } finally {
             DB.closeStatement(pst);
         }
     }
+
 
     private List<Produto> instantiateListOfProduto(ResultSet rs) throws SQLException {
         List<Produto> listOfProdutos = new ArrayList<>();

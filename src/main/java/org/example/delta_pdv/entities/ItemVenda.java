@@ -24,7 +24,7 @@ public class ItemVenda implements Serializable {
 
 
     public double getTotal() {
-        return qtd * precoUnitario;
+        return precoUnitario * qtd;
     }
 
     public Long getidItemVenda() {

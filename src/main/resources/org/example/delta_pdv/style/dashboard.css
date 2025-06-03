@@ -24,14 +24,14 @@
 }
 
 .card .faturamento {
-    -fx-font-size: 22px;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-text-fill: #2f3542;
     -fx-font-family: "Segoe UI Semibold", "Roboto", "Arial", sans-serif;
 }
 
 #valor {
-    -fx-font-size: 42px;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
     -fx-text-fill: #57606f;
     -fx-font-family: "Segoe UI Black", "Roboto Black", "Arial Black", sans-serif;
@@ -85,6 +85,7 @@
 
 
 /* Estilo da tabela */
+
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
@@ -104,12 +105,13 @@
     -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-table-cell-border-color: transparent;
     -fx-padding: 10px;
-    -fx-cursor:hand;
+    -fx-cursor: hand;
 }
 
 .table-view .column-header-background {
     -fx-background-color: #f1f2f6;
     -fx-background-radius: 15px 15px 0 0;
+    -fx-alignment: center;
 }
 
 .table-view .column-header,
@@ -131,19 +133,18 @@
     -fx-font-size: 13px;
     -fx-padding: 8px;
     -fx-border-color: transparent;
-    -fx-background-color: transparent;
+    -fx-background-color:transparent;
+    -fx-alignment: center;
 }
 
-.table-row-cell {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 4px;
+table-view .table-row-cell {
+    -fx-background-color: hotpink;
 }
 
-.table-row-cell:filled:hover {
-    -fx-background-color: #f1f2f6;
+.table-view .table-row-cell:hover {
+    -fx-background-color: #7bed9f;
 }
 
-.table-row-cell:focused {
-    -fx-background-color: #dcdde1;
+.table-view .table-row-cell:selected {
+    -fx-background-color: #2ed573;
 }

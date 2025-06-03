@@ -15,6 +15,7 @@ import org.example.delta_pdv.entities.*;
 import org.example.delta_pdv.gui.utils.Alerts;
 import org.example.delta_pdv.gui.utils.PaymentPdf;
 import org.example.delta_pdv.gui.utils.ProdutoSearchListener;
+import org.example.delta_pdv.service.CategoriaService;
 import org.example.delta_pdv.service.ItemVendaService;
 import org.example.delta_pdv.service.ProdutoService;
 import org.example.delta_pdv.service.VendaService;
@@ -35,7 +36,6 @@ public class PdvController implements Initializable, ProdutoSearchListener {
 
     @FXML
     private HBox categoriaHbox;
-
 
     @FXML
     private VBox itensVendaBox;
@@ -63,6 +63,7 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     private VendaService vendaService = new VendaService();
     private ProdutoService produtoService = new ProdutoService();
     private ItemVendaService itemVendaService = new ItemVendaService();
+    private CategoriaService categoriaService = new CategoriaService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,10 +72,18 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         setRadioButtons();
     }
 
+
     @FXML
     private void onBtnPagamentoOnAction() {
         if (itensVendas.isEmpty()) {
             Alerts.showAlert("Aviso!", "", "Nenhum item selecionado", Alert.AlertType.INFORMATION);
+            return;
+        }
+
+        Optional<ItemVenda> itemComEstoqueInsuficiente = verificarEstoqueInsuficiente();
+        if (itemComEstoqueInsuficiente.isPresent()) {
+            Produto produto = itemComEstoqueInsuficiente.get().getProduto();
+            Alerts.showAlert("Aviso!", "", "O produto " + produto.getNome() + "Possui apenas " + produto.getQuantidadeEstoque() + " Quantidade em estoque", Alert.AlertType.WARNING);
             return;
         }
 
@@ -114,12 +123,12 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         clearAll();
     }
 
-
     private Venda salvarVenda () {
         if (itensVendas == null || itensVendas.isEmpty()) {
             Alerts.showAlert("Erro", " ", "A venda não possue itens", Alert.AlertType.INFORMATION);
             return null;
         }
+
 
         Venda venda = new Venda();
         Cliente cliente = new Cliente();
@@ -186,16 +195,25 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         }
     }
 
+    private Optional<ItemVenda> verificarEstoqueInsuficiente() {
+        return itensVendas.stream()
+                .filter(item -> item.getQtd() > item.getProduto().getQuantidadeEstoque())
+                .findFirst();
+    }
 
     private void carregarCategorias() {
-        List<String> categorias = List.of("Bebidas", "Comidas", "Higiene");
+        categoriaHbox.getChildren().clear();
+
+        List<Categoria> categorias = categoriaService.findAll();
+
         try {
-            for (String nomeCategoria : categorias) {
+            for (Categoria categoria : categorias) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/org/example/delta_pdv/categoryCard.fxml"));
                 HBox categoriaBox = fxmlLoader.load();
                 CategoriaCardController categoriaCardController = fxmlLoader.getController();
-                categoriaCardController.setData(nomeCategoria);
+                categoriaCardController.setData(categoria.getNome());
+                categoriaCardController.setPdvController(this);  // IMPORTANTE!
                 categoriaHbox.getChildren().add(categoriaBox);
             }
         } catch (IOException e) {
@@ -203,6 +221,29 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         }
     }
 
+
+
+    public void carregarProdutosPorCategoria(String nomeCategoria) {
+        cardLayout.getChildren().clear();
+
+        List<Produto> produtos = produtoService.findByCategoria(nomeCategoria)
+                .stream()
+                .filter(p -> p.getQuantidadeEstoque() > 0)
+                .toList();
+
+        try {
+            for (Produto produto : produtos) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/produtoCard.fxml"));
+                HBox cardBox = fxmlLoader.load();
+                ProdutoCardController cardController = fxmlLoader.getController();
+                cardController.setData(produto);
+                cardController.setPdvController(this);
+                cardLayout.getChildren().add(cardBox);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void addItemVenda(ItemVenda itemVenda) {
         Optional<ItemVenda> itemExistente = itensVendas.stream()
@@ -225,10 +266,12 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     }
 
     public Double getTotal() {
-        String texto = labelSubTotal.getText();
-        String valorNumerico = texto.replaceAll("[^\\d,\\.]", "").replace(",", ".");
-        return Double.parseDouble(valorNumerico);
+        return itensVendas.stream()
+                .mapToDouble(ItemVenda::getTotal)
+                .sum();
     }
+
+
 
 
     private void setRadioButtons() {
@@ -250,7 +293,12 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     @Override
     public Optional<Produto> onBuscarProduto(String nomeBusca) {
         cardLayout.getChildren().clear();
-        List<Produto> produtosFiltrados = produtoService.findByName(nomeBusca);
+
+        // Filtra os produtos com estoque > 0
+        List<Produto> produtosFiltrados = produtoService.findByName(nomeBusca)
+                .stream()
+                .filter(p -> p.getQuantidadeEstoque() > 0)
+                .toList();
 
         try {
             for (Produto produto : produtosFiltrados) {
@@ -269,6 +317,7 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         return produtosFiltrados.stream().findFirst();
     }
 
+
     private File abrirDialogoSalvarArquivo() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Salvar Comprovante");
@@ -281,7 +330,6 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     private String corrigirExtensaoPdf(String caminho) {
         return caminho.toLowerCase().endsWith(".pdf") ? caminho : caminho + ".pdf";
     }
-
 
     private void clearAll() {
         itensVendas.clear();

@@ -2,12 +2,14 @@ package org.example.delta_pdv.gui.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.example.delta_pdv.entities.ItemVenda;
+import org.example.delta_pdv.gui.utils.Alerts;
 
 import java.io.File;
 import java.text.Format;
@@ -43,13 +45,20 @@ public class ProdutoItemVendaController {
         return qtd;
     }
 
-
     @FXML
    private void btnDeletarOnAction(ActionEvent event) {
         pdvController.deleteItensVendas(itemVendasAtual);
     }
+
     @FXML
-     private void onBtnMaisOnAction(ActionEvent event) {
+    private void onBtnMaisOnAction(ActionEvent event) {
+        int estoqueDisponivel = itemVendasAtual.getProduto().getQuantidadeEstoque();
+
+        if (qtd + 1 > estoqueDisponivel) {
+            Alerts.showAlert("Aviso", "", "Quantidade selecionada indisponível no estoque!", Alert.AlertType.WARNING);
+            return;
+        }
+
         qtd++;
         qtdLabel.setText(String.valueOf(qtd));
         atualizarPreco();
@@ -59,6 +68,7 @@ public class ProdutoItemVendaController {
             pdvController.atualizarSubTotal();
         }
     }
+
 
     @FXML
      private void onBtnMenorOnACtion(ActionEvent event) {

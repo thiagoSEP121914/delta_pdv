@@ -5,6 +5,7 @@ import org.example.delta_pdv.repository.Dao.VendaDao;
 import org.example.delta_pdv.repository.Dao.factory.DaoFactory;
 
 import java.util.List;
+import java.util.Map;
 
 public class VendaService {
 
@@ -18,7 +19,29 @@ public class VendaService {
         return vendaRepository.findById(id);
     }
 
+    public List<Venda> findAllVendasHoje() {
+        return vendaRepository.findAllVendasHoje();
+    }
+
+    public double getFaturamentoTotal() {
+        return vendaRepository.getFaturamentoTotal();
+    }
+    public double getVendasHoje() {
+        return vendaRepository.getVendasHoje();
+    }
+
+    public Map<String, Double> faturamentoMensal() {
+        return vendaRepository.getFaturamentoPorMes();
+    }
+
+    public double getfaturamentoNoMesAtual() {
+        return vendaRepository.getFaturamentoMesAtual();
+    }
+
     public long insert(Venda venda) {
         return vendaRepository.insert(venda);
     }
+
+
+
 }

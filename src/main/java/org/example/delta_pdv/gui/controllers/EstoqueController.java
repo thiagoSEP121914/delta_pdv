@@ -112,7 +112,8 @@ public class EstoqueController implements Initializable, UpdateTableListener {
                 reloadTable();
             }
         } catch (Exception exception) {
-            Alerts.showAlert("Erro", " ", "Erro ao deletar o produto!", Alert.AlertType.ERROR);
+            System.out.println("Erro ao deletar " + exception.getMessage());
+            Alerts.showAlert("Erro", " ", "Erro ao deletar o produto! "+ exception.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
