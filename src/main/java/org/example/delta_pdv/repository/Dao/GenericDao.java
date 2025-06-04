@@ -9,7 +9,7 @@ public interface GenericDao<T> {
     List<T> findAll();
     T findById(Long id);
 
-    List<Produto> findByName(String name);
+    List<T> findByName(String name);
 
     void insert(T object);
 

@@ -13,6 +13,7 @@ module org.example.delta_pdv {
     requires java.sql;
     requires layout;
     requires kernel;
+    requires mysql.connector.j;
 
     opens org.example.delta_pdv to javafx.fxml;
     exports org.example.delta_pdv;

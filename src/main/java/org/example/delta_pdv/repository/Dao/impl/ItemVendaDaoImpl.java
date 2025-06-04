@@ -75,7 +75,7 @@ public class ItemVendaDaoImpl implements ItemVendaDao {
             int affectedrRows = pst.executeUpdate();
 
             if (affectedrRows == 0) {
-                throw new RuntimeException("Falha ao inserir vendas nenhuma linha afetada!!!");
+                throw new RuntimeException("Falha ao inserir vendas. Nenhuma linha afetada!!!");
             }
             rs = pst.getGeneratedKeys();
 
