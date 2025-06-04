@@ -39,7 +39,7 @@ public class CategoriaDaoImpl implements GenericDao<Categoria> {
     }
 
     @Override
-    public List<Produto> findByName(String name) {
+    public List<Categoria> findByName(String name) {
         return null;
     }
 

@@ -109,8 +109,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
     public void update(Produto produto) {
         String sql = "UPDATE produtos "+
                       "SET nome = ?, caminho_imagem = ?,  Descricao = ?,  Preco_Unitario = ?, custo = ?,  Quantidade_Estoque = ?, id_categoria = ? " +
-                      "WHERE ID_Produto = ?;";
-
+                      "WHERE ID_Produto = ?";
         PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(sql);
@@ -133,7 +132,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
 
     @Override
     public void delete(Long id) {
-        String sql = "DELETE  FROM produtos "+
+        String sql = "DELETE FROM produtos "+
                       "WHERE ID_Produto = ?";
         PreparedStatement pst = null;
         try {
@@ -141,7 +140,7 @@ public class ProdutoDaoImpl implements GenericDao<Produto> {
             pst.setLong(1, id);
             int rows = pst.executeUpdate();
         }catch (SQLException exception) {
-            throw new RuntimeException("Erro ao execultar consulta sql: ", exception);
+            throw new RuntimeException("Erro ao deletar consulta sql: ", exception);
         } finally {
             DB.closeStatement(pst);
         }

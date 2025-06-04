@@ -5,10 +5,14 @@ import org.example.delta_pdv.repository.Dao.GenericDao;
 import org.example.delta_pdv.repository.Dao.ItemVendaDao;
 import org.example.delta_pdv.repository.Dao.VendaDao;
 import org.example.delta_pdv.repository.Dao.factory.DaoFactory;
+import org.example.delta_pdv.repository.Dao.impl.ClienteDaoImpl;
 import org.example.delta_pdv.service.ItemVendaService;
 
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -70,37 +74,108 @@ public class Main {
         }
     }
 
-         */
-        ItemVendaService itemVendaService = new ItemVendaService();
+//         */
+//        ItemVendaService itemVendaService = new ItemVendaService();
+//
+//        // Cria o objeto Venda com ID existente no banco
+//        Venda venda = new Venda();
+//        venda.setIdVenda(2L); // ajuste para um ID válido no seu banco
+//
+//        // Cria o objeto Produto com ID existente no banco
+//        Produto produto = new Produto();
+//        produto.setIdProduto(36L); // ajuste para um ID válido no seu banco
+//
+//        // Cria o ItemVenda para inserir
+//        ItemVenda itemVenda = new ItemVenda();
+//        itemVenda.setVenda(venda);
+//        itemVenda.setProduto(produto);
+//        itemVenda.setQtd(5);
+//        itemVenda.setPrecoUnitario(150.0);
+//
+//        try {
+//            // Insere o ItemVenda
+//            itemVendaService.insert(itemVenda);
+//            System.out.println("ItemVenda inserido com sucesso!");
+//            // Opcional: buscar o último inserido (se implementar busca por último ID)
+//            // Ou buscar por algum critério específico (aqui só um exemplo fictício)
+//            // Por simplicidade, vamos buscar o item pelo ID 1
+//            ItemVenda itemBuscado = itemVendaService.findById(2L);
+//            System.out.println("ItemVenda buscado: " + itemBuscado);
+//
+//        } catch (Exception e) {
+//            System.err.println("Erro ao inserir ItemVenda: " + e.getMessage());
+//        }
 
-        // Cria o objeto Venda com ID existente no banco
-        Venda venda = new Venda();
-        venda.setIdVenda(2L); // ajuste para um ID válido no seu banco
+        GenericDao<Cliente> clienteDao = DaoFactory.createClienteDao();
 
-        // Cria o objeto Produto com ID existente no banco
-        Produto produto = new Produto();
-        produto.setIdProduto(36L); // ajuste para um ID válido no seu banco
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Cria o ItemVenda para inserir
-        ItemVenda itemVenda = new ItemVenda();
-        itemVenda.setVenda(venda);
-        itemVenda.setProduto(produto);
-        itemVenda.setQtd(5);
-        itemVenda.setPrecoUnitario(150.0);
-
+        // ------------------ TESTE INSERT ------------------
         try {
-            // Insere o ItemVenda
-            itemVendaService.insert(itemVenda);
-            System.out.println("ItemVenda inserido com sucesso!");
-            // Opcional: buscar o último inserido (se implementar busca por último ID)
-            // Ou buscar por algum critério específico (aqui só um exemplo fictício)
-            // Por simplicidade, vamos buscar o item pelo ID 1
-            ItemVenda itemBuscado = itemVendaService.findById(2L);
-            System.out.println("ItemVenda buscado: " + itemBuscado);
+            Cliente novoCliente = new Cliente();
+            novoCliente.setNome("Maria Clara");
+            novoCliente.setCpf("123.456.789-00");
+            novoCliente.setTelefone("11999999999");
+            novoCliente.setEmaiil("maria.clara@gmail.com");
+            novoCliente.setDataCriacao(new Date());
+            novoCliente.setDataAtualizacao(new Date());
 
+            clienteDao.insert(novoCliente);
+            System.out.println("✔ Cliente inserido com sucesso!");
         } catch (Exception e) {
-            System.err.println("Erro ao inserir ItemVenda: " + e.getMessage());
+            System.out.println("❌ Erro ao inserir cliente: " + e.getMessage());
         }
 
+        // ------------------ TESTE FIND ALL ------------------
+        try {
+            List<Cliente> clientes = clienteDao.findAll();
+            System.out.println("\n📄 Lista de clientes:");
+            for (Cliente c : clientes) {
+                System.out.println(c);
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao buscar clientes: " + e.getMessage());
+        }
+
+        // ------------------ TESTE FIND BY ID ------------------
+        try {
+            Cliente cliente = clienteDao.findById(1L);
+            System.out.println("\n🔍 Cliente com ID 1:");
+            System.out.println(cliente);
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao buscar cliente por ID: " + e.getMessage());
+        }
+
+        // ------------------ TESTE FIND BY NAME ------------------
+        try {
+            List<Cliente> clientes = clienteDao.findByName("Maria Clara");
+            System.out.println("\n🔍 Clientes com nome 'Maria Clara':");
+            for (Cliente c : clientes) {
+                System.out.println(c);
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao buscar cliente por nome: " + e.getMessage());
+        }
+
+        // ------------------ TESTE UPDATE ------------------
+        try {
+            Cliente cliente = clienteDao.findById(1L);
+            if (cliente != null) {
+                cliente.setTelefone("11988888888");
+                cliente.setDataAtualizacao(new Date());
+                clienteDao.update(cliente);
+                System.out.println("\n✏ Cliente atualizado com sucesso.");
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao atualizar cliente: " + e.getMessage());
+        }
+
+        // ------------------ TESTE DELETE ------------------
+        try {
+            clienteDao.delete(3L); // ID para deletar
+            System.out.println("\n🗑 Cliente com ID 3 deletado.");
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao deletar cliente: " + e.getMessage());
+        }
     }
 }
