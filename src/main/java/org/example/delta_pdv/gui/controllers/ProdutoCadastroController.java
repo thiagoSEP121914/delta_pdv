@@ -3,7 +3,9 @@ package org.example.delta_pdv.gui.controllers;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,9 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
-import org.example.delta_pdv.gui.utils.Alerts;
-import org.example.delta_pdv.gui.utils.ImageUtils;
-import org.example.delta_pdv.gui.utils.UpdateTableListener;
+import org.example.delta_pdv.gui.utils.*;
 import org.example.delta_pdv.service.CategoriaService;
 import org.example.delta_pdv.service.ProdutoService;
 
@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProdutoCadastroController implements Initializable {
+public class ProdutoCadastroController implements Initializable, CategoriaUpdateListener {
 
     @FXML
     private ComboBox<Categoria> categoriaComboBox;
@@ -59,6 +59,7 @@ public class ProdutoCadastroController implements Initializable {
 
     private File imagemSelecionada;
 
+
     @FXML
     private Button btnSalvar;
 
@@ -83,13 +84,18 @@ public class ProdutoCadastroController implements Initializable {
 
     }
 
-    public void setUpdateTableListener(UpdateTableListener updateTableListener) {
-        this.updateTableListener = updateTableListener;
-        fillFormWithProduto();
-    }
-
-    public void setUpdateProduto (Produto produto) {
-        this.produto = produto;
+    @FXML
+    private void btnAddCategoriaOnAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/categoria.fxml"));
+            Parent root = loader.load();
+            CategoriaController controller = loader.getController();
+            controller.setCategoriaUpdateListener(this);
+            ScreenLoader.loadForm(root);
+        }catch (Exception exception) {
+            Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
+            throw new RuntimeException("Erro ao carregar a tela" + exception.getMessage());
+        }
     }
 
     @FXML
@@ -124,8 +130,18 @@ public class ProdutoCadastroController implements Initializable {
     }
 
     @FXML
-   private void onLucroMouseCliked() {
+    private void onLucroMouseCliked() {
         atualizarCampoLucro();
+    }
+
+
+    public void setUpdateTableListener(UpdateTableListener updateTableListener) {
+        this.updateTableListener = updateTableListener;
+        fillFormWithProduto();
+    }
+
+    public void setUpdateProduto (Produto produto) {
+        this.produto = produto;
     }
 
     /*
@@ -320,5 +336,11 @@ public class ProdutoCadastroController implements Initializable {
         } else {
             setImagemPadrao();
         }
+    }
+
+
+    @Override
+    public void onCategoriaUpdate() {
+        loadCategoriaComboBox();
     }
 }

@@ -12,6 +12,8 @@ public interface GenericDao<T> {
     List<Produto> findByName(String name);
 
     void insert(T object);
+
+    int insertWithId(Long id);
     void update(T object);
     void delete(Long id);
 

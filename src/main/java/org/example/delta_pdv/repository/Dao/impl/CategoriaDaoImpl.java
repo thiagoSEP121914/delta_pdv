@@ -2,16 +2,14 @@ package org.example.delta_pdv.repository.Dao.impl;
 
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.repository.Dao.CategoriaDao;
 import org.example.delta_pdv.repository.Dao.GenericDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaDaoImpl implements GenericDao<Categoria> {
+public class CategoriaDaoImpl implements CategoriaDao {
 
     private final Connection conn;
 
@@ -21,42 +19,57 @@ public class CategoriaDaoImpl implements GenericDao<Categoria> {
 
     @Override
     public List<Categoria> findAll() {
-        String sql= "SELECT * FROM categorias";
-        PreparedStatement pst;
-        try {
-            pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            List<Categoria> listCategorias = instantiateListOfCategoria(rs);
-            return listCategorias;
-        }catch (SQLException exception) {
-            throw new RuntimeException("Erro ao execultar consulta", exception);
+        String sql = "SELECT * FROM categorias WHERE ativo = TRUE";
+        try (PreparedStatement pst = conn.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+            return instantiateListOfCategoria(rs);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao executar consulta", exception);
         }
     }
 
     @Override
     public Categoria findById(Long id) {
-        return null;
+        String sql = "SELECT * FROM ID_categoria = ? AND ativo = TRUES ";
+
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setLong(1, id);
+            rs = pst.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            return instantiateCategoria(rs);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao cadastrar categoria: " + exception.getMessage());
+        }
+
     }
 
     @Override
-    public List<Produto> findByName(String name) {
-        return null;
+    public void insert(Categoria categoria) {
+        String sql = "INSERT INTO categorias(nome) VALUES (?)";
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, categoria.getNome());
+            pst.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao inserir categoria: " + exception.getMessage());
+        }
     }
 
     @Override
-    public void insert(Categoria object) {
-
+    public void delete(String nome) {
+        String sql = "UPDATE categorias SET ativo = FALSE WHERE nome = ?";
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, nome);
+            pst.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao excluir categoria: " + exception.getMessage());
+        }
     }
 
-    @Override
-    public void update(Categoria object) {
-
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
 
     private List<Categoria> instantiateListOfCategoria(ResultSet rs) throws SQLException {
         List<Categoria> listOfCategoria = new ArrayList<>();

@@ -2,10 +2,7 @@ package org.example.delta_pdv.repository.Dao.factory;
 
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.repository.DB;
-import org.example.delta_pdv.repository.Dao.GenericDao;
-import org.example.delta_pdv.repository.Dao.ItemVendaDao;
-import org.example.delta_pdv.repository.Dao.ProdutoDao;
-import org.example.delta_pdv.repository.Dao.VendaDao;
+import org.example.delta_pdv.repository.Dao.*;
 import org.example.delta_pdv.repository.Dao.impl.*;
 
 public class DaoFactory {
@@ -15,7 +12,7 @@ public class DaoFactory {
 
     }
 
-    public static GenericDao<Categoria> createCategoriaDao() {
+    public static CategoriaDao createCategoriaDao() {
         return new CategoriaDaoImpl(DB.getConn());
     }
 

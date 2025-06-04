@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="141.0" prefWidth="423.0" stylesheets="@style/ProdutoCadastro.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.CategoriaController">
+   <children>
+      <TextField fx:id="txtNomeCategoria" layoutX="70.0" layoutY="37.0" prefHeight="38.0" prefWidth="307.0" styleClass="input" />
+      <Label layoutX="68.0" layoutY="20.0" prefHeight="17.0" prefWidth="131.0" text="Nome da Categoria" />
+      <Button layoutX="86.0" layoutY="91.0" mnemonicParsing="false" onAction="#btnSalvarOnAction" prefHeight="25.0" prefWidth="112.0" styleClass="botao" stylesheets="@style/ProdutoCadastro.css" text="Salvar" />
+      <Button id="botaoCancelar" layoutX="225.0" layoutY="91.0" mnemonicParsing="false" onAction="#btnLimparOnAction" prefHeight="25.0" prefWidth="112.0" styleClass="botao" text="Remover" />
+   </children>
+</AnchorPane>

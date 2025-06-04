@@ -44,10 +44,19 @@
             </ImageView>
          </children>
       </HBox>
-      <ComboBox fx:id="categoriaComboBox" editable="true" layoutX="457.0" layoutY="230.0" prefHeight="35.0" prefWidth="166.0" promptText="Selecione" />
+      <ComboBox fx:id="categoriaComboBox" editable="true" layoutX="450.0" layoutY="231.0" prefHeight="35.0" prefWidth="135.0" promptText="Selecione" />
       <TextField fx:id="txtQuantidadeEstoque" layoutX="346.0" layoutY="229.0" prefHeight="38.0" prefWidth="90.0" styleClass="input" />
       <Label layoutX="341.0" layoutY="212.0" prefHeight="17.0" prefWidth="116.0" text="Quantidade estoque" />
       <TextField fx:id="txtLucro" layoutX="238.0" layoutY="229.0" onMouseClicked="#onLucroMouseCliked" prefHeight="38.0" prefWidth="96.0" styleClass="input" />
       <Label layoutX="238.0" layoutY="212.0" prefHeight="17.0" prefWidth="116.0" text="Lucro" />
+      <Button layoutX="594.0" layoutY="233.0" mnemonicParsing="false" onAction="#btnAddCategoriaOnAction" prefHeight="10.0" prefWidth="7.0" styleClass="btnVenda">
+         <graphic>
+            <ImageView accessibleText="adicionar categoria" fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/sinal-de-adicao.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
