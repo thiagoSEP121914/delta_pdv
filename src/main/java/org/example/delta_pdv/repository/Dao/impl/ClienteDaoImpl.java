@@ -1,13 +1,12 @@
 package org.example.delta_pdv.repository.Dao.impl;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import org.example.delta_pdv.entities.Cliente;
-import org.example.delta_pdv.entities.Produto;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.GenericDao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClienteDaoImpl implements GenericDao<Cliente> {
@@ -44,12 +43,17 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
                      "WHERE ID_Cliente = ?";
         PreparedStatement pst = null;
         ResultSet rs = null;
+        Cliente cliente;
         try{
             pst = conn.prepareStatement(sql);
             pst.setLong(1,id);
             rs = pst.executeQuery();
 
-            Cliente cliente = instanciateCliente(rs);
+            if(rs.next()) {
+                cliente = instanciateCliente(rs);
+            } else {
+                throw new RuntimeException("Cliente não encontrado com o id: " + id);
+            }
             return cliente;
         }catch(SQLException e){
             throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
@@ -91,7 +95,7 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             pst.setString(2, cliente.getNome());
             pst.setString(3, cliente.getCpf());
             pst.setString(4, cliente.getTelefone());
-            pst.setString(5, cliente.getEmaiil());
+            pst.setString(5, cliente.getEmail());
             pst.setDate(6, new java.sql.Date(cliente.getDataCriacao().getTime()));
             pst.setDate(7, new java.sql.Date(cliente.getDataAtualizacao().getTime()));
             int affectedRows = pst.executeUpdate();
@@ -113,34 +117,40 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
 
 
     @Override
+    public int insertWithId(Long id) {
+        return 0;
+    }
+
+    //Deu um B.O na hora de salvar a edição de um cliente no ClienteCadastroController porque não existem os campos das
+    //datas na tela, então quando o update é chamado ele não tem como passar esses parâmetros.
+
+
+    @Override
     public void update(Cliente cliente) {
         String sql = "UPDATE clientes "+
-                     "SET Nome = ?,  Cpf = ?, Telefone = ?, Email = ?, Data_Criacao = ?, Data_Atualizacao = ? "+
+                     "SET Nome = ?,  Cpf = ?, Telefone = ?, Email = ?, Data_Atualizacao = ? "+
                      "WHERE ID_Cliente = ?";
         PreparedStatement pst = null;
-        ResultSet rs = null;
         try {
             pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(2, cliente.getNome());
-            pst.setString(3, cliente.getCpf());
-            pst.setString(4, cliente.getTelefone());
-            pst.setString(5, cliente.getEmaiil());
-            pst.setDate(6, new java.sql.Date(cliente.getDataCriacao().getTime()));
-            pst.setDate(7, new java.sql.Date(cliente.getDataAtualizacao().getTime()));
+            pst.setString(1, cliente.getNome());
+            pst.setString(2, cliente.getCpf());
+            pst.setString(3, cliente.getTelefone());
+            pst.setString(4, cliente.getEmail());
+            pst.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+
+            pst.setLong(6, cliente.getIdCliente());
+
             int affectedRows = pst.executeUpdate();
 
             if(affectedRows == 0){
-                throw new RuntimeException("Falha ao inserir clientes! Nenhum cliente inserido.");
+                throw new RuntimeException("Falha ao atualizar clientes! Cliente não atualizado.");
             }
-            rs = pst.getGeneratedKeys();
-            long idGerado = rs.getLong(1);
-            //return idGerado;
 
         } catch(SQLException e) {
             throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
         }finally{
             DB.closeStatement(pst);
-            DB.closeResultSet(rs);
         }
 
     }
@@ -169,7 +179,7 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
         cliente.setNome(rs.getString("Nome"));
         cliente.setCpf(rs.getString("Cpf"));
         cliente.setTelefone(rs.getString("Telefone"));
-        cliente.setEmaiil(rs.getString("Email"));
+        cliente.setEmail(rs.getString("Email"));
         cliente.setDataCriacao(rs.getDate("Data_Criacao"));
         cliente.setDataAtualizacao(rs.getDate("Data_Atualizacao"));
 

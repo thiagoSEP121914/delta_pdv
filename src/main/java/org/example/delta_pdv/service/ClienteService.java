@@ -33,4 +33,13 @@ public class ClienteService {
     public void delete(long id){
         ClienteDao.delete(id);
     }
+
+    public void saveCliente(Cliente novoCliente){
+        Cliente clienteExistente = findById(novoCliente.getIdCliente());
+        if(clienteExistente != null){
+            this.update(novoCliente);
+            return;
+        }
+        this.insert(novoCliente);
+    }
 }

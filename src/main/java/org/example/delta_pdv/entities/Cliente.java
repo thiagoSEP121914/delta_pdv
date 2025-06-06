@@ -1,6 +1,5 @@
 package org.example.delta_pdv.entities;
 
-import java.security.PrivateKey;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ public class Cliente {
     private String nome;
     private String cpf;
     private String telefone;
-    private String emaiil;
+    private String email;
     private Date dataCriacao;
     private Date dataAtualizacao;
 
@@ -24,12 +23,12 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public Cliente(Long idCliente, String nome, String cpf, String telefone, String emaiil, Date dataCriacao, Date dataAtualizacao) {
+    public Cliente(Long idCliente, String nome, String cpf, String telefone, String email, Date dataCriacao, Date dataAtualizacao) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.emaiil = emaiil;
+        this.email = email;
         this.dataCriacao = dataCriacao;
         this.dataAtualizacao = dataAtualizacao;
     }
@@ -67,12 +66,12 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public String getEmaiil() {
-        return emaiil;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmaiil(String emaiil) {
-        this.emaiil = emaiil;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getDataCriacao() {
@@ -111,7 +110,7 @@ public class Cliente {
                 ", nome='" + nome + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", telefone='" + telefone + '\'' +
-                ", emaiil='" + emaiil + '\'' +
+                ", email='" + email + '\'' +
                 ", dataCriacao=" + dataCriacao +
                 ", dataAtualizacao=" + dataAtualizacao +
                 '}';
