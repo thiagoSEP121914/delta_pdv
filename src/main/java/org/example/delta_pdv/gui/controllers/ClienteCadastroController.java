@@ -47,11 +47,11 @@ public class ClienteCadastroController implements Initializable {
 
     public void setUpdateTableListener(UpdateTableListener updateTableListener) {
         this.updateTableListener = updateTableListener;
+        fillFormWithCliente();
     }
 
     public void setUpdateCliente(Cliente cliente) {
         this.cliente = cliente;
-        fillFormWithCliente();
     }
 
     @Override
@@ -68,22 +68,21 @@ public class ClienteCadastroController implements Initializable {
         txtCpfCliente.clear();
     }
 
+
     @FXML
     public void btnSalvarOnAction(ActionEvent event) {
-        Cliente clienteSalvo = instantiateCliente();
+        btnSalvar.setDisable(true);
 
-        if (clienteSalvo == null) {
-            return; // erro já tratado no método acima
-        }
-
-        try {
-            clienteService.saveCliente(clienteSalvo);
-
-
-            Alerts.showAlert("Sucesso", null, "Cliente salvo com sucesso!", Alert.AlertType.INFORMATION);
+        try{
+            clienteService.saveCliente(instantiateCliente());
+            Alerts.showAlert("Sucesso", null, "CLIENTE SALVO COM SUCESSO !", Alert.AlertType.INFORMATION);
+            updateTableListener.reloadTable();
         } catch (Exception e) {
             e.printStackTrace(); // ajuda para debug
             Alerts.showAlert("Erro ao salvar", null, e.getMessage(), Alert.AlertType.ERROR);
+        } finally{
+            clearFields();
+            btnSalvar.setDisable(false);
         }
     }
 
@@ -119,5 +118,12 @@ public class ClienteCadastroController implements Initializable {
         txtIdCliente.setText(String.valueOf(cliente.getIdCliente()));
     }
 
+    public void clearFields(){
+        txtCpfCliente.clear();
+        txtNomeCliente.clear();
+        txtEmailCliente.clear();
+        txtTelefoneCliente.clear();
+        txtIdCliente.clear();
+    }
 
 }

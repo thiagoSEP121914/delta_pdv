@@ -11,9 +11,9 @@
 
 <AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/estoque.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.ClientesController">
    <children>
-      <ScrollPane layoutX="36.0" layoutY="74.0" prefHeight="572.0" prefWidth="1018.0">
+      <ScrollPane layoutX="36.0" layoutY="74.0" prefHeight="572.0" prefWidth="1167.0">
          <content>
-            <TableView id="tbLivro" fx:id="tabelaClientes" prefHeight="557.0" prefWidth="1012.0">
+            <TableView id="tbLivro" fx:id="tabelaClientes" prefHeight="557.0" prefWidth="1144.0">
                <columns>
                   <TableColumn id="idColumn" fx:id="idClienteColumn" prefWidth="98.0" styleClass="column" text="Id" />
                   <TableColumn id="anoLancamentoColumn" fx:id="nomeClienteColumn" prefWidth="228.0" style="-fx-alignment: center;" styleClass="column" text="Nome" />

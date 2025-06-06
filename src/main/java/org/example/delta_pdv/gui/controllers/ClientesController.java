@@ -1,7 +1,5 @@
 package org.example.delta_pdv.gui.controllers;
 
-import com.almasb.fxgl.multiplayer.PropertyUpdateReplicationEvent;
-import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import org.example.delta_pdv.entities.Cliente;
 import org.example.delta_pdv.entities.Cliente;
 import org.example.delta_pdv.gui.utils.Alerts;
 import org.example.delta_pdv.gui.utils.ScreenLoader;
@@ -58,8 +55,58 @@ public class ClientesController implements Initializable, UpdateTableListener {
 
     @FXML
     void btnAddClienteOnAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/clienteCadastro.fxml"));
+            Parent root = loader.load();
+            ClienteCadastroController clienteCadastroController = loader.getController();
+            clienteCadastroController.setUpdateTableListener(this);
+            ScreenLoader.loadForm(root);
 
+        }catch(Exception e){
+            Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
+            throw new RuntimeException("Erro ao carregar a tela: " + e.getMessage());
+        }
     }
+
+    private void editarCliente(Cliente cliente) {
+        System.out.println("Editar Cliente: " + cliente.getNome());
+        Cliente clienteSelecionado = tabelaClientes.getSelectionModel().getSelectedItem();
+        if (clienteSelecionado == null) {
+            Alerts.showAlert("ERRO!", " ", "Selecione o Cliente antes de editar", Alert.AlertType.INFORMATION);
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/clienteCadastro.fxml"));
+            Parent root = loader.load();
+            ClienteCadastroController clienteCadastroController = loader.getController();
+            clienteCadastroController.setUpdateCliente(cliente);
+            clienteCadastroController.setUpdateTableListener(this);
+            ScreenLoader.loadForm(root);
+        }catch (IOException exception) {
+            throw new RuntimeException("Erro ao carregar a tela de cadastro!!: ", exception);
+        }finally {
+            //tentativa de atualizar a tela após atualização
+            reloadTable();
+        }
+    }
+
+    private void removerCliente(Cliente cliente) {
+        try {
+            Optional<ButtonType> choice = Alerts.showAlertYesNo("AVISO!", " ", "Deseja Realmente deletar Cliente ?", Alert.AlertType.WARNING);
+            if (choice.isPresent() && choice.get() == ButtonType.YES) {
+                clienteService.delete(cliente.getIdCliente());
+                Alerts.showAlert("Sucesso!!", " ", "Cliente deletado com sucesso!", Alert.AlertType.CONFIRMATION);
+                reloadTable();
+            }
+            else{
+                Alerts.showAlert("Ação Interrompida !", "", "Cliente não deletado. Operação abortada.", Alert.AlertType.INFORMATION);
+            }
+        } catch (Exception exception) {
+            System.out.println("Erro ao deletar " + exception.getMessage());
+            Alerts.showAlert("Erro", " ", "Erro ao deletar o Cliente! "+ exception.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
 
     //Olhar EstoqueController e ProdutoCadastroController
 
@@ -75,6 +122,7 @@ public class ClientesController implements Initializable, UpdateTableListener {
         tabelaClientes.setItems(FXCollections.observableList(listaCliente));
 
     }
+
     public void loadCelulaAcoes() {
         TableColumn<Cliente, Void> colunaAcoes = new TableColumn<>("Ações");
         colunaAcoes.setCellFactory(coluna -> criarCelulaDeAcoes());
@@ -129,39 +177,7 @@ public class ClientesController implements Initializable, UpdateTableListener {
         };
     }
 
-    private void editarCliente(Cliente cliente) {
-        System.out.println("Editar Cliente: " + cliente.getNome());
-        Cliente clienteSelecionado = tabelaClientes.getSelectionModel().getSelectedItem();
-        if (clienteSelecionado == null) {
-            Alerts.showAlert("ERRO!", " ", "Selecione o Cliente antes de editar", Alert.AlertType.INFORMATION);
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/clienteCadastro.fxml"));
-            Parent root = loader.load();
-            ClienteCadastroController clienteCadastroController = loader.getController();
-            clienteCadastroController.setUpdateCliente(cliente);
-            clienteCadastroController.setUpdateTableListener(this);
-            ScreenLoader.loadForm(root);
-        }catch (IOException exception) {
-            throw new RuntimeException("Erro ao carregar a tela de cadastro!!: ", exception);
-        }
-    }
 
-    private void removerCliente(Cliente cliente) {
-        try {
-            clienteService.delete(cliente.getIdCliente());
-            Optional<ButtonType> choice = Alerts.showAlertYesNo("AVISO!", " ", "Deseja Realmente deletar Cliente ?", Alert.AlertType.WARNING);
-            if (choice.isPresent() && choice.get() == ButtonType.YES) {
-                clienteService.delete(cliente.getIdCliente());
-                Alerts.showAlert("Sucesso!!", " ", "Cliente deletado com sucesso!", Alert.AlertType.CONFIRMATION);
-                reloadTable();
-            }
-        } catch (Exception exception) {
-            System.out.println("Erro ao deletar " + exception.getMessage());
-            Alerts.showAlert("Erro", " ", "Erro ao deletar o Cliente! "+ exception.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
 
     private ImageView carregarIcone(String caminho) {
         try {
@@ -175,6 +191,8 @@ public class ClientesController implements Initializable, UpdateTableListener {
             return new ImageView(); // retorna vazio para não quebrar layout
         }
     }
-    
+
+    @Override
     public void reloadTable(){ loadTableClienteView();}
+
 }

@@ -37,9 +37,9 @@ public class ClienteService {
     public void saveCliente(Cliente novoCliente){
         Cliente clienteExistente = findById(novoCliente.getIdCliente());
         if(clienteExistente != null){
-            ClienteDao.update(novoCliente);
+            this.update(novoCliente);
             return;
         }
-        ClienteDao.insert(novoCliente);
+        this.insert(novoCliente);
     }
 }

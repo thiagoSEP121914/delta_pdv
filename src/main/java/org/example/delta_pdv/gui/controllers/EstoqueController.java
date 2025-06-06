@@ -104,7 +104,6 @@ public class EstoqueController implements Initializable, UpdateTableListener {
 
     private void removerProduto(Produto produto) {
         try {
-            produtoService.delete(produto.getIdProduto());
             Optional<ButtonType> choice = Alerts.showAlertYesNo("AVISO!", " ", "Deseja Realmente deletar produto ?", Alert.AlertType.WARNING);
             if (choice.isPresent() && choice.get() == ButtonType.YES) {
                 produtoService.delete(produto.getIdProduto());
@@ -260,6 +259,11 @@ public class EstoqueController implements Initializable, UpdateTableListener {
         };
     }
 
+
+    @Override
+    public void onTableUpdate() {
+
+    }
 
     public void reloadTable() {
         loadTableView();
