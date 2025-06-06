@@ -111,6 +111,7 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
         }
     }
 
+
     @Override
     public void update(Cliente cliente) {
         String sql = "UPDATE clientes "+

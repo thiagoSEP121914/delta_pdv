@@ -104,18 +104,24 @@ public class EstoqueController implements Initializable, UpdateTableListener {
 
     private void removerProduto(Produto produto) {
         try {
-            produtoService.delete(produto.getIdProduto());
-            Optional<ButtonType> choice = Alerts.showAlertYesNo("AVISO!", " ", "Deseja Realmente deletar produto ?", Alert.AlertType.WARNING);
-            if (choice.isPresent() && choice.get() == ButtonType.YES) {
+            Optional<ButtonType> choice = Alerts.showAlertYesNo(
+                    "AVISO!",
+                    "",
+                    "Deseja realmente deletar o produto?",
+                    Alert.AlertType.WARNING
+            );
+
+            if (choice.isPresent() && choice.get().getButtonData() == ButtonBar.ButtonData.YES) {
                 produtoService.delete(produto.getIdProduto());
-                Alerts.showAlert("Sucesso!!", " ", "Produto deletado com sucesso!", Alert.AlertType.CONFIRMATION);
+                Alerts.showAlert("Sucesso!", "", "Produto deletado com sucesso!", Alert.AlertType.CONFIRMATION);
                 reloadTable();
             }
         } catch (Exception exception) {
-            System.out.println("Erro ao deletar " + exception.getMessage());
-            Alerts.showAlert("Erro", " ", "Erro ao deletar o produto! "+ exception.getMessage(), Alert.AlertType.ERROR);
+            System.out.println("Erro ao deletar: " + exception.getMessage());
+            Alerts.showAlert("Erro", "", "Erro ao deletar o produto: " + exception.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     private ImageView carregarIcone(String caminho) {
         try {

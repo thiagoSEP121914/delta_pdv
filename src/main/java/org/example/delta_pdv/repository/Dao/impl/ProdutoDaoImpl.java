@@ -92,7 +92,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
         String sql = "SELECT p.*, c.nome AS Categoria, c.id_categoria " +
                 "FROM produtos p " +
                 "JOIN categorias c ON p.id_categoria = c.id_categoria " +
-                "WHERE LOWER(c.nome) = LOWER(?) AND p.Quantidade_Estoque > 0";
+                "WHERE LOWER(c.nome) = LOWER(?) AND p.Quantidade_Estoque > 0 AND p.ativo = TRUE";
 
         PreparedStatement pst = null;
         ResultSet rs = null;

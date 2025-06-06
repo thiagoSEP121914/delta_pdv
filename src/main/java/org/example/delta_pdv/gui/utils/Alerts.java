@@ -18,7 +18,7 @@ public class Alerts {
     }
 
     public static Optional<ButtonType> showAlertYesNo(String title, String header, String content, AlertType type) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);

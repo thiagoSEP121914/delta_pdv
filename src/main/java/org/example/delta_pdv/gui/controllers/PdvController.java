@@ -87,8 +87,16 @@ public class PdvController implements Initializable, ProdutoSearchListener {
             return;
         }
 
+        Toggle selectedToggle = pagamentoGroup.getSelectedToggle();
+
+        if (selectedToggle == null) {
+            Alerts.showAlert("Aviso", "", "Selecione uma forma de pagamento", Alert.AlertType.INFORMATION);
+            return;
+        }
+
         Optional<ButtonType> result = Alerts.showAlertYesNo("Confirmação", "", "Deseja confirmar o pagamento?", Alert.AlertType.CONFIRMATION);
         if (result.isEmpty() || result.get().getButtonData() != ButtonBar.ButtonData.YES) return;
+
 
         try {
             File arquivoSelecionado = abrirDialogoSalvarArquivo();
@@ -138,12 +146,6 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         venda.setDataVenda(date);
         Toggle selectedToggle = pagamentoGroup.getSelectedToggle();
-
-        if (selectedToggle == null) {
-            Alerts.showAlert("Aviso", " ", "Selecione uma forma de pagamento", Alert.AlertType.INFORMATION);
-            return null;
-        }
-
         FormaPagamento formaPagamento = (FormaPagamento) selectedToggle.getUserData();
         venda.setFormaPagamento(formaPagamento);
         venda.setTotal(getTotal());

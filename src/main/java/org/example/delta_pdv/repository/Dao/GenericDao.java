@@ -13,7 +13,6 @@ public interface GenericDao<T> {
 
     void insert(T object);
 
-    int insertWithId(Long id);
     void update(T object);
     void delete(Long id);
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ClienteService {
 
-    private GenericDao<Cliente> ClienteDao = DaoFactory.createClienteDao();
+    private GenericDao<Cliente> ClienteDao = DaoFactory.createItemDao();
 
     public List<Cliente> findAll(){
         return ClienteDao.findAll();

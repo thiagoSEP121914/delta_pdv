@@ -30,7 +30,7 @@ public class CategoriaDaoImpl implements CategoriaDao {
 
     @Override
     public Categoria findById(Long id) {
-        String sql = "SELECT * FROM ID_categoria = ? AND ativo = TRUES ";
+        String sql = "SELECT * FROM ID_categoria = ? AND ativo = TRUE ";
 
         PreparedStatement pst = null;
         ResultSet rs = null;

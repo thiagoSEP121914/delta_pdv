@@ -22,7 +22,7 @@ public class DB {
             System.out.println("Banco conectado com sucesso!");
             return conn;
         } catch (SQLException exception) {
-            throw new RuntimeException("Não foi possivel conectar ao banco de dados" + exception);
+            throw new RuntimeException("Não foi possivel conectar ao banco de dados" + exception.getMessage());
         }
     }
 
@@ -56,7 +56,7 @@ public class DB {
         }
     }
 
-
+    // apenas para testar
     public static void main(String[] args) {
         Connection conn = getConn();
     }
