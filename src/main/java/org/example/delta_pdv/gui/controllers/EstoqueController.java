@@ -169,6 +169,7 @@ public class EstoqueController implements Initializable, UpdateTableListener {
 
         List<Produto> listaDeprodutos = produtoService.findAll();
         tabelaProdutos.setItems(FXCollections.observableArrayList(listaDeprodutos));
+        tabelaProdutos.refresh();
     }
 
     private TableCell<Produto, String> carregandoImagemProduto() {

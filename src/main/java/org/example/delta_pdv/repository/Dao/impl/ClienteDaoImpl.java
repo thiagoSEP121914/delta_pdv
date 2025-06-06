@@ -87,39 +87,41 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
     @Override
     public void insert(Cliente cliente) {
         String sql = "INSERT INTO clientes(Nome, Cpf, Telefone, Email, Data_Criacao, Data_Atualizacao) " +
-                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
+                "VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement pst = null;
         ResultSet rs = null;
         try {
             pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(2, cliente.getNome());
-            pst.setString(3, cliente.getCpf());
-            pst.setString(4, cliente.getTelefone());
-            pst.setString(5, cliente.getEmail());
-            pst.setDate(6, new java.sql.Date(cliente.getDataCriacao().getTime()));
-            pst.setDate(7, new java.sql.Date(cliente.getDataAtualizacao().getTime()));
+            pst.setString(1, cliente.getNome());
+            pst.setString(2, cliente.getCpf());
+            pst.setString(3, cliente.getTelefone());
+            pst.setString(4, cliente.getEmail());
+            Date dataAgora = new Date(); // caso cliente.getDataCriacao() esteja nulo
+            pst.setDate(5, new java.sql.Date(
+                    cliente.getDataCriacao() != null ? cliente.getDataCriacao().getTime() : dataAgora.getTime()));
+            pst.setDate(6, new java.sql.Date(
+                    cliente.getDataAtualizacao() != null ? cliente.getDataAtualizacao().getTime() : dataAgora.getTime()));
+
             int affectedRows = pst.executeUpdate();
 
-            if(affectedRows == 0){
-                throw new RuntimeException("Falha ao inserir clientes! Nenhum cliente inserido.");
+            if (affectedRows == 0) {
+                throw new RuntimeException("Falha ao inserir cliente! Nenhum cliente inserido.");
             }
+
             rs = pst.getGeneratedKeys();
-            long idGerado = rs.getLong(1);
-            //return idGerado;
+            if (rs.next()) {
+                long idGerado = rs.getLong(1);
+                cliente.setIdCliente(idGerado); // opcional, se quiser usar depois
+            }
 
         } catch(SQLException e) {
             throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
-        }finally{
+        } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
         }
     }
 
-
-    @Override
-    public int insertWithId(Long id) {
-        return 0;
-    }
 
     //Deu um B.O na hora de salvar a edição de um cliente no ClienteCadastroController porque não existem os campos das
     //datas na tela, então quando o update é chamado ele não tem como passar esses parâmetros.

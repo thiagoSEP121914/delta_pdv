@@ -14,7 +14,8 @@ public class ClienteService {
         return ClienteDao.findAll();
     }
 
-    public Cliente findById(long id){
+    public Cliente findById(Long id){
+        if (id == null || id < 0) return null;
         return ClienteDao.findById(id);
     }
 

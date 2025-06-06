@@ -2,21 +2,16 @@ package org.example.delta_pdv.gui.controllers;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import org.example.delta_pdv.entities.Cliente;
 import org.example.delta_pdv.gui.utils.Alerts;
-import org.example.delta_pdv.gui.utils.UpdateTableListener;
+import org.example.delta_pdv.gui.utils.UpdateClienteListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.example.delta_pdv.service.ClienteService;
 
-import java.io.File;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ClienteCadastroController implements Initializable {
@@ -39,19 +34,18 @@ public class ClienteCadastroController implements Initializable {
     @FXML
     private TextField txtTelefoneCliente;
 
-    private UpdateTableListener updateTableListener;
-
+    private UpdateClienteListener updateClienteListener;
     private Cliente cliente;
 
     private ClienteService clienteService = new ClienteService();
 
-    public void setUpdateTableListener(UpdateTableListener updateTableListener) {
-        this.updateTableListener = updateTableListener;
-        fillFormWithCliente();
+    public void setUpdateClienteListener(UpdateClienteListener updateClienteListener) {
+        this.updateClienteListener = updateClienteListener;
     }
 
     public void setUpdateCliente(Cliente cliente) {
         this.cliente = cliente;
+        fillFormWithCliente();
     }
 
     @Override
@@ -70,13 +64,14 @@ public class ClienteCadastroController implements Initializable {
 
 
     @FXML
-    public void btnSalvarOnAction(ActionEvent event) {
+    public void btnSalvarOnAction() {
         btnSalvar.setDisable(true);
 
         try{
             clienteService.saveCliente(instantiateCliente());
             Alerts.showAlert("Sucesso", null, "CLIENTE SALVO COM SUCESSO !", Alert.AlertType.INFORMATION);
-            updateTableListener.reloadTable();
+            updateClienteListener.loadtable();
+            System.out.println("Load table foi chamado");
         } catch (Exception e) {
             e.printStackTrace(); // ajuda para debug
             Alerts.showAlert("Erro ao salvar", null, e.getMessage(), Alert.AlertType.ERROR);
