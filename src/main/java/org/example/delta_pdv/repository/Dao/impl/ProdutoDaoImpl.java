@@ -68,6 +68,32 @@ public class ProdutoDaoImpl implements ProdutoDao {
     }
 
     @Override
+    public Produto findByIdIncludeInative(Long id) {
+
+        String sql = "SELECT produtos.*, C.id_categoria, C.nome AS Categoria " +
+                "FROM produtos " +
+                "LEFT JOIN categorias C ON produtos.id_categoria = C.id_categoria " +
+                "WHERE ID_Produto = ?";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setLong(1, id);
+            rs = pst.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            return instantiateProduto(rs);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao executar consulta sql: ", exception);
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
+        }
+
+    }
+
+    @Override
     public List<Produto> findByName(String name) {
         String sql =  "SELECT produtos.*, C.id_categoria, C.nome as Categoria " +
                 "FROM produtos " +
@@ -243,7 +269,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
         produto.setDescricao(rs.getString("Descricao"));
         produto.setPrecoUnitario(rs.getDouble("Preco_Unitario"));
         produto.setCusto(rs.getDouble("custo"));
-        produto.setLucro(rs.getDouble("lucro"));
+        produto.calcularLucro();
         produto.setQuantidadeEstoque(rs.getInt("Quantidade_Estoque"));
 
         Categoria categoria = new Categoria();

@@ -67,6 +67,27 @@ public class VendaDaoImpl implements VendaDao {
     }
 
     @Override
+    public List<Venda> findAllvendaPorData(Date date) {
+        String sql = "SELECT vendas.*, C.nome " +
+                     "FROM vendas " +
+                      "LEFT JOIN clientes C ON vendas.ID_Cliente = C.ID_Cliente " +
+                      "WHERE vendas.DATA_venda = ? ";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setDate(1, date);
+            rs = pst.executeQuery();
+            return instantiateListOfVendas(rs);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao buscar vendas por data " + exception.getMessage());
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    @Override
     public List<Venda> findAllVendasHoje() {
         String sql = "SELECT vendas.*, C.nome "+
                      "FROM vendas " +

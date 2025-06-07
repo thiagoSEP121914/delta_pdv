@@ -10,6 +10,7 @@ public interface ProdutoDao {
     List<Produto> findAll();
     Produto findById(Long id);
 
+    Produto findByIdIncludeInative(Long id);
     List<Produto> findByName(String name);
 
     List<Produto> findByCategoria(String nomeCategoria);

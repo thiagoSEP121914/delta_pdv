@@ -90,10 +90,13 @@ public class Produto implements Serializable {
         return precoUnitario - custo;
     }
 
-    public void setLucro(Double lucro) {
-        this.lucro = lucro;
+    public void calcularLucro() {
+        this.lucro = custo - precoUnitario;
     }
 
+    public void setLucro(Double valor) {
+        this.lucro = valor;
+    }
 
     public Double getPrecoUnitario() {
         return precoUnitario;

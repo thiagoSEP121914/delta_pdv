@@ -36,10 +36,22 @@ public class ItemVendaService {
 
         Venda venda = vendaService.findById(itemVenda.getVenda().getIdVenda());
         Produto produto = produtoService.findById(itemVenda.getProduto().getIdProduto());
+        produto.calcularLucro();
         itemVenda.setVenda(venda);
         itemVenda.setProduto(produto);
         return itemVenda;
     }
+    public List<ItemVenda> findByVenda(Long idVenda) {
+        List<ItemVenda> itens = itemVendaRepository.findByVenda(idVenda);
+        for (ItemVenda item : itens) {
+            Produto produtoCompleto = produtoService.findByIdIncludesInative(item.getProduto().getIdProduto());
+            item.setProduto(produtoCompleto);
+            Venda vendaCompleta = vendaService.findById(item.getVenda().getIdVenda());
+            item.setVenda(vendaCompleta);
+        }
+        return itens;
+    }
+
 
     public long insert(ItemVenda itemVenda) {
         if (itemVenda == null) {

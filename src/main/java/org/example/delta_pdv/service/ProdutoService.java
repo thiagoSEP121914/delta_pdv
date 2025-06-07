@@ -15,10 +15,14 @@ public class ProdutoService {
        return produtoRepository.findAll();
     }
 
-
     public Produto findById(Long id) {
         if (id == null || id <= 0) return null;
         return produtoRepository.findById(id);
+    }
+
+    public Produto findByIdIncludesInative(Long id) {
+        if (id == null || id <= 0) return null;
+        return produtoRepository.findByIdIncludeInative(id);
     }
 
     public List<Produto> findByName(String name) {

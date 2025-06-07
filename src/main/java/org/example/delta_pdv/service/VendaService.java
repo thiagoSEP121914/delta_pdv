@@ -4,6 +4,7 @@ import org.example.delta_pdv.entities.Venda;
 import org.example.delta_pdv.repository.Dao.VendaDao;
 import org.example.delta_pdv.repository.Dao.factory.DaoFactory;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,10 @@ public class VendaService {
 
     public List<Venda> findAllVendasHoje() {
         return vendaRepository.findAllVendasHoje();
+    }
+
+    public List<Venda> findallVendaPorData(Date date) {
+        return vendaRepository.findAllvendaPorData(date);
     }
 
     public double getFaturamentoTotal() {

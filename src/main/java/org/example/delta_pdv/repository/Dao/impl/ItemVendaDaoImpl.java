@@ -61,6 +61,25 @@ public class ItemVendaDaoImpl implements ItemVendaDao {
     }
 
     @Override
+    public List<ItemVenda> findByVenda(Long idVenda) {
+        String sql = "SELECT ID_ItemVenda, ID_Venda, ID_Produto, Quantidade, Preco_Unitario " +
+                "FROM itemvenda WHERE ID_Venda = ?";
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setLong(1, idVenda);
+            rs = pst.executeQuery();
+            return instantiateListOfItemVenda(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar itens da venda: " + e.getMessage());
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    @Override
     public long insert(ItemVenda itemVenda) {
         String sql = "INSERT INTO ItemVenda(ID_Venda, ID_Produto, Quantidade, Preco_Unitario) "+
                      "VALUES (?, ?, ?, ?)";

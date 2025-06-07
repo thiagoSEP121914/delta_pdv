@@ -45,7 +45,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="206.0" styleClass="faturamento" text="Faturamento no mès atual.">
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="206.0" styleClass="faturamento" text="Faturamento no mês atual.">
                            <font>
                               <Font name="Dubai Light" size="12.0" />
                            </font>
@@ -99,7 +99,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="220.0" styleClass="faturamento" text="Quantidade total em estoque">
+                        <Label id="messi" alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="19.0" prefWidth="220.0" styleClass="faturamento" text="Quantidade total em estoque.">
                            <font>
                               <Font name="Dubai Light" size="12.0" />
                            </font>

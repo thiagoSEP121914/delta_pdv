@@ -82,6 +82,19 @@
     -fx-background-color:F5FEFF;
 }
 
+/*Calendario */
+.date-picker .arrow-button {
+    -fx-background-color: #FFF;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4;
+    -fx-padding: 5;
+}
+
+
+/* Tira a borda azul padrão ao focar */
+
+
+
 
 #produtosMaisVendidosTitulo {
      -fx-font-size: 14px;
@@ -140,6 +153,7 @@
     -fx-padding: 8px;
     -fx-border-color: transparent;
     -fx-background-color: transparent;
+    -fx-alignment: center;
 }
 
 .table-row-cell {
@@ -156,9 +170,7 @@
     -fx-background-color: #dcdde1;
 }
 
-/* */
-
-/* Botão Esperar */
+/* Botão Relatorio */
 #btnRelatorio {
     -fx-background-color: #00a8ff;
     -fx-background-radius: 12px;
@@ -176,10 +188,3 @@
     -fx-scale-y: 0.98;
 }
 
-/* Botão Pagamento */
-#btnAdicionar {
-    -fx-background-color: #05c46b;
-    -fx-background-radius: 12px;
-    -fx-border-radius: 12px;
-    -fx-cursor: hand;
-}

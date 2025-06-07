@@ -267,7 +267,6 @@ public class EstoqueController implements Initializable, UpdateTableListener {
         };
     }
 
-
     public void reloadTable() {
         loadTableView();
     }
