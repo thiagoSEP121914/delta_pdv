@@ -117,8 +117,7 @@ public class ClientesController implements Initializable, UpdateClienteListener 
         TelefoneClienteColumn1.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         nomeClienteColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
         List<Cliente> listaCliente = clienteService.findAll();
-        List<Cliente> listaDeprodutos = clienteService.findAll();
-        tabelaClientes.setItems(FXCollections.observableArrayList(listaDeprodutos));
+        tabelaClientes.setItems(FXCollections.observableArrayList(listaCliente));
         tabelaClientes.refresh();//essa porrinha aqui aparentemente que estava quebrando
     }
 
@@ -177,8 +176,6 @@ public class ClientesController implements Initializable, UpdateClienteListener 
             }
         };
     }
-
-
 
     private ImageView carregarIcone(String caminho) {
         try {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="400.0" maxWidth="771.0" prefHeight="400.0" prefWidth="771.0" styleClass="anchorPane" stylesheets="@style/ProdutoCadastro.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.UsuarioCadastroController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="89.0" prefWidth="842.0" styleClass="header">
+         <children>
+            <Label id="titulo" prefHeight="17.0" prefWidth="246.0" text="Cadastro de Usuarios" />
+         </children>
+      </VBox>
+      <TextField fx:id="txtIdUsuario" editable="false" layoutX="133.0" layoutY="164.0" prefHeight="38.0" prefWidth="90.0" styleClass="input" />
+      <Label layoutX="133.0" layoutY="147.0" prefHeight="17.0" prefWidth="102.0" text="Código usuário" />
+      <TextField fx:id="txtNomeUsuario" layoutX="269.0" layoutY="164.0" prefHeight="38.0" prefWidth="271.0" styleClass="input" />
+      <Label layoutX="269.0" layoutY="147.0" prefHeight="17.0" prefWidth="102.0" text="Nome" />
+      <Label layoutX="575.0" layoutY="147.0" prefHeight="17.0" prefWidth="102.0" text="Tipo" />
+      <Label layoutX="421.0" layoutY="212.0" prefHeight="17.0" prefWidth="124.0" text="Senha" />
+      <TextField fx:id="txtEmailUsuario" layoutX="133.0" layoutY="229.0" prefHeight="38.0" prefWidth="260.0" styleClass="input" />
+      <Label layoutX="141.0" layoutY="212.0" prefHeight="17.0" prefWidth="116.0" text="E-mail" />
+      <HBox alignment="CENTER" layoutX="104.0" layoutY="311.0" prefHeight="25.0" prefWidth="601.0" spacing="20.0">
+         <children>
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#btnSalvarOnAction" styleClass="botao" text="Salvar" />
+            <Button id="botaoCancelar" mnemonicParsing="false" onAction="#btnLimparOnAction" text="Limpar" />
+         </children>
+      </HBox>
+      <PasswordField fx:id="psdSenhaUsuario" layoutX="415.0" layoutY="229.0" prefHeight="38.0" prefWidth="197.0" />
+      <ChoiceBox fx:id="chcTipoUsuario" layoutX="575.0" layoutY="164.0" prefHeight="38.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>
