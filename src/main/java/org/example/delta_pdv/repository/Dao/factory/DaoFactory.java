@@ -3,6 +3,7 @@ package org.example.delta_pdv.repository.Dao.factory;
 import org.controlsfx.control.PropertySheet;
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Cliente;
+import org.example.delta_pdv.entities.Usuario;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.*;
 import org.example.delta_pdv.repository.Dao.impl.*;
@@ -14,8 +15,10 @@ public class DaoFactory {
 
     }
 
-
     public static GenericDao<Cliente> createClienteDao(){ return new ClienteDaoImpl(DB.getConn());}
+
+    public static GenericDao<Usuario> createUsuarioDao(){ return new UsuarioDaoImpl(DB.getConn());}
+
     public static CategoriaDao createCategoriaDao() {
         return new CategoriaDaoImpl(DB.getConn());
     }
