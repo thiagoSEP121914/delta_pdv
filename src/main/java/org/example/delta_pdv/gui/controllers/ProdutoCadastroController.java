@@ -81,7 +81,6 @@ public class ProdutoCadastroController implements Initializable, CategoriaUpdate
         configurarCampoNumerico(txtPrecoUnitario);
         configurarCampoNumerico(txtCusto);
 
-
     }
 
     @FXML

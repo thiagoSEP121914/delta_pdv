@@ -89,6 +89,7 @@ public class VendasController implements Initializable {
         });
         loadTableView(vendaService.findAllVendasHoje());
        clearComboBox();
+       clearDatePicker();
     }
 
 

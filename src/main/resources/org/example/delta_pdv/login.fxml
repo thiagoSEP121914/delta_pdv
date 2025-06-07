@@ -1,44 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/estoque.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.LoginController">
+<AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.LoginController">
    <children>
-      <HBox layoutX="21.0" layoutY="372.0" prefHeight="39.0" prefWidth="330.0" spacing="30.0">
-         <children>
-            <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="42.0" prefWidth="228.0" text="Cadastrar" textFill="WHITE">
-               <font>
-                  <Font name="Arial Black" size="12.0" />
-               </font>
-            </Button>
-            <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="42.0" prefWidth="228.0" text="Entrar" textFill="WHITE">
-               <font>
-                  <Font name="Arial Black" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-      <Label id="estoqueTitle" layoutX="21.0" layoutY="26.0" prefHeight="58.0" prefWidth="195.0" text="Login" />
-      <VBox layoutX="21.0" layoutY="122.0" prefHeight="162.0" prefWidth="268.0">
+      <Label id="loginTitle" layoutX="21.0" layoutY="26.0" prefHeight="58.0" prefWidth="195.0" text="Login" />
+      <Label id="estoqueTitle" layoutX="26.0" layoutY="94.0" prefHeight="58.0" prefWidth="455.0" text="Cresca seu negocio com confiança.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <VBox layoutX="21.0" layoutY="198.0" prefHeight="357.0" prefWidth="518.0" spacing="20.0">
          <children>
             <Label prefHeight="27.0" prefWidth="223.0" text="Usuario" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
             </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
+            <TextField prefHeight="39.0" prefWidth="316.0" />
             <Label prefHeight="27.0" prefWidth="223.0" text="Password" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
+            <PasswordField prefHeight="39.0" prefWidth="316.0" />
+            <HBox alignment="CENTER" prefHeight="55.0" prefWidth="375.0" spacing="60.0">
+               <children>
+                  <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Login" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Registrar" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="648.0" prefHeight="905.0" prefWidth="850.0">
+         <children>
+            <ImageView fitHeight="804.0" fitWidth="839.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/undraw_workspace_s6wf%201.png" />
+               </image>
+            </ImageView>
          </children>
       </VBox>
    </children>
