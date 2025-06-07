@@ -79,16 +79,6 @@
                               <Label prefHeight="30.0" prefWidth="172.0" text="Vendas" />
                            </children>
                         </HBox>
-                        <HBox onMouseClicked="#onFinancasMouseClicked" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
-                           <children>
-                              <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@icons/accounts.png" />
-                                 </image>
-                              </ImageView>
-                              <Label prefHeight="30.0" prefWidth="172.0" text="Finanças" />
-                           </children>
-                        </HBox>
                         <HBox onMouseClicked="#OnMouseClickedConfiguracoes" prefHeight="32.0" prefWidth="252.0" spacing="12.0" styleClass="icon">
                            <children>
                               <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
@@ -101,7 +91,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <HBox layoutX="21.0" layoutY="872.0" prefHeight="32.0" prefWidth="222.0" spacing="12.0" styleClass="icon">
+                  <HBox layoutX="21.0" layoutY="872.0" onMouseClicked="#OnMouseClickedSair" prefHeight="32.0" prefWidth="222.0" spacing="12.0" styleClass="icon">
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>

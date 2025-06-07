@@ -30,9 +30,6 @@ import org.example.delta_pdv.service.UsuarioService;
 public class UsuariosController implements Initializable, UpdateTableListener {
 
     @FXML
-    private TableColumn<Usuario, Long> acoesColumn;
-
-    @FXML
     private TableColumn<Usuario, String> emailUsuarioColumn;
 
     @FXML
@@ -48,15 +45,14 @@ public class UsuariosController implements Initializable, UpdateTableListener {
     private TableView<Usuario> tabelaUsuarios;
 
     @FXML
-    private TableColumn<Usuario, Boolean> tipoUsuarioColumn; //alterar o tipo do dado no banco de dados
+    private TableColumn<Usuario, String> tipoUsuarioColumn; //alterar o tipo do dado no banco de dados
     
     private UsuarioService userService = new UsuarioService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadTableUsuarioView();
         loadCelulaAcoes();
-
+        loadTableUsuarioView();
     }
 
     @FXML
@@ -65,7 +61,7 @@ public class UsuariosController implements Initializable, UpdateTableListener {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/usuarioCadastro.fxml"));
             Parent root = loader.load();
             UsuarioCadastroController usuarioCadastroController = loader.getController();
-            usuarioCadastroController.setUpdateClienteListener(this);
+            usuarioCadastroController.setUpdateTableListener(this);
             ScreenLoader.loadForm(root);
         }catch(Exception e){
             Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
@@ -86,9 +82,8 @@ public class UsuariosController implements Initializable, UpdateTableListener {
             Parent root = loader.load();
 
             UsuarioCadastroController usuarioCadastroController = loader.getController();
-            usuarioCadastroController.setUpdateUsuarioListener(this);
+            usuarioCadastroController.setUpdateTableListener(this);
             usuarioCadastroController.setUpdateUsuario(usuario);
-
             ScreenLoader.loadForm(root);
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -111,10 +106,10 @@ public class UsuariosController implements Initializable, UpdateTableListener {
     }
 
     private void loadTableUsuarioView() {
-        idUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("id_usuario"));
-        nomeUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("Nome"));
-        emailUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("Email"));
-        senhaUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("Senha"));
+        idUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("Id_usuario"));
+        nomeUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        emailUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        senhaUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("senha"));
         tipoUsuarioColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         List<Usuario> listaUsuario = userService.findAll();
         tabelaUsuarios.setItems(FXCollections.observableList(listaUsuario));

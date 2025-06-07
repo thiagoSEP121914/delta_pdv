@@ -17,7 +17,7 @@ public class DaoFactory {
 
     public static GenericDao<Cliente> createClienteDao(){ return new ClienteDaoImpl(DB.getConn());}
 
-    public static GenericDao<Usuario> createUsuarioDao(){ return new UsuarioDaoImpl(DB.getConn());}
+    public static UsuarioDao createUsuarioDao(){ return new UsuarioDaoImpl(DB.getConn());}
 
     public static CategoriaDao createCategoriaDao() {
         return new CategoriaDaoImpl(DB.getConn());

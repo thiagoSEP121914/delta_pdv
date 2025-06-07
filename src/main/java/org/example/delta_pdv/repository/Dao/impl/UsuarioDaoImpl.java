@@ -1,14 +1,16 @@
 package org.example.delta_pdv.repository.Dao.impl;
 
 import org.example.delta_pdv.entities.Usuario;
+import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.GenericDao;
+import org.example.delta_pdv.repository.Dao.UsuarioDao;
 
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDaoImpl implements GenericDao<Usuario> {
+public class UsuarioDaoImpl implements UsuarioDao {
 
     private Connection conn;
 
@@ -43,20 +45,28 @@ public class UsuarioDaoImpl implements GenericDao<Usuario> {
     }
 
     @Override
-    public List<Usuario> findByName(String name) {
-        String sql = "SELECT * FROM usuarios WHERE Nome = ?";
-        try(PreparedStatement st = conn.prepareStatement(sql)){
-            st.setString(1,name);
-            try(ResultSet rs = st.executeQuery()){
-                if(rs.next()){
-                    return instantiateListUsuario(rs);
-                }
+    public Usuario findByEmail(String email) {
+        String sql = "SELECT * FROM usuarios WHERE email = ?";
+        ResultSet rs = null;
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, email);
+             rs = pst.executeQuery();
+            if (!rs.next()) {
+                return null;
             }
-            return null;
-        }catch (SQLException e){
-            throw new RuntimeException("Erro SQL no findByName: " + e.getMessage());
+            return instantiateUsuario(rs);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao buscar usuário por email: " + exception.getMessage());
+        } finally {
+            DB.closeResultSet(rs);
         }
     }
+
+    @Override
+    public List<Usuario> findByName(String name) {
+        return null;
+    }
+
 
     @Override
     public void insert(Usuario user) {
@@ -85,24 +95,23 @@ public class UsuarioDaoImpl implements GenericDao<Usuario> {
 
     @Override
     public void update(Usuario user) {
-        String sql = "UPDATE usuario SET Nome = ?, Email = ?, Senha = ?, tipo = ?) VALUES(?, ?, ?, ?) " +
-                     "WHERE id_usuario = ?";
-        try(PreparedStatement st = conn.prepareStatement(sql)){
-            st.setString(1,user.getNome());
-            st.setString(2,user.getEmail());
-            st.setString(3,user.getSenha());
-            st.setString(4,user.getTipo());
-            st.setLong(5,user.getId_usuario());
+        String sql = "UPDATE usuarios SET Nome = ?, Email = ?, Senha = ?, tipo = ? WHERE id_usuario = ?";
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, user.getNome());
+            st.setString(2, user.getEmail());
+            st.setString(3, user.getSenha());
+            st.setString(4, user.getTipo());
+            st.setLong(5, user.getId_usuario());
 
             int affectedRows = st.executeUpdate();
-            if(affectedRows == 0){
-                throw new RuntimeException("Nenhuma lina afetada ! Usuário não foi atualizado.");
+            if (affectedRows == 0) {
+                throw new RuntimeException("Nenhuma linha afetada! Usuário não foi atualizado.");
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Erro SQL no update: " + e.getMessage());
         }
-
     }
+
 
     @Override
     public void delete(Long id) {
@@ -129,13 +138,11 @@ public class UsuarioDaoImpl implements GenericDao<Usuario> {
 
     public Usuario instantiateUsuario(ResultSet rs) throws SQLException{
         Usuario user = new Usuario();
-        if(rs.next()){
-            user.setId_usuario(rs.getLong("id_usuario"));
-            user.setNome(rs.getString("Nome"));
-            user.setEmail(rs.getString("Email"));
-            user.setSenha(rs.getString("Senha"));
-            user.setTipo(rs.getString("tipo"));
-        }
+        user.setId_usuario(rs.getLong("id_usuario"));
+        user.setNome(rs.getString("Nome"));
+        user.setEmail(rs.getString("Email"));
+        user.setSenha(rs.getString("Senha"));
+        user.setTipo(rs.getString("tipo"));
         return user;
     }
 }

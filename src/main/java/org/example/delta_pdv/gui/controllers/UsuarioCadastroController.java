@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.example.delta_pdv.entities.TipoUsuario;
 import org.example.delta_pdv.entities.Usuario;
 import org.example.delta_pdv.gui.utils.Alerts;
 import org.example.delta_pdv.gui.utils.UpdateTableListener;
@@ -39,11 +40,6 @@ public class UsuarioCadastroController implements Initializable {
     private Usuario usuario;
     private UsuarioService usuarioService = new UsuarioService();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     public void setUpdateTableListener(UpdateTableListener updateTableListener) {
         this.updateTableListener = updateTableListener;
     }
@@ -53,15 +49,32 @@ public class UsuarioCadastroController implements Initializable {
         fillFormsWithUsuario();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadChoiceBox();
+    }
+
+
 
     @FXML
     void btnLimparOnAction(ActionEvent event) {
-
+        clearFields();
     }
 
     @FXML
     void btnSalvarOnAction(ActionEvent event) {
-
+        btnSalvar.setDisable(true);
+        try {
+            usuarioService.saveUsuario(instantiateUsuario());
+            Alerts.showAlert("Sucesso", null, "USUARIO SALVO COM SUCESSO !", Alert.AlertType.INFORMATION);
+            updateTableListener.reloadTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showAlert("Aviso", "", "Erro ao salvar", Alert.AlertType.WARNING);
+        } finally {
+            clearFields();
+            btnSalvar.setDisable(false);
+        }
     }
 
     private void fillFormsWithUsuario() {
@@ -75,11 +88,6 @@ public class UsuarioCadastroController implements Initializable {
         if (chcTipoUsuario != null && usuario.getTipo() != null) {
             chcTipoUsuario.getSelectionModel().select(usuario.getTipo());
         }
-    }
-
-    private void loadChoiceBox() {
-        List<String> tipo = Arrays.asList("Adiministrador", "Comum");
-        chcTipoUsuario.setItems(FXCollections.observableArrayList(tipo));
     }
 
     private Usuario instantiateUsuario(){
@@ -98,16 +106,25 @@ public class UsuarioCadastroController implements Initializable {
         usuario.setEmail(txtEmailUsuario.getText());
         usuario.setSenha(psdSenhaUsuario.getText());
         usuario.setTipo(chcTipoUsuario.getValue());
-        usuario.setId_usuario(Long.parseLong(txtIdUsuario.getText()));
 
         return usuario;
     }
+
+    private void loadChoiceBox() {
+        List<String> tipo = Arrays.asList("ADMINISTRADOR", "COMUM");
+        chcTipoUsuario.setItems(FXCollections.observableArrayList(tipo));
+    }
+
 
     public void clearFields(){
         txtNomeUsuario.clear();
         txtEmailUsuario.clear();
         txtIdUsuario.clear();
         psdSenhaUsuario.clear();
-        chcTipoUsuario.setItems(null);
+        clearChoiceBox();
+    }
+
+    private void clearChoiceBox() {
+        chcTipoUsuario.getSelectionModel().clearSelection();
     }
 }

@@ -1,5 +1,6 @@
 package org.example.delta_pdv.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -73,11 +74,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void onFinancasMouseClicked(){
-        loadPage("/org/example/delta_pdv/financas.fxml");
-    }
-
-    @FXML
     public void onEstoqueMouseClicked () {
         loadPage("/org/example/delta_pdv/estoque.fxml");
     }
@@ -100,6 +96,10 @@ public class MainController implements Initializable {
     @FXML
     public void OnMouseClickedLogin(){loadPage("/org/example/delta_pdv/login.fxml");}
 
+    @FXML
+    public void OnMouseClickedSair() {
+        Platform.exit();
+    }
 
     // Método genérico para carregar qualquer página no StackPane
     private void loadPage(String fxmlPath) {

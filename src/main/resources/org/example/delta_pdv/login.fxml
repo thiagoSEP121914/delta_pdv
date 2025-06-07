@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.LoginController">
+<AnchorPane maxHeight="535.0" maxWidth="1040.0" minHeight="555.0" minWidth="1040.0" prefHeight="555.0" prefWidth="1040.0" styleClass="anchorPane" stylesheets="@style/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.LoginController">
    <children>
       <Label id="loginTitle" layoutX="21.0" layoutY="26.0" prefHeight="58.0" prefWidth="195.0" text="Login" />
       <Label id="estoqueTitle" layoutX="26.0" layoutY="94.0" prefHeight="58.0" prefWidth="455.0" text="Cresca seu negocio com confiança.">
@@ -20,7 +20,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <VBox layoutX="21.0" layoutY="198.0" prefHeight="357.0" prefWidth="518.0" spacing="20.0">
+      <VBox layoutX="21.0" layoutY="159.0" prefHeight="396.0" prefWidth="414.0" spacing="20.0">
          <children>
             <Label prefHeight="27.0" prefWidth="223.0" text="Usuario" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -30,16 +30,16 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <TextField prefHeight="39.0" prefWidth="316.0" />
+            <TextField fx:id="lblUsuario" prefHeight="39.0" prefWidth="316.0" />
             <Label prefHeight="27.0" prefWidth="223.0" text="Password" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <PasswordField prefHeight="39.0" prefWidth="316.0" />
+            <PasswordField fx:id="lblSenha" prefHeight="39.0" prefWidth="316.0" />
             <HBox alignment="CENTER" prefHeight="55.0" prefWidth="375.0" spacing="60.0">
                <children>
-                  <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Login" textFill="WHITE">
+                  <Button id="btnAdicionar" fx:id="btnLogin" mnemonicParsing="false" onAction="#onBtnLoginAction" prefHeight="25.0" prefWidth="138.0" text="Login" textFill="WHITE">
                      <font>
                         <Font name="Arial Black" size="12.0" />
                      </font>
@@ -53,9 +53,9 @@
             </HBox>
          </children>
       </VBox>
-      <VBox layoutX="648.0" prefHeight="905.0" prefWidth="850.0">
+      <VBox layoutX="648.0" prefHeight="525.0" prefWidth="373.0">
          <children>
-            <ImageView fitHeight="804.0" fitWidth="839.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="732.0" fitWidth="369.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@image/undraw_workspace_s6wf%201.png" />
                </image>
