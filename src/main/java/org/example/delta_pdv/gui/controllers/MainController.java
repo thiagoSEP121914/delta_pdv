@@ -103,8 +103,24 @@ public class MainController implements Initializable {
     ;}
 
     @FXML
-    private void OnMouseClickedConfiguracoes(){
-        loadPageIfAdmin("/org/example/delta_pdv/configuracoes.fxml");
+    private void OnMouseClickedConfiguracoes() {
+        if (!usuario.getTipo().equalsIgnoreCase("administrador")) {
+            loadPage("/org/example/delta_pdv/acessoBloqueado.fxml");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/configuracoes.fxml"));
+            Parent root = loader.load();
+
+            ConfiguracoesController controller = loader.getController();
+            controller.setUsuario(usuario); // Aqui você passa o usuário logado
+
+            contentArea.getChildren().setAll(root); // Mostra a tela no StackPane
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao carregar a tela de configurações", e);
+        }
     }
 
     @FXML
@@ -155,6 +171,5 @@ public class MainController implements Initializable {
     private void loadDefaultPage() {
         loadPageIfAdmin("/org/example/delta_pdv/dashboard.fxml");
     }
-
 
 }

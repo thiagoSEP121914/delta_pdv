@@ -1,6 +1,7 @@
 package org.example.delta_pdv.repository.Dao.impl;
 
 import org.example.delta_pdv.entities.Usuario;
+import org.example.delta_pdv.exceptions.DaoException;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.GenericDao;
 import org.example.delta_pdv.repository.Dao.UsuarioDao;
@@ -24,7 +25,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
              ResultSet rs = st.executeQuery()){
              return instantiateListUsuario(rs);
          } catch (SQLException e) {
-             throw new RuntimeException("Erro SQL no findAll(): " + e.getMessage());
+             throw new DaoException("Erro SQL no findAll(): " + e.getMessage());
          }
     }
 
@@ -40,7 +41,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             }
             return null;
         } catch (SQLException e){
-            throw new RuntimeException("Erro SQL no findById: " + e.getMessage());
+            throw new DaoException("Erro SQL no findById: ",e);
         }
     }
 
@@ -56,7 +57,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             }
             return instantiateUsuario(rs);
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro ao buscar usuário por email: " + exception.getMessage());
+            throw new DaoException("Erro ao buscar usuário por email: ", exception);
         } finally {
             DB.closeResultSet(rs);
         }
@@ -79,7 +80,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             int affectedRows = st.executeUpdate();
             if(affectedRows == 0){
-                throw new RuntimeException("Nenhuma linha afetada ! Usuário não foi inserido.");
+                throw new DaoException("Nenhuma linha afetada ! Usuário não foi inserido.");
             }
             try(ResultSet rs = st.getGeneratedKeys()){
                 if(rs.next()){
@@ -88,7 +89,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 }
             }
         } catch(SQLException e){
-            throw new RuntimeException("Erro SQL no insert: " + e.getMessage());
+            throw new DaoException
+("Erro SQL no insert: " + e.getMessage());
         }
 
     }
@@ -105,10 +107,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             int affectedRows = st.executeUpdate();
             if (affectedRows == 0) {
-                throw new RuntimeException("Nenhuma linha afetada! Usuário não foi atualizado.");
+                throw new DaoException
+("Nenhuma linha afetada! Usuário não foi atualizado.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro SQL no update: " + e.getMessage());
+            throw new DaoException
+("Erro SQL no update: " + e.getMessage());
         }
     }
 
@@ -120,10 +124,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
             st.setLong(1,id);
             int affectedRows = st.executeUpdate();
             if(affectedRows == 0){
-                throw new RuntimeException("Nenhuma linha afetada ! Usuário não deletado.");
+                throw new DaoException
+("Nenhuma linha afetada ! Usuário não deletado.");
             }
         } catch(SQLException e){
-            throw new RuntimeException("Erro SQl no delete: " + e.getMessage());
+            throw new DaoException
+("Erro SQl no delete: " + e.getMessage());
         }
     }
 

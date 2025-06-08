@@ -1,6 +1,7 @@
 package org.example.delta_pdv.repository.Dao.impl;
 
 import org.example.delta_pdv.entities.Cliente;
+import org.example.delta_pdv.exceptions.DaoException;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.GenericDao;
 
@@ -27,10 +28,9 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
 
-            List<Cliente> listaCliente = instanciateListCliente(rs);
-            return listaCliente;
+            return instanciateListCliente(rs);
         }catch(SQLException e){
-            throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
+            throw new DaoException("Erro SQL na tabela clientes: " + e.getMessage());
         }finally{
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -52,11 +52,11 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             if(rs.next()) {
                 cliente = instanciateCliente(rs);
             } else {
-                throw new RuntimeException("Cliente não encontrado com o id: " + id);
+                throw new DaoException("Cliente não encontrado com o id: " + id);
             }
             return cliente;
         }catch(SQLException e){
-            throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
+            throw new DaoException("Erro SQL na tabela clientes: " + e.getMessage());
         }finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -74,10 +74,9 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             pst.setString(1, name);
             rs = pst.executeQuery();
 
-            List<Cliente> listaCliente = instanciateListCliente(rs);
-            return listaCliente;
+            return instanciateListCliente(rs);
         } catch (SQLException e) {
-            throw new RuntimeException("Erro SQL na tabela cleintes: " + e.getMessage());
+            throw new DaoException("Erro SQL na tabela cleintes: " + e.getMessage());
         }finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -105,7 +104,7 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             int affectedRows = pst.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new RuntimeException("Falha ao inserir cliente! Nenhum cliente inserido.");
+                throw new DaoException("Falha ao inserir cliente! Nenhum cliente inserido.");
             }
 
             rs = pst.getGeneratedKeys();
@@ -115,7 +114,7 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             }
 
         } catch(SQLException e) {
-            throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
+            throw new DaoException("Erro SQL na tabela clientes: " + e.getMessage());
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -146,11 +145,11 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             int affectedRows = pst.executeUpdate();
 
             if(affectedRows == 0){
-                throw new RuntimeException("Falha ao atualizar clientes! Cliente não atualizado.");
+                throw new DaoException("Falha ao atualizar clientes! Cliente não atualizado.");
             }
 
         } catch(SQLException e) {
-            throw new RuntimeException("Erro SQL na tabela clientes: " + e.getMessage());
+            throw new DaoException("Erro SQL na tabela clientes: " + e.getMessage());
         }finally{
             DB.closeStatement(pst);
         }
@@ -167,7 +166,7 @@ public class ClienteDaoImpl implements GenericDao<Cliente> {
             pst.setLong(1,id);
             int rows = pst.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro na remoção do cliente: " + e.getMessage());
+            throw new DaoException("Erro na remoção do cliente: " + e.getMessage());
         }finally {
             DB.closeStatement(pst);
         }

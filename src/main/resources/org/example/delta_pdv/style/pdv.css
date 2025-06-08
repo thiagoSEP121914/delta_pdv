@@ -93,6 +93,34 @@ vbox {
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
 }
 
+.input {
+    -fx-background-color: #f1f2f6;
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-color: #ced6e0;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2f3542;
+}
+#clienteComboBox {
+    -fx-background-color: white;
+    -fx-border-color: #ced6e0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #2f3542;
+    -fx-text-fill: #2f3542;
+}
+
+
+#clienteComboBox:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 6, 0, 0, 2);
+}
+
+
 .formaPagamento {
     -fx-background-color: #FFF;
     -fx-background-radius: 15px;

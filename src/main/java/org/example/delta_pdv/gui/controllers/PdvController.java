@@ -1,6 +1,5 @@
 package org.example.delta_pdv.gui.controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,19 +8,14 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.util.StringConverter;
 import org.example.delta_pdv.entities.*;
 import org.example.delta_pdv.gui.utils.Alerts;
 import org.example.delta_pdv.gui.utils.PaymentPdf;
 import org.example.delta_pdv.gui.utils.ProdutoSearchListener;
-import org.example.delta_pdv.service.CategoriaService;
-import org.example.delta_pdv.service.ItemVendaService;
-import org.example.delta_pdv.service.ProdutoService;
-import org.example.delta_pdv.service.VendaService;
+import org.example.delta_pdv.service.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -56,10 +50,10 @@ public class PdvController implements Initializable, ProdutoSearchListener {
     private RadioButton radioPix;
 
     @FXML
-    private Button btnPagamento;
+    private ComboBox<Cliente> clienteComboBox;
 
     private List<ItemVenda> itensVendas = new ArrayList<>();
-
+    private ClienteService clienteService = new ClienteService();
     private VendaService vendaService = new VendaService();
     private ProdutoService produtoService = new ProdutoService();
     private ItemVendaService itemVendaService = new ItemVendaService();
@@ -70,6 +64,7 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         carregarCategorias();
         carregarItensVendas();
         setRadioButtons();
+        carregarClientes();
     }
 
 
@@ -139,9 +134,12 @@ public class PdvController implements Initializable, ProdutoSearchListener {
 
 
         Venda venda = new Venda();
-        Cliente cliente = new Cliente();
-        cliente.setIdCliente(2L); // seria o cliente padrao generico do banco caso o usuario nao escolha cliente
-        venda.setCliente(cliente);
+        Cliente clienteSelecionado = clienteComboBox.getValue();
+        if (clienteSelecionado == null) {
+            clienteSelecionado = new Cliente();
+            clienteSelecionado.setIdCliente(2L);
+        }
+        venda.setCliente(clienteSelecionado);
         LocalDate localDate = LocalDate.now();
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         venda.setDataVenda(date);
@@ -247,6 +245,46 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         }
     }
 
+    private void carregarClientes() {
+        List<Cliente> clientes = clienteService.findAll();
+
+        clienteComboBox.getItems().clear();
+        clienteComboBox.getItems().addAll(clientes);
+
+        // Exibição na lista suspensa
+        clienteComboBox.setCellFactory(cb -> new ListCell<>() {
+            @Override
+            protected void updateItem(Cliente cliente, boolean empty) {
+                super.updateItem(cliente, empty);
+                setText(empty || cliente == null ? null : cliente.getNome());
+            }
+        });
+
+        // Exibição do item selecionado
+        clienteComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Cliente cliente, boolean empty) {
+                super.updateItem(cliente, empty);
+                setText(empty || cliente == null ? null : cliente.getNome());
+            }
+        });
+
+        // Conversor para evitar erro de cast
+        clienteComboBox.setConverter(new StringConverter<Cliente>() {
+            @Override
+            public String toString(Cliente cliente) {
+                return cliente != null ? cliente.getNome() : "";
+            }
+
+            @Override
+            public Cliente fromString(String nome) {
+                return null;
+            }
+        });
+    }
+
+
+
     public void addItemVenda(ItemVenda itemVenda) {
         Optional<ItemVenda> itemExistente = itensVendas.stream()
                         .filter(iv ->  iv.getProduto().getIdProduto() == itemVenda.getProduto().getIdProduto()).findFirst();
@@ -338,6 +376,7 @@ public class PdvController implements Initializable, ProdutoSearchListener {
         itensVendaBox.getChildren().clear();
         cardLayout.getChildren().clear();
         labelSubTotal.setText("0, 00");
+        clienteComboBox.setValue(null);
         carregarCategorias();
     }
 }

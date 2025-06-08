@@ -2,7 +2,8 @@ package org.example.delta_pdv.repository.Dao.impl;
 
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
-import org.example.delta_pdv.exceptions.DaoException;
+import org.example.delta_pdv.exceptions.ProdutoException
+;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.ProdutoDao;
 
@@ -37,7 +38,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
             List<Produto> listOfprodutos = instantiateListOfProduto(rs);
             return listOfprodutos;
         }catch (SQLException exception) {
-            throw new DaoException("Erro ao executar consulta: ", exception);
+            throw new ProdutoException("Erro ao executar consulta: ", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -61,7 +62,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             }
             return instantiateProduto(rs);
         }catch (SQLException exception) {
-            throw new DaoException("Erro ao executar consulta sql: ",exception);
+            throw new ProdutoException
+("Erro ao executar consulta sql: ",exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -86,7 +88,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             }
             return instantiateProduto(rs);
         } catch (SQLException exception) {
-            throw new DaoException("Erro ao executar consulta sql: ", exception);
+            throw new ProdutoException
+("Erro ao executar consulta sql: ", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -108,7 +111,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
                 produtos.add(instantiateProduto(rs));
             }
         } catch (SQLException e) {
-            throw new DaoException("Erro na tabela", e);
+            throw new ProdutoException
+("Erro na tabela", e);
         }
         return produtos;
     }
@@ -133,7 +137,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
                 produtos.add(produto);
             }
         } catch (SQLException e) {
-            throw new DaoException("Erro ao buscar produtos por categoria: ", e);
+            throw new ProdutoException
+("Erro ao buscar produtos por categoria: ", e);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -166,7 +171,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             }
             return produtosMaisVendidos;
         } catch (SQLException exception) {
-            throw new DaoException("Erro na tabela de Produtos: Não foi possível buscar produtos mais vendidos: ", exception);
+            throw new ProdutoException
+("Erro na tabela de Produtos: Não foi possível buscar produtos mais vendidos: ", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -184,7 +190,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             rs = pst.executeQuery();
             return rs.next() ? rs.getInt(1) : 0;
         } catch (SQLException exception) {
-            throw new DaoException("Erro na tabela produtos: Não foi possivel buscar a quantidade total de produtos em estoque", exception);
+            throw new ProdutoException
+("Erro na tabela produtos: Não foi possivel buscar a quantidade total de produtos em estoque", exception);
         }
     }
 
@@ -205,7 +212,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             pst.setLong(7, produto.getCategoria().getIdCategoria());
             pst.executeUpdate();
         } catch (SQLException exception) {
-            throw new DaoException("Erro ao executar a consulta sql: ", exception);
+            throw new ProdutoException
+("Erro ao executar a consulta sql: ", exception);
         } finally {
             DB.closeStatement(pst);
         }
@@ -230,7 +238,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             pst.setLong(8, produto.getIdProduto());
             int rows = pst.executeUpdate();
         }catch (SQLException exception) {
-            throw new DaoException("Erro ao execultar consulta", exception);
+            throw new ProdutoException
+("Erro ao execultar consulta", exception);
         } finally {
             DB.closeStatement(pst);
         }
@@ -246,7 +255,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             pst.setLong(1, id);
             int rows = pst.executeUpdate();
         } catch (SQLException exception) {
-            throw new DaoException("Erro ao executar consulta SQL: ", exception);
+            throw new ProdutoException
+("Erro ao executar consulta SQL: ", exception);
         } finally {
             DB.closeStatement(pst);
         }

@@ -17,9 +17,6 @@ import java.util.ResourceBundle;
 public class ClienteCadastroController implements Initializable {
 
     @FXML
-    private Button btnSalvar;
-
-    @FXML
     private TextField txtCpfCliente;
 
     @FXML
@@ -33,6 +30,9 @@ public class ClienteCadastroController implements Initializable {
 
     @FXML
     private TextField txtTelefoneCliente;
+
+    @FXML
+    private Button btnSalvar;
 
     private UpdateClienteListener updateClienteListener;
     private Cliente cliente;

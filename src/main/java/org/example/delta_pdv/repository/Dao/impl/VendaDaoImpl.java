@@ -4,6 +4,7 @@ import com.itextpdf.layout.element.Link;
 import org.example.delta_pdv.entities.Cliente;
 import org.example.delta_pdv.entities.FormaPagamento;
 import org.example.delta_pdv.entities.Venda;
+import org.example.delta_pdv.exceptions.DaoException;
 import org.example.delta_pdv.repository.DB;
 import org.example.delta_pdv.repository.Dao.VendaDao;
 
@@ -34,7 +35,7 @@ public class VendaDaoImpl implements VendaDao {
             List<Venda> listOfVenda = instantiateListOfVendas(rs);
             return listOfVenda;
         } catch (SQLException exception) {
-            throw new RuntimeException("ERRO SQL na TABELA VENDAS :Erro ao buscar vendas: " + exception.getMessage());
+            throw new DaoException("ERRO SQL na TABELA VENDAS :Erro ao buscar vendas: ",exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -59,7 +60,7 @@ public class VendaDaoImpl implements VendaDao {
            }
            return instantiateVenda(rs);
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro Sql na tabela Vendas: Erro ao buscar vendas por id" + exception.getMessage());
+            throw new DaoException("Erro Sql na tabela Vendas: Erro ao buscar vendas por id", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -80,7 +81,7 @@ public class VendaDaoImpl implements VendaDao {
             rs = pst.executeQuery();
             return instantiateListOfVendas(rs);
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro ao buscar vendas por data " + exception.getMessage());
+            throw new DaoException("Erro ao buscar vendas por data " , exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -100,7 +101,7 @@ public class VendaDaoImpl implements VendaDao {
             rs = pst.executeQuery();
             return instantiateListOfVendas(rs);
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro sql na tabela Vendas: Erro ao busca todas as vendas  hoje: " + exception.getMessage());
+            throw new DaoException("Erro sql na tabela Vendas: Erro ao busca todas as vendas  hoje: ", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -121,7 +122,7 @@ public class VendaDaoImpl implements VendaDao {
             }
             return 0.0;
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro ao buscar total de vendas na tabela de vendas: " + exception.getMessage());
+            throw new DaoException("Erro ao buscar total de vendas na tabela de vendas: ", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -140,7 +141,7 @@ public class VendaDaoImpl implements VendaDao {
             rs = pst.executeQuery();
             return rs.next() ? rs.getDouble(1) : 0.0;
         }catch (SQLException exception) {
-            throw new RuntimeException("Erro ao buscar total HOJE na tabela vendas: " + exception.getMessage());
+            throw new DaoException("Erro ao buscar total HOJE na tabela vendas: ", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -182,8 +183,8 @@ public class VendaDaoImpl implements VendaDao {
                 faturamentoPorMes.put(nomeMes, total);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar faturamento mensal: " + e.getMessage());
+        } catch (SQLException exception) {
+            throw new DaoException("Erro ao buscar faturamento mensal: ", exception);
         }
 
         return faturamentoPorMes;
@@ -199,7 +200,7 @@ public class VendaDaoImpl implements VendaDao {
             rs = pst.executeQuery();
             if (rs.next()) return rs.getDouble(1);
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro ao buscar faturamento nomes atual," + exception.getMessage());
+            throw new DaoException("Erro ao buscar faturamento nomes atual,", exception);
         } finally {
             DB.closeStatement(pst);
             DB.closeResultSet(rs);
@@ -229,12 +230,12 @@ public class VendaDaoImpl implements VendaDao {
             rs = pst.getGeneratedKeys();
 
             if (!rs.next()) {
-                throw new RuntimeException("Falha ao inserir na tabela de vendas.");
+                throw new DaoException("Falha ao inserir na tabela de vendas.");
             }
             Long idGerado = rs.getLong(1);
             return idGerado;
         } catch (SQLException exception) {
-            throw new RuntimeException("Erro SQL ao inserir venda: " + exception.getMessage());
+            throw new DaoException("Erro SQL ao inserir venda: ", exception);
         } finally {
             DB.closeResultSet(rs);
             DB.closeStatement(pst);

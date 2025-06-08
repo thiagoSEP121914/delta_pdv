@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -11,9 +12,9 @@
 
 <AnchorPane prefHeight="905.0" prefWidth="1500.0" styleClass="anchorPane" stylesheets="@style/estoque.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.ConfiguracoesController">
    <children>
-      <HBox layoutX="42.0" layoutY="531.0" prefHeight="39.0" prefWidth="498.0" spacing="30.0">
+      <HBox alignment="CENTER" layoutX="12.0" layoutY="386.0" prefHeight="39.0" prefWidth="498.0" spacing="30.0">
          <children>
-            <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" text="Salvar" textFill="WHITE">
+            <Button id="btnAdicionar" fx:id="btnSalvar" mnemonicParsing="false" onAction="#onBtnSalvarAction" prefHeight="25.0" prefWidth="165.0" text="Salvar" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
@@ -21,73 +22,34 @@
          </children>
       </HBox>
       <Label id="estoqueTitle" layoutX="42.0" layoutY="28.0" prefHeight="58.0" prefWidth="195.0" text="Configurações" />
-      <FlowPane layoutX="36.0" layoutY="105.0" prefHeight="377.0" prefWidth="450.0">
+      <FlowPane layoutX="36.0" layoutY="105.0" prefHeight="256.0" prefWidth="450.0">
          <children>
-            <Label prefHeight="27.0" prefWidth="223.0" text="CPF/CNPJ" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+            <Label prefHeight="27.0" prefWidth="223.0" text="Nome" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
-            <Label prefHeight="27.0" prefWidth="223.0" text="Razão social / nome" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="450.0" />
-            <Label prefHeight="27.0" prefWidth="235.0" text="Inscrição Estadual/Municipal" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
+            <TextField fx:id="txtNome" prefHeight="31.0" prefWidth="450.0" />
             <Label prefHeight="27.0" prefWidth="223.0" text="Email" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
+            <TextField fx:id="txtEmail" prefHeight="31.0" prefWidth="229.0" />
             <Label prefHeight="27.0" prefWidth="223.0" text="Senha" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
+            <PasswordField fx:id="txtSenha" prefHeight="31.0" prefWidth="229.0" />
             <Label prefHeight="27.0" prefWidth="223.0" text="Nova Senha" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
+            <PasswordField fx:id="txtNovaSenha" prefHeight="31.0" prefWidth="229.0" />
          </children>
       </FlowPane>
-      <VBox layoutX="551.0" layoutY="105.0" prefHeight="281.0" prefWidth="263.0">
-         <children>
-            <Label prefHeight="27.0" prefWidth="223.0" text="Telefone" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
-            <Label prefHeight="27.0" prefWidth="223.0" text="CEP" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
-            <Label prefHeight="27.0" prefWidth="223.0" text="Estado" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
-            <Label prefHeight="27.0" prefWidth="223.0" text="Cidade" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="229.0" />
-         </children>
-      </VBox>
+      <VBox layoutX="551.0" layoutY="105.0" prefHeight="281.0" prefWidth="263.0" />
    </children>
 </AnchorPane>

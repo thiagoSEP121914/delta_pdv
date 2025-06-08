@@ -58,7 +58,7 @@ public class UsuariosController implements Initializable, UpdateTableListener {
     }
 
     @FXML
-    void btnAddUsuarioOnAction() {
+    private void btnAddUsuarioOnAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/usuarioCadastro.fxml"));
             Parent root = loader.load();
@@ -69,7 +69,6 @@ public class UsuariosController implements Initializable, UpdateTableListener {
             Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
             throw new RuntimeException("Erro ao carregar a tela: " + e.getMessage());
         }
-
     }
 
     @FXML
