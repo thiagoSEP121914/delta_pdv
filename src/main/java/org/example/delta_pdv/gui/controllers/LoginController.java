@@ -11,11 +11,12 @@ import javafx.stage.Stage;
 import org.example.delta_pdv.entities.Usuario;
 import org.example.delta_pdv.gui.utils.Alerts;
 import org.example.delta_pdv.gui.utils.ScreenLoader;
+import org.example.delta_pdv.gui.utils.UpdateTableListener;
 import org.example.delta_pdv.service.UsuarioService;
 
 import java.io.IOException;
 
-public class LoginController {
+public class LoginController implements UpdateTableListener{
 
     @FXML
     private PasswordField lblSenha;
@@ -49,6 +50,21 @@ public class LoginController {
         loadMainController(usuario);
     }
 
+    @FXML
+    private void btnRegistrarOnAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/usuarioCadastro.fxml"));
+            Parent root = loader.load();
+            UsuarioCadastroController usuarioCadastroController = loader.getController();
+            usuarioCadastroController.setUpdateTableListener(this);
+            ScreenLoader.loadForm(root);
+        }catch(Exception e){
+            Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
+            throw new RuntimeException("Erro ao carregar a tela: " + e.getMessage());
+        }
+
+    }
+
     private void loadMainController(Usuario usuario) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/main.fxml"));
@@ -68,5 +84,10 @@ public class LoginController {
     private void clearFields() {
         lblUsuario.clear();
         lblSenha.clear();
+    }
+
+    @Override
+    public void reloadTable() {
+
     }
 }
