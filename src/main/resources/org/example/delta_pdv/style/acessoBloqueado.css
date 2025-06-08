@@ -1,0 +1,10 @@
+.anchorPane {
+    -fx-background-color: #FFF;
+}
+
+
+#avisoLabel {
+    -fx-font-size: 26px;
+    -fx-text-fill: #2f3542;
+    -fx-font-family: "Segoe UI Semibold", "Roboto", "Arial", sans-serif;
+}

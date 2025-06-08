@@ -1,16 +1,9 @@
 package org.example.delta_pdv.gui.controllers;
 
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -19,13 +12,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import org.example.delta_pdv.entities.Usuario;
-import org.example.delta_pdv.entities.Usuario;
+import javafx.stage.FileChooser;
 import org.example.delta_pdv.entities.Usuario;
 import org.example.delta_pdv.gui.utils.Alerts;
+import org.example.delta_pdv.gui.utils.ExcelExporter;
 import org.example.delta_pdv.gui.utils.ScreenLoader;
 import org.example.delta_pdv.gui.utils.UpdateTableListener;
 import org.example.delta_pdv.service.UsuarioService;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.function.Function;
 
 public class UsuariosController implements Initializable, UpdateTableListener {
 
@@ -56,7 +58,7 @@ public class UsuariosController implements Initializable, UpdateTableListener {
     }
 
     @FXML
-    void btnAddUsuarioOnAction(ActionEvent event) {
+    void btnAddUsuarioOnAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/usuarioCadastro.fxml"));
             Parent root = loader.load();
@@ -69,6 +71,12 @@ public class UsuariosController implements Initializable, UpdateTableListener {
         }
 
     }
+
+    @FXML
+    void onBtnExportaAction() {
+        exportToExcel();
+    }
+
     private void editarUsuario(Usuario usuario) {
         if (usuario == null) {
             Alerts.showAlert("ERRO!", "", "Usuario inválido para edição.", Alert.AlertType.INFORMATION);
@@ -184,7 +192,37 @@ public class UsuariosController implements Initializable, UpdateTableListener {
             return new ImageView(); // retorna vazio para não quebrar layout
         }
     }
+    private void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar arquivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        File file = fileChooser.showSaveDialog(tabelaUsuarios.getScene().getWindow());
 
+        if (file != null) {
+            TableView<Usuario> tabelaExport = new TableView<>();
+
+            for (TableColumn<Usuario, ?> col : tabelaUsuarios.getColumns()) {
+                String colName = col.getText().toLowerCase();
+                if (!colName.equals("imagem") && !colName.equals("ações") && !colName.equals("acoes")) {
+                    tabelaExport.getColumns().add(col);
+                }
+            }
+
+            tabelaExport.setItems(tabelaUsuarios.getItems());
+            // Função que mapeia Usuario para lista de objetos a serem exportados
+            Function<Usuario, List<Object>> rowMapper = usuario -> Arrays.asList(
+                    usuario.getId_usuario(),
+                    usuario.getNome(),
+                    usuario.getEmail(),
+                    usuario.getSenha(),
+                    usuario.getTipo()
+            );
+
+            ExcelExporter.exportTableViewToExcel(tabelaExport, file.getAbsolutePath(), rowMapper);
+            Alerts.showAlert("Aviso", "Sucesso!!", "Exportação salva em " + file.getAbsolutePath(), Alert.AlertType.INFORMATION);
+            System.out.println("Exportação salva em: " + file.getAbsolutePath());
+        }
+    }
 
     @Override
     public void reloadTable() {

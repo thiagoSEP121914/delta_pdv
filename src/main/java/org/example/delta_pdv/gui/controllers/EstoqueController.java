@@ -13,9 +13,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import org.example.delta_pdv.entities.Categoria;
 import org.example.delta_pdv.entities.Produto;
 import org.example.delta_pdv.gui.utils.Alerts;
+import org.example.delta_pdv.gui.utils.ExcelExporter;
 import org.example.delta_pdv.gui.utils.ScreenLoader;
 import org.example.delta_pdv.gui.utils.UpdateTableListener;
 import org.example.delta_pdv.service.CategoriaService;
@@ -24,10 +26,12 @@ import org.example.delta_pdv.service.ProdutoService;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 public class EstoqueController implements Initializable, UpdateTableListener {
     @FXML
@@ -81,6 +85,11 @@ public class EstoqueController implements Initializable, UpdateTableListener {
             Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
             throw new RuntimeException("Erro ao carregar a tela" + exception.getMessage());
         }
+    }
+
+    @FXML
+    void onBtnExportarAction() {
+        exportToExcel();
     }
 
     private void editarProduto(Produto produto) {
@@ -267,6 +276,40 @@ public class EstoqueController implements Initializable, UpdateTableListener {
         };
     }
 
+    private void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar arquivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        File file = fileChooser.showSaveDialog(tabelaProdutos.getScene().getWindow());
+
+        if (file != null) {
+            TableView<Produto> tabelaExport = new TableView<>();
+
+            for (TableColumn<Produto, ?> col : tabelaProdutos.getColumns()) {
+                String colName = col.getText().toLowerCase();
+                if (!colName.equals("imagem") && !colName.equals("ações") && !colName.equals("acoes")) {
+                    tabelaExport.getColumns().add(col);
+                }
+            }
+
+            tabelaExport.setItems(tabelaProdutos.getItems());
+            Function<Produto, List<Object>> rowMapper = produto -> Arrays.asList(
+                    produto.getIdProduto(),
+                    produto.getNome(),
+                    produto.getDescricao(),
+                    produto.getPrecoUnitario(),
+                    produto.getCusto(),
+                    produto.getLucro(),
+                    produto.getQuantidadeEstoque(),
+                    produto.getCategoria().getNome()
+            );
+
+            ExcelExporter.exportTableViewToExcel(tabelaExport, file.getAbsolutePath(), rowMapper);
+
+            Alerts.showAlert("Aviso", "Sucesso!!", "Exportação salva em " + file.getAbsolutePath(), Alert.AlertType.INFORMATION);
+            System.out.println("Exportação salva em: " + file.getAbsolutePath());
+        }
+    }
     public void reloadTable() {
         loadTableView();
     }

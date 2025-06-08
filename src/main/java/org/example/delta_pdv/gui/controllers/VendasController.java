@@ -7,18 +7,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import org.example.delta_pdv.entities.FormaPagamento;
 import org.example.delta_pdv.entities.ItemVenda;
 import org.example.delta_pdv.entities.Venda;
 import org.example.delta_pdv.gui.utils.Alerts;
+import org.example.delta_pdv.gui.utils.ExcelExporter;
 import org.example.delta_pdv.service.ItemVendaService;
 import org.example.delta_pdv.service.VendaService;
 
+import java.io.File;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 
 
 public class VendasController implements Initializable {
@@ -159,7 +164,10 @@ public class VendasController implements Initializable {
         clearComboBox();
     }
 
-
+    @FXML
+    void onBtnExportarAction() {
+        exportToExcel();
+    }
 
     private void loadTableView(List<Venda> listOfvendas) {
 
@@ -240,6 +248,29 @@ public class VendasController implements Initializable {
         lblQtdVendido.setText(String.valueOf(quantidadeTotal));
         double ticketMedio = quantidadeTotal > 0 ? totalVendido / quantidadeTotal : 0;
         lblTicketMedio.setText(getNumberFormat(ticketMedio));
+    }
+
+    private void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar arquivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        File file = fileChooser.showSaveDialog(tblVendas.getScene().getWindow());
+
+        if (file != null) {
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            Function<Venda, List<Object>> vendaToList = venda -> Arrays.asList(
+                    venda.getIdVenda(),
+                    venda.getCliente() != null ? venda.getCliente().getNome() : "Padrão",
+                    venda.getTotal(),
+                    venda.getFormaPagamento(),
+                    venda.getDataVenda() != null ? venda.getDataVenda() : ""
+            );
+
+            ExcelExporter.exportTableViewToExcel(tblVendas, file.getAbsolutePath(), vendaToList);
+
+            System.out.println("Exportação salva em: " + file.getAbsolutePath());
+        }
     }
 
     private String getNumberFormat(double valor) {

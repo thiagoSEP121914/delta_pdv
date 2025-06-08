@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import kotlin.jvm.internal.markers.KMutableIterable;
 import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.entities.Usuario;
 import org.example.delta_pdv.gui.utils.ProdutoSearchListener;
 
 import java.io.IOException;
@@ -29,9 +30,15 @@ public class MainController implements Initializable {
     @FXML
     private TextField searchBar;
 
+    private Usuario usuario;
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        loadDefaultPage();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadPage("/org/example/delta_pdv/dashboard.fxml");
 
         searchBar.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (!newVal) {
@@ -62,12 +69,13 @@ public class MainController implements Initializable {
 
     @FXML
     public void onDashBoardMouseClicked(){
-        loadPage("/org/example/delta_pdv/dashboard.fxml");
+        loadPageIfAdmin("/org/example/delta_pdv/dashboard.fxml");
     }
 
     @FXML
-   public void onPdvMouseClicked(){
-       Object controller = loadPageWithController("/org/example/delta_pdv/pdv.fxml");
+    public void onPdvMouseClicked(){
+
+        Object controller = loadPageWithController("/org/example/delta_pdv/pdv.fxml");
         if (controller instanceof ProdutoSearchListener) {
             this.produtoSearchListener = (ProdutoSearchListener) controller;
         }
@@ -75,29 +83,35 @@ public class MainController implements Initializable {
 
     @FXML
     public void onEstoqueMouseClicked () {
-        loadPage("/org/example/delta_pdv/estoque.fxml");
+        loadPageIfAdmin("/org/example/delta_pdv/estoque.fxml");
     }
 
 
     @FXML
     public void onVendasClicked () {
-        loadPage("/org/example/delta_pdv/vendas.fxml");
+        loadPageIfAdmin("/org/example/delta_pdv/vendas.fxml");
     }
 
     @FXML
-    public void OnClienteMouseClicked(){loadPage("/org/example/delta_pdv/clientes.fxml");}
+    public void OnClienteMouseClicked(){
+        loadPageIfAdmin("/org/example/delta_pdv/clientes.fxml");
+    }
 
     @FXML
-    public void OnMouseClickedUsuarios(){loadPage("/org/example/delta_pdv/usuarios.fxml");}
+    private void OnMouseClickedUsuarios(){
+        loadPageIfAdmin("/org/example/delta_pdv/usuarios.fxml");
+    ;}
 
     @FXML
-    public void OnMouseClickedConfiguracoes(){loadPage("/org/example/delta_pdv/configuracoes.fxml");}
+    private void OnMouseClickedConfiguracoes(){
+        loadPageIfAdmin("/org/example/delta_pdv/configuracoes.fxml");
+    }
 
     @FXML
-    public void OnMouseClickedLogin(){loadPage("/org/example/delta_pdv/login.fxml");}
+    private void OnMouseClickedLogin(){loadPage("/org/example/delta_pdv/login.fxml");}
 
     @FXML
-    public void OnMouseClickedSair() {
+    private void OnMouseClickedSair() {
         Platform.exit();
     }
 
@@ -129,5 +143,18 @@ public class MainController implements Initializable {
             searchBar.clear();
         }
     }
+
+    private void loadPageIfAdmin(String fxml) {
+        if (!usuario.getTipo().equalsIgnoreCase("administrador")) {
+            loadPage("/org/example/delta_pdv/acessoBloqueado.fxml");
+            return;
+        }
+        loadPage(fxml);
+    }
+
+    private void loadDefaultPage() {
+        loadPageIfAdmin("/org/example/delta_pdv/dashboard.fxml");
+    }
+
 
 }

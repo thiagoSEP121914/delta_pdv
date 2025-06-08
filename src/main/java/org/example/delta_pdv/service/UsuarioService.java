@@ -35,12 +35,13 @@ public class UsuarioService {
         this.insert(novousuario);
     }
 
-    public boolean validarLogin(String email, String senha){
+
+    public Usuario validarLogin(String email, String senha){
         Usuario usuario = usuarioDao.findByEmail(email);
         if (usuario != null && usuario.getSenha().equals(senha)) {
-            return true;
+            return usuario;
         }
-        return false;
+        return null;
     }
 
     public void delete(Long id){ usuarioDao.delete(id);}

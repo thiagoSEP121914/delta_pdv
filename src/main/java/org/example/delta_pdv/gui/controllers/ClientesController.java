@@ -14,18 +14,26 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import org.example.delta_pdv.entities.Cliente;
 import org.example.delta_pdv.entities.Produto;
+import org.example.delta_pdv.entities.Usuario;
+import org.example.delta_pdv.entities.Venda;
 import org.example.delta_pdv.gui.utils.Alerts;
+import org.example.delta_pdv.gui.utils.ExcelExporter;
 import org.example.delta_pdv.gui.utils.ScreenLoader;
 import org.example.delta_pdv.gui.utils.UpdateClienteListener;
 import org.example.delta_pdv.service.ClienteService;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 public class ClientesController implements Initializable, UpdateClienteListener {
 
@@ -68,6 +76,11 @@ public class ClientesController implements Initializable, UpdateClienteListener 
             Alerts.showAlert("Erro", " ", "Erro ao carregar a tela", Alert.AlertType.ERROR);
             throw new RuntimeException("Erro ao carregar a tela: " + e.getMessage());
         }
+    }
+
+    @FXML
+    void onBtnExportarAction(ActionEvent event) {
+        exportToExcel();
     }
 
     private void editarCliente(Cliente cliente) {
@@ -187,6 +200,39 @@ public class ClientesController implements Initializable, UpdateClienteListener 
         } catch (Exception e) {
             System.err.println("Erro ao carregar imagem: " + caminho + " - " + e.getMessage());
             return new ImageView(); // retorna vazio para não quebrar layout
+        }
+    }
+
+    private void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar arquivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        File file = fileChooser.showSaveDialog(tabelaClientes.getScene().getWindow());
+
+        if (file != null) {
+            TableView<Cliente> tabelaExport = new TableView<>();
+
+            // Copiar colunas ignorando "imagem" e "ações", mas mantendo a ordem original
+            for (TableColumn<Cliente, ?> col : tabelaClientes.getColumns()) {
+                String colName = col.getText().toLowerCase();
+                if (!colName.equals("imagem") && !colName.equals("ações") && !colName.equals("acoes")) {
+                    tabelaExport.getColumns().add(col);
+                }
+            }
+            tabelaExport.setItems(tabelaClientes.getItems());
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            Function<Cliente, List<Object>> rowMapper = cliente -> Arrays.asList(
+                    cliente.getIdCliente(),
+                    cliente.getNome(),
+                    cliente.getEmail(),
+                    cliente.getCpf(),
+                    cliente.getTelefone()
+            );
+
+            ExcelExporter.exportTableViewToExcel(tabelaExport, file.getAbsolutePath(), rowMapper);
+
+            Alerts.showAlert("Aviso", "Sucesso!!", "Exportação salva em " + file.getAbsolutePath(), Alert.AlertType.INFORMATION);
+            System.out.println("Exportação salva em: " + file.getAbsolutePath());
         }
     }
 

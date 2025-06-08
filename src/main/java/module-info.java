@@ -14,6 +14,7 @@ module org.example.delta_pdv {
     requires layout;
     requires kernel;
     requires mysql.connector.j;
+    requires org.apache.poi.ooxml;
 
     opens org.example.delta_pdv to javafx.fxml;
     exports org.example.delta_pdv;
