@@ -119,7 +119,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public void delete(Long id) {
-        String sql = "DELETE FROM usuario WHERE id_usuario = ?";
+        String sql = "DELETE FROM usuarios WHERE id_usuario = ?";
         try(PreparedStatement st = conn.prepareStatement(sql)){
             st.setLong(1,id);
             int affectedRows = st.executeUpdate();
