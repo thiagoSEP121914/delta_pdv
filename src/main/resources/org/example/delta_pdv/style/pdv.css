@@ -41,11 +41,6 @@ vbox {
     -fx-background-color: transparent;
 }
 
-.categoryScrollPane .scroll-bar:horizontal {
-    -fx-background-color: transparent;
-    -fx-opacity: 0; /* esconde visualmente */
-    -fx-pref-height: 0px; /* reduz a altura para sumir */
-}
 
 .tableVendas {
   -fx-background-color: #F5FEFF;
