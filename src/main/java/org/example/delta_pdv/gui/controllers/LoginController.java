@@ -49,6 +49,17 @@ public class LoginController {
         loadMainController(usuario);
     }
 
+    @FXML
+    void onBtnRegistrarAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/usuarioCadastro.fxml"));
+            Parent root = loader.load();
+            ScreenLoader.loadForm(root);
+        } catch (IOException exception) {
+            throw new RuntimeException("Erro ao carregare tela de cadastro" + exception.getMessage());
+        }
+    }
+
     private void loadMainController(Usuario usuario) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/delta_pdv/main.fxml"));
