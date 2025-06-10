@@ -2,7 +2,7 @@
 
 **Projeto desenvolvido para fins acadêmicos**, simulando um sistema de PDV desktop funcional com interface gráfica (JavaFx) e integração a banco de dados via JDBC.
 
-**Colaboradores:** Projeto feito com grande contribuição de @thiagoSEP121914
+**Colaboradores:** Projeto feito com grande contribuição de https://github.com/pfrigeri
 
 ## 🛠️ Tecnologias Utilizadas  
 - **Java**: Lógica de programação, Programação Orientada a Objetos e Arquitetura de Software Model View Controll (MVC).  
