@@ -23,10 +23,6 @@ public class LoginController {
     @FXML
     private TextField lblUsuario;
 
-
-    @FXML
-    private Button btnLogin;
-
     private  UsuarioService usuarioService = new UsuarioService();
 
     @FXML
@@ -75,6 +71,7 @@ public class LoginController {
             throw new RuntimeException("Erro absurdo!!!" +exception.getMessage());
         }
     }
+
 
     private void clearFields() {
         lblUsuario.clear();

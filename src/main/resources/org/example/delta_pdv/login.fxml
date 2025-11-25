@@ -15,7 +15,7 @@
 <AnchorPane maxHeight="535.0" maxWidth="1040.0" minHeight="555.0" minWidth="1040.0" prefHeight="555.0" prefWidth="1040.0" styleClass="anchorPane" stylesheets="@style/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.delta_pdv.gui.controllers.LoginController">
    <children>
       <Label id="loginTitle" layoutX="21.0" layoutY="26.0" prefHeight="58.0" prefWidth="195.0" text="Login" />
-      <Label id="estoqueTitle" layoutX="26.0" layoutY="94.0" prefHeight="58.0" prefWidth="455.0" text="Cresca seu negocio com confiança.">
+      <Label id="estoqueTitle" layoutX="26.0" layoutY="94.0" prefHeight="58.0" prefWidth="455.0">
          <font>
             <Font size="18.0" />
          </font>
@@ -44,7 +44,7 @@
                         <Font name="Arial Black" size="12.0" />
                      </font>
                   </Button>
-                  <Button id="btnAdicionar" mnemonicParsing="false" onAction="#onBtnRegistrarAction" prefHeight="25.0" prefWidth="138.0" text="Registrar" textFill="WHITE">
+                  <Button id="btnAdicionar" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Registrar" textFill="WHITE">
                      <font>
                         <Font name="Arial Black" size="12.0" />
                      </font>
